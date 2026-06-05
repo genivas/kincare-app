@@ -3,35 +3,28 @@ import { GlobalContext } from '../context/GlobalContext';
 import { Plus, X } from 'lucide-react';
 
 const Tasks = () => {
-  const { tasks, setTasks, currentUser } = useContext(GlobalContext);
+  const { tasks, addTask, updateTask, currentUser } = useContext(GlobalContext);
   const [showAddForm, setShowAddForm] = useState(false);
   
   const [newTaskTitle, setNewTaskTitle] = useState('');
   const [newTaskPriority, setNewTaskPriority] = useState('medium');
 
-  const handleAssignTask = (id) => {
-    setTasks(tasks.map(task => {
-      if (task.id === id) {
-        return {
-          ...task,
-          status: 'in_progress',
-          assignedTo: currentUser
-        };
-      }
-      return task;
-    }));
+  const handleAssignTask = async (id) => {
+    await updateTask(id, {
+      status: 'in_progress',
+      assignedTo: currentUser
+    });
   };
 
-  const handleAddTask = (e) => {
+  const handleAddTask = async (e) => {
     e.preventDefault();
     if(newTaskTitle) {
-      setTasks([...tasks, {
-        id: Date.now(),
+      await addTask({
         title: newTaskTitle,
         priority: newTaskPriority,
         assignedTo: null,
         status: 'open'
-      }]);
+      });
       setShowAddForm(false);
       setNewTaskTitle('');
       setNewTaskPriority('medium');

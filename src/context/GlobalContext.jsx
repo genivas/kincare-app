@@ -12,14 +12,12 @@ export const GlobalProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   // Firestore States
-  const [patient, setPatient] = useState({ ...patientInfo, urgencyLevel: 'success' });
-  const [family, setFamily] = useState(familyMembers);
+  const [patient, setPatient] = useState({ name: 'Loading...', urgencyLevel: 'success' });
+  const [family, setFamily] = useState([]);
   const [medications, setMedications] = useState([]);
   const [history, setHistory] = useState([]);
-  const [tasks, setTasks] = useState(initialTasks);
-  const [schedule, setSchedule] = useState({
-    'Segunda': 1, 'Terça': 2, 'Quarta': 3, 'Quinta': 1, 'Sexta': 2, 'Sábado': 3, 'Domingo': 1,
-  });
+  const [tasks, setTasks] = useState([]);
+  const [schedule, setSchedule] = useState({});
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
@@ -30,7 +28,7 @@ export const GlobalProvider = ({ children }) => {
         } else {
           setCurrentUser({
             id: user.uid,
-            name: user.displayName || "Membro da Família",
+            name: user.displayName || "Family Member",
             email: user.email,
             avatar: user.photoURL || `https://api.dicebear.com/7.x/avataaars/svg?seed=${user.email}`
           });
@@ -50,8 +48,18 @@ export const GlobalProvider = ({ children }) => {
     // Listen to Family/Patient Info
     const unsubscribeFamily = onSnapshot(doc(db, "families", currentUser.familyId), (docSnap) => {
       if(docSnap.exists()) {
-        setPatient({ id: docSnap.id, urgencyLevel: 'success', ...docSnap.data() });
+        const data = docSnap.data();
+        setPatient({ id: docSnap.id, urgencyLevel: 'success', ...data });
+        if(data.schedule) setSchedule(data.schedule);
       }
+    });
+
+    // Listen to Family Members
+    const qMembers = query(collection(db, "users"), where("familyId", "==", currentUser.familyId));
+    const unsubscribeMembers = onSnapshot(qMembers, (snapshot) => {
+      const membersData = [];
+      snapshot.forEach((doc) => membersData.push({ id: doc.id, ...doc.data() }));
+      setFamily(membersData);
     });
 
     const qMeds = query(collection(db, "medications"), where("familyId", "==", currentUser.familyId));
@@ -59,6 +67,13 @@ export const GlobalProvider = ({ children }) => {
       const medsData = [];
       snapshot.forEach((doc) => medsData.push({ id: doc.id, ...doc.data() }));
       setMedications(medsData);
+    });
+
+    const qTasks = query(collection(db, "tasks"), where("familyId", "==", currentUser.familyId));
+    const unsubscribeTasks = onSnapshot(qTasks, (snapshot) => {
+      const tasksData = [];
+      snapshot.forEach((doc) => tasksData.push({ id: doc.id, ...doc.data() }));
+      setTasks(tasksData);
     });
 
     const qHistory = query(collection(db, "history"), where("familyId", "==", currentUser.familyId));
@@ -71,7 +86,9 @@ export const GlobalProvider = ({ children }) => {
 
     return () => {
       unsubscribeFamily();
+      unsubscribeMembers();
       unsubscribeMeds();
+      unsubscribeTasks();
       unsubscribeHist();
     };
   }, [currentUser?.familyId]);
@@ -175,14 +192,34 @@ export const GlobalProvider = ({ children }) => {
     });
   };
 
+  const updateSchedule = async (newSchedule) => {
+    setSchedule(newSchedule);
+    if(currentUser?.familyId) {
+      await updateDoc(doc(db, "families", currentUser.familyId), { schedule: newSchedule });
+    }
+  };
+
+  const addTask = async (taskData) => {
+    if(!currentUser?.familyId) return;
+    await addDoc(collection(db, "tasks"), {
+      ...taskData,
+      familyId: currentUser.familyId,
+      createdAt: Date.now()
+    });
+  };
+
+  const updateTask = async (taskId, updates) => {
+    await updateDoc(doc(db, "tasks", taskId), updates);
+  };
+
   return (
     <GlobalContext.Provider value={{
       patient, setPatient,
       family, setFamily,
       medications, addMedication, markMedicationStatus,
-      tasks, setTasks,
+      tasks, setTasks, addTask, updateTask,
       history, setHistory,
-      schedule, setSchedule,
+      schedule, setSchedule, updateSchedule,
       getTodayCaregiver, getNextCaregiver,
       currentUser, loading,
       createFamily, joinFamily, deleteAccountAndFamily

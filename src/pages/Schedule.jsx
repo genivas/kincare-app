@@ -2,12 +2,12 @@ import React, { useContext } from 'react';
 import { GlobalContext } from '../context/GlobalContext';
 
 const Schedule = () => {
-  const { schedule, setSchedule, family } = useContext(GlobalContext);
+  const { schedule, updateSchedule, family } = useContext(GlobalContext);
 
   const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
   const handleAssign = (day, memberId) => {
-    setSchedule({ ...schedule, [day]: Number(memberId) });
+    updateSchedule({ ...schedule, [day]: memberId });
   };
 
   return (
