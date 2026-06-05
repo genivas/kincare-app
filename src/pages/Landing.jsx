@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { HeartPulse, ArrowRight, Shield, CheckCircle2, Calendar, Star, Users, Lock, CreditCard } from 'lucide-react';
+import { HeartPulse, ArrowRight, Shield, CheckCircle2, Calendar, Star, Users, Lock, CreditCard, PlayCircle } from 'lucide-react';
 import appMockup from '../assets/app_mockup.png';
 
 const Landing = () => {
@@ -30,55 +30,89 @@ const Landing = () => {
           padding: 5rem 1.5rem;
         }
 
-        /* 50/50 Split for Desktop Hero */
-        .hero-split {
-          display: flex;
-          align-items: center;
-          gap: 4rem;
-          min-height: 80vh;
+        /* VSL Layout Utilities */
+        .vsl-container {
+          max-width: 900px;
+          margin: 0 auto;
+          text-align: center;
         }
         
-        .hero-text-content {
-          flex: 1;
-          padding-right: 2rem;
-        }
-
-        .hero-image-content {
-          flex: 1;
+        .video-wrapper {
           position: relative;
+          padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+          height: 0;
+          overflow: hidden;
+          background: #000;
+          border-radius: 12px;
+          box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+          margin: 2rem 0;
+          border: 4px solid #1e293b;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
         }
 
-        .hero-image {
+        .video-wrapper:hover .play-icon {
+          transform: scale(1.1);
+        }
+
+        .play-icon {
+          color: white;
+          transition: transform 0.2s;
+        }
+
+        .vsl-headline {
+          font-size: clamp(2rem, 5vw, 3.5rem);
+          font-weight: 900;
+          color: #0f172a;
+          line-height: 1.1;
+          letter-spacing: -1.5px;
+        }
+        
+        .vsl-subheadline {
+          font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+          color: #475569;
+          margin-top: 1rem;
+          font-weight: 500;
+        }
+
+        .buy-button {
+          background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+          color: white;
+          border: none;
+          padding: 1.5rem 3rem;
+          font-size: 1.25rem;
+          font-weight: 800;
+          border-radius: 100px;
+          box-shadow: 0 10px 25px rgba(16, 185, 129, 0.4);
           width: 100%;
-          border-radius: 24px;
-          box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-          object-fit: cover;
+          max-width: 400px;
+          cursor: pointer;
+          transition: transform 0.2s, box-shadow 0.2s;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          gap: 0.5rem;
+          animation: pulse 2s infinite;
         }
 
-        .pricing-grid {
-          display: grid;
-          grid-template-columns: repeat(3, 1fr);
-          gap: 2rem;
-          margin-top: 4rem;
+        @keyframes pulse {
+          0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+          70% { box-shadow: 0 0 0 15px rgba(16, 185, 129, 0); }
+          100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+        }
+
+        .buy-button:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 15px 30px rgba(16, 185, 129, 0.5);
         }
 
         @media (max-width: 900px) {
-          .hero-split {
-            flex-direction: column;
-            text-align: center;
-            padding-top: 6rem;
-          }
-          .hero-text-content {
-            padding-right: 0;
-          }
-          .hero-title {
-            font-size: 2.5rem !important;
-          }
-          .pricing-grid {
-            grid-template-columns: 1fr;
-          }
-          .cta-button {
-            margin: 0 auto;
+          .buy-button {
+            width: 100%;
+            padding: 1.25rem;
+            font-size: 1.1rem;
           }
         }
       `}</style>
@@ -107,129 +141,67 @@ const Landing = () => {
         </div>
       </nav>
 
-      <main style={{paddingTop: '60px'}}>
+      <main style={{paddingTop: '80px', paddingBottom: '6rem'}}>
         
-        {/* HOOK: Hero Section (Consciente do Problema) */}
+        {/* VSL Section */}
         <section className="section-container" style={{paddingTop: '2rem', paddingBottom: '3rem'}}>
-          <div className="hero-split">
-            <div className="hero-text-content">
-              <div className="inline-flex items-center justify-center gap-2 px-4 py-2 mb-6 rounded-full" style={{background: '#fef2f2', color: '#dc2626', fontWeight: '600', fontSize: '0.85rem'}}>
-                <HeartPulse size={16} /> Stop the WhatsApp chaos
+          <div className="vsl-container">
+            <div className="inline-flex items-center justify-center gap-2 px-4 py-2 mb-6 rounded-full" style={{background: '#fef2f2', color: '#dc2626', fontWeight: '700', fontSize: '0.9rem', border: '1px solid #fecaca'}}>
+              <HeartPulse size={16} /> Attention: Family Caregivers
+            </div>
+            
+            <h1 className="vsl-headline">
+              <span style={{color: '#dc2626'}}>Stop The WhatsApp Chaos.</span><br/>
+              Know Exactly Who Handled Mom’s Medication.
+            </h1>
+            
+            <p className="vsl-subheadline">
+              Make sure your loved ones are safe with a single source of truth for the entire family. <b>Watch the short video below to see how.</b>
+            </p>
+            
+            {/* Fake Video Player Placeholder */}
+            <div className="video-wrapper">
+              {/* Here you will place the iframe from YouTube, Vimeo or Wistia after generating the video */}
+              <div className="flex flex-col items-center gap-4">
+                <PlayCircle size={80} className="play-icon" strokeWidth={1} />
+                <span style={{color: '#94a3b8', fontWeight: '500'}}>VSL Video Placeholder (Insert your AI Video here)</span>
               </div>
-              
-              <h1 className="hero-title" style={{fontSize: '4.5rem', fontWeight: '800', color: '#0f172a', lineHeight: '1.1', letterSpacing: '-1.5px', marginBottom: '1.5rem'}}>
-                Know exactly who handled mom’s medication.
-              </h1>
-              
-              <p style={{fontSize: '1.25rem', color: '#475569', lineHeight: '1.6', marginBottom: '2.5rem'}}>
-                A shared medication schedule, clear alerts, and a simple log for the whole family.
-              </p>
-              
+            </div>
+            
+            <div style={{marginTop: '2rem'}}>
               <button 
-                onClick={() => navigate('/login')}
-                className="cta-button flex items-center justify-center gap-2" 
-                style={{background: '#2563eb', color: 'white', border: 'none', padding: '1.25rem 2.5rem', fontSize: '1.1rem', fontWeight: '600', borderRadius: '100px', boxShadow: '0 10px 25px rgba(37, 99, 235, 0.3)', width: '100%', maxWidth: '320px', cursor: 'pointer', transition: 'transform 0.2s'}}
+                onClick={() => handleCheckout('https://pay.hotmart.com/O106115546S?off=agpe42pl')}
+                className="buy-button" 
               >
-                Create free care plan <ArrowRight size={20} />
+                GET LIFETIME ACCESS - $37 <ArrowRight size={24} />
               </button>
               
-              <div className="flex items-center gap-2 mt-4" style={{fontSize: '0.85rem', color: '#64748b'}}>
-                <Shield size={16} color="#10b981"/> <span>Private by design. Cancel anytime.</span>
+              <div className="flex justify-center items-center gap-6 text-sm font-semibold mt-4" style={{color: '#64748b'}}>
+                <div className="flex items-center gap-1"><Shield size={16} color="#10b981"/> 30-Day Money Back Guarantee</div>
+                <div className="flex items-center gap-1"><Lock size={16} color="#10b981"/> 100% Secure Checkout</div>
               </div>
-            </div>
-
-            <div className="hero-image-content flex justify-center">
-              <img 
-                src={appMockup} 
-                alt="KinCare App Interface" 
-                className="hero-image"
-                style={{maxWidth: '350px', border: '8px solid #0f172a', borderRadius: '32px'}}
-              />
             </div>
           </div>
         </section>
 
-        {/* STORY: Conexão e Validação da Dor */}
-        <section style={{background: '#ffffff', padding: '6rem 1.5rem'}}>
-          <div className="max-w-3xl mx-auto text-center">
-            <h2 style={{fontSize: 'clamp(2rem, 4vw, 2.5rem)', fontWeight: '800', color: '#0f172a', lineHeight: '1.2', marginBottom: '2rem', letterSpacing: '-1px'}}>
-              "We tried organizing on WhatsApp dozens of times..."
+        {/* What You Get Section (Simplified Offer) */}
+        <section style={{background: '#0f172a', color: 'white', padding: '4rem 1.5rem', borderRadius: '32px', maxWidth: '1000px', margin: '0 auto'}}>
+          <div className="text-center max-w-2xl mx-auto mb-10">
+            <h2 style={{fontSize: '2rem', fontWeight: '800', marginBottom: '1rem', letterSpacing: '-1px'}}>
+              Everything you need for total peace of mind.
             </h2>
-            <p style={{fontSize: '1.2rem', color: '#475569', lineHeight: '1.7', marginBottom: '2rem'}}>
-              Messages got lost. One day, mom took her blood pressure medication twice because my brother didn't see my text. We realized a simple mistake could lead to a hospital visit. That's when we created KinCare: a single, shared source of truth for the whole family.
-            </p>
-            <div className="flex justify-center items-center gap-4">
-              <div style={{background: '#eff6ff', color: '#2563eb', padding: '1rem 1.5rem', borderRadius: '16px', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '0.5rem'}}>
-                <CheckCircle2 size={20}/> A clear shared log for every dose.
-              </div>
-            </div>
+            <p style={{color: '#94a3b8', fontSize: '1.1rem'}}>No recurring fees. Pay once, use forever.</p>
           </div>
-        </section>
 
-        {/* OFFER: Pricing Tiers */}
-        <section style={{background: '#0f172a', color: 'white', padding: '6rem 1.5rem'}}>
-          <div className="section-container" style={{padding: '0'}}>
-            <div className="text-center max-w-2xl mx-auto">
-              <h2 style={{fontSize: 'clamp(2rem, 5vw, 3rem)', fontWeight: '800', marginBottom: '1rem', letterSpacing: '-1px'}}>
-                Choose peace of mind.
-              </h2>
-              <p style={{color: '#94a3b8', fontSize: '1.2rem', marginBottom: '2rem'}}>
-                Stop paying the emotional toll of disorganized caregiving.
-              </p>
-              <div className="flex justify-center items-center gap-4 text-sm font-semibold" style={{color: '#10b981'}}>
-                <div className="flex items-center gap-1"><Lock size={16}/> 100% Secure Checkout</div>
-                <div className="flex items-center gap-1"><CreditCard size={16}/> All major cards accepted</div>
-              </div>
-            </div>
-
-            <div className="pricing-grid">
-              {/* Basic Tier */}
-              <div style={{background: '#1e293b', borderRadius: '24px', padding: '2.5rem', border: '1px solid #334155'}}>
-                <h3 style={{fontSize: '1.5rem', fontWeight: '700', marginBottom: '0.5rem'}}>Basic</h3>
-                <p style={{color: '#94a3b8', fontSize: '0.9rem', marginBottom: '2rem', minHeight: '40px'}}>Perfect to try it out.</p>
-                <div style={{marginBottom: '2rem'}}>
-                  <span style={{fontSize: '3rem', fontWeight: '800'}}>$0</span>
-                </div>
-                <ul className="flex flex-col gap-3 mb-8" style={{color: '#cbd5e1'}}>
-                  <li className="flex items-center gap-2"><CheckCircle2 size={18} color="#94a3b8"/> 1 Patient</li>
-                  <li className="flex items-center gap-2"><CheckCircle2 size={18} color="#94a3b8"/> 1 Caregiver</li>
-                  <li className="flex items-center gap-2"><CheckCircle2 size={18} color="#94a3b8"/> Basic Medication Logging</li>
-                </ul>
-                <button onClick={() => navigate('/login')} style={{width: '100%', padding: '1rem', borderRadius: '100px', background: 'transparent', border: '2px solid #475569', color: 'white', fontWeight: '600', cursor: 'pointer'}}>Get Started</button>
-              </div>
-
-              {/* Essential Tier */}
-              <div style={{background: '#2563eb', borderRadius: '24px', padding: '2.5rem', position: 'relative', transform: 'scale(1.05)', boxShadow: '0 25px 50px -12px rgba(37,99,235,0.5)'}}>
-                <div style={{position: 'absolute', top: '-15px', left: '50%', transform: 'translateX(-50%)', background: '#f59e0b', color: 'white', padding: '0.25rem 1rem', borderRadius: '100px', fontSize: '0.8rem', fontWeight: '800', textTransform: 'uppercase'}}>Most Popular</div>
-                <h3 style={{fontSize: '1.5rem', fontWeight: '700', marginBottom: '0.5rem'}}>Family</h3>
-                <p style={{color: '#bfdbfe', fontSize: '0.9rem', marginBottom: '2rem', minHeight: '40px'}}>For the united family.</p>
-                <div style={{marginBottom: '2rem'}}>
-                  <span style={{fontSize: '3rem', fontWeight: '800'}}>$9.99</span><span style={{color: '#bfdbfe'}}>/mo</span>
-                </div>
-                <ul className="flex flex-col gap-3 mb-8" style={{color: '#ffffff'}}>
-                  <li className="flex items-center gap-2"><CheckCircle2 size={18} color="#60a5fa"/> 1 Patient</li>
-                  <li className="flex items-center gap-2"><CheckCircle2 size={18} color="#60a5fa"/> Up to 4 Family Members</li>
-                  <li className="flex items-center gap-2"><CheckCircle2 size={18} color="#60a5fa"/> Real-time Alerts</li>
-                  <li className="flex items-center gap-2"><CheckCircle2 size={18} color="#60a5fa"/> Complete History Log</li>
-                </ul>
-                <button onClick={() => handleCheckout('https://pay.hotmart.com/O106115546S?off=agpe42pl')} style={{width: '100%', padding: '1rem', borderRadius: '100px', background: 'white', border: 'none', color: '#2563eb', fontWeight: '700', cursor: 'pointer'}}>Start 14-Day Free Trial</button>
-              </div>
-
-              {/* Pro Tier */}
-              <div style={{background: '#1e293b', borderRadius: '24px', padding: '2.5rem', border: '1px solid #334155'}}>
-                <h3 style={{fontSize: '1.5rem', fontWeight: '700', marginBottom: '0.5rem'}}>Pro</h3>
-                <p style={{color: '#94a3b8', fontSize: '0.9rem', marginBottom: '2rem', minHeight: '40px'}}>For professional caregivers or large families.</p>
-                <div style={{marginBottom: '2rem'}}>
-                  <span style={{fontSize: '3rem', fontWeight: '800'}}>$19.99</span><span style={{color: '#64748b'}}>/mo</span>
-                </div>
-                <ul className="flex flex-col gap-3 mb-8" style={{color: '#cbd5e1'}}>
-                  <li className="flex items-center gap-2"><CheckCircle2 size={18} color="#94a3b8"/> Unlimited Patients</li>
-                  <li className="flex items-center gap-2"><CheckCircle2 size={18} color="#94a3b8"/> Unlimited Members</li>
-                  <li className="flex items-center gap-2"><CheckCircle2 size={18} color="#94a3b8"/> Export PDF for Doctors</li>
-                </ul>
-                <button onClick={() => handleCheckout('https://pay.hotmart.com/O106115546S?off=6bl5f0mn')} style={{width: '100%', padding: '1rem', borderRadius: '100px', background: '#334155', border: 'none', color: 'white', fontWeight: '600', cursor: 'pointer'}}>Start 14-Day Free Trial</button>
-              </div>
-            </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-3xl mx-auto">
+             <ul className="flex flex-col gap-4" style={{fontSize: '1.1rem'}}>
+                <li className="flex items-start gap-3"><CheckCircle2 size={24} color="#10b981" className="shrink-0 mt-1"/> <div><b>Shared Medication Log:</b> Know exactly what was taken and when.</div></li>
+                <li className="flex items-start gap-3"><CheckCircle2 size={24} color="#10b981" className="shrink-0 mt-1"/> <div><b>Real-Time Sync:</b> Everyone in the family sees updates instantly.</div></li>
+             </ul>
+             <ul className="flex flex-col gap-4" style={{fontSize: '1.1rem'}}>
+                <li className="flex items-start gap-3"><CheckCircle2 size={24} color="#10b981" className="shrink-0 mt-1"/> <div><b>Family Care Schedule:</b> Assign shifts so no one is overwhelmed.</div></li>
+                <li className="flex items-start gap-3"><CheckCircle2 size={24} color="#10b981" className="shrink-0 mt-1"/> <div><b>Task Management:</b> Organize doctor visits, groceries, and pharmacy runs.</div></li>
+             </ul>
           </div>
         </section>
 
