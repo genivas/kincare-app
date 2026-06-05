@@ -32,12 +32,12 @@ const Settings = () => {
   };
 
   const handleDeleteAccount = async () => {
-    if (window.confirm("ATENÇÃO: Você tem certeza que deseja excluir sua conta e apagar todos os dados da sua Família permanentemente? Esta ação não pode ser desfeita.")) {
+    if (window.confirm("WARNING: Are you sure you want to permanently delete your account and all Family data? This action cannot be undone.")) {
       try {
         await deleteAccountAndFamily();
         navigate('/');
       } catch(e) {
-        alert("Erro ao excluir conta. Faça login novamente para tentar.");
+        alert("Error deleting account. Please log in again to try.");
       }
     }
   };
@@ -58,7 +58,7 @@ const Settings = () => {
 
       <main className="px-4">
         
-        {/* Support & Billing Quick Actions */}
+        {/* Support Quick Action */}
         <div className="flex gap-3 mb-6">
           <button 
             className="glass-card flex-1 flex flex-col items-center justify-center p-4" 
@@ -67,15 +67,6 @@ const Settings = () => {
           >
             <LifeBuoy size={28} color="var(--primary-color)" className="mb-2" />
             <span style={{fontSize: '0.9rem', fontWeight: '600'}}>Support</span>
-          </button>
-          
-          <button 
-            className="glass-card flex-1 flex flex-col items-center justify-center p-4" 
-            style={{border: 'none', background: 'white', color: 'var(--text-color)', marginBottom: 0}}
-            onClick={() => window.open('https://hotmart.com/pt-br/help', '_blank')}
-          >
-            <CreditCard size={28} color="#10b981" className="mb-2" />
-            <span style={{fontSize: '0.9rem', fontWeight: '600'}}>Billing</span>
           </button>
         </div>
 
@@ -100,13 +91,13 @@ const Settings = () => {
         {showAddForm && (
           <div className="glass-card mb-6" style={{border: '1px solid var(--primary-color)'}}>
             <div className="flex justify-between items-center mb-4">
-              <h3 style={{margin: 0}}>Código de Convite</h3>
+              <h3 style={{margin: 0}}>Invite Code</h3>
               <button style={{background: 'transparent', padding: 0, border: 'none'}} onClick={() => setShowAddForm(false)}>
                 <X size={20} color="var(--text-light)"/>
               </button>
             </div>
             <div style={{background: '#f8fafc', padding: '1rem', borderRadius: '10px', textAlign: 'center', marginBottom: '1rem'}}>
-              <p style={{fontSize: '0.85rem', color: 'var(--text-light)', marginBottom: '0.5rem'}}>Compartilhe este código com os cuidadores:</p>
+              <p style={{fontSize: '0.85rem', color: 'var(--text-light)', marginBottom: '0.5rem'}}>Share this code with caregivers:</p>
               <h2 style={{letterSpacing: '3px', color: 'var(--primary-color)'}}>{patient?.inviteCode || '...'}</h2>
             </div>
             <form onSubmit={handleInviteWhatsApp} className="flex-col gap-3 flex">
@@ -183,7 +174,7 @@ const Settings = () => {
           className="glass-card flex items-center justify-center gap-2 mt-4" 
           style={{width: '100%', border: '1px solid #dc2626', color: '#dc2626', background: 'transparent', padding: '1rem'}}
         >
-          <strong style={{fontSize: '1rem'}}>Excluir Conta e Família</strong>
+          <strong style={{fontSize: '1rem'}}>Delete Account & Family</strong>
         </button>
 
       </main>
