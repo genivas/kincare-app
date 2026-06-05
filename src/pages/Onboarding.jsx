@@ -79,9 +79,19 @@ function Onboarding() {
             <button className="secondary-button" onClick={() => setMode('join')} style={{ backgroundColor: 'transparent', color: 'var(--primary-color)', border: '1px solid var(--primary-color)' }}>
               Já tenho um Código de Convite
             </button>
-            <button onClick={handleLogout} style={{ marginTop: '20px', background: 'none', border: 'none', color: 'var(--text-secondary)', textDecoration: 'underline', cursor: 'pointer' }}>
-              Sair da conta
-            </button>
+            
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '20px' }}>
+              <button onClick={handleLogout} style={{ background: 'none', border: 'none', color: 'var(--text-secondary)', textDecoration: 'underline', cursor: 'pointer' }}>
+                Sair da conta
+              </button>
+              <button onClick={async () => {
+                if (window.confirm("Certeza que deseja excluir sua conta para recomeçar os testes?")) {
+                  await deleteAccountAndFamily();
+                }
+              }} style={{ background: 'none', border: 'none', color: 'var(--danger-color)', textDecoration: 'underline', cursor: 'pointer' }}>
+                Excluir Conta (Reset)
+              </button>
+            </div>
           </div>
         )}
 
