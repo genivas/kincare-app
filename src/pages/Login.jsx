@@ -11,9 +11,8 @@ const Login = () => {
   const queryParams = new URLSearchParams(location.search);
   const isCheckoutSuccess = queryParams.get('checkout') === 'success';
   const inviteId = queryParams.get('invite');
-  const canRegister = isCheckoutSuccess || !!inviteId;
-
-  const [isRegistering, setIsRegistering] = useState(canRegister);
+  const isRegisteringState = location.pathname === '/register' || queryParams.get('checkout') === 'success';
+  const [isRegistering, setIsRegistering] = useState(isRegisteringState);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
@@ -27,23 +26,14 @@ const Login = () => {
 
     try {
       if (isRegistering) {
-        if (!canRegister) {
-          throw new Error("Registration requires a valid purchase or invitation link.");
-        }
-        
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         await updateProfile(userCredential.user, {
           displayName: name,
           photoURL: `https://api.dicebear.com/7.x/avataaars/svg?seed=${name}`
         });
         
-        let familyId = userCredential.user.uid;
-        let role = "Admin";
-        
-        if (inviteId) {
-          familyId = inviteId;
-          role = "Family Member";
-        }
+        let familyId = inviteId || null;
+        let role = inviteId ? "Family Member" : "Admin";
 
         // Save initial user profile to Firestore
         await setDoc(doc(db, "users", userCredential.user.uid), {
@@ -54,7 +44,6 @@ const Login = () => {
           avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${name}`
         });
 
-        // Fire Meta Pixel CompleteRegistration event
         if (window.fbq) {
           window.fbq('track', 'CompleteRegistration', {
             content_name: role
@@ -82,19 +71,19 @@ const Login = () => {
             KinCare
           </h1>
           <p style={{ color: 'var(--text-light)', fontSize: '0.9rem' }}>
-            {isRegistering ? "Create your family account" : "Welcome back to your family"}
+            {isRegistering ? "Crie sua conta para começar" : "Bem-vindo(a) de volta"}
           </p>
         </div>
 
         {isCheckoutSuccess && (
           <div style={{ background: '#10b981', color: 'white', padding: '1rem', borderRadius: '8px', marginBottom: '1.5rem', fontSize: '0.95rem', fontWeight: '600', textAlign: 'center', boxShadow: '0 4px 6px -1px rgba(16, 185, 129, 0.2)' }}>
-            🎉 Payment Approved! Create your account below to activate your KinCare subscription.
+            🎉 Pagamento Aprovado! Crie sua conta abaixo para acessar o KinCare.
           </div>
         )}
 
         {inviteId && (
           <div style={{ background: '#3b82f6', color: 'white', padding: '1rem', borderRadius: '8px', marginBottom: '1.5rem', fontSize: '0.95rem', fontWeight: '600', textAlign: 'center', boxShadow: '0 4px 6px -1px rgba(59, 130, 246, 0.2)' }}>
-            👋 You've been invited to join a family! Create your account below to access their schedule.
+            👋 Você foi convidado para uma família! Crie sua conta para acessar.
           </div>
         )}
 
@@ -107,32 +96,32 @@ const Login = () => {
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           {isRegistering && (
             <div>
-              <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.9rem', fontWeight: '500' }}>Full Name</label>
+              <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.9rem', fontWeight: '500' }}>Nome Completo</label>
               <input 
                 type="text" 
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 style={{ width: '100%', padding: '0.75rem', borderRadius: '8px', border: '1px solid #cbd5e1', fontFamily: 'inherit' }}
                 required={isRegistering}
-                placeholder="E.g., John Doe"
+                placeholder="Ex: João da Silva"
               />
             </div>
           )}
 
           <div>
-            <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.9rem', fontWeight: '500' }}>Email Address</label>
+            <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.9rem', fontWeight: '500' }}>E-mail</label>
             <input 
               type="email" 
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               style={{ width: '100%', padding: '0.75rem', borderRadius: '8px', border: '1px solid #cbd5e1', fontFamily: 'inherit' }}
               required
-              placeholder="you@family.com"
+              placeholder="seu@email.com"
             />
           </div>
 
           <div>
-            <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.9rem', fontWeight: '500' }}>Password</label>
+            <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.9rem', fontWeight: '500' }}>Senha</label>
             <input 
               type="password" 
               value={password}
@@ -149,24 +138,20 @@ const Login = () => {
             style={{ marginTop: '0.5rem', padding: '0.85rem', fontWeight: 'bold' }}
             disabled={loading}
           >
-            {loading ? "Please wait..." : (isRegistering ? "Create Account" : "Sign In")}
+            {loading ? "Aguarde..." : (isRegistering ? "Criar Conta" : "Entrar")}
           </button>
         </form>
 
         <div className="text-center mt-6">
-          {canRegister ? (
-             <button 
-               style={{ background: 'transparent', border: 'none', color: 'var(--primary-color)', fontSize: '0.9rem', fontWeight: '500' }}
-               onClick={() => {
-                 setIsRegistering(!isRegistering);
-                 setError('');
-               }}
-             >
-               {isRegistering ? "Already have an account? Sign in" : "Need an account? Sign up"}
-             </button>
-          ) : (
-            <p style={{fontSize: '0.85rem', color: 'var(--text-light)'}}>Registration requires a purchase or invite.</p>
-          )}
+          <button 
+            style={{ background: 'transparent', border: 'none', color: 'var(--primary-color)', fontSize: '0.9rem', fontWeight: '500', cursor: 'pointer' }}
+            onClick={() => {
+              setIsRegistering(!isRegistering);
+              setError('');
+            }}
+          >
+            {isRegistering ? "Já tem uma conta? Entrar" : "Ainda não tem conta? Cadastre-se"}
+          </button>
         </div>
       </div>
     </div>
