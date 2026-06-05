@@ -22,8 +22,8 @@ const Settings = () => {
   const handleInviteWhatsApp = (e) => {
     e.preventDefault();
     if(newMemberName && newMemberRelation) {
-      const patientName = patient?.name ? patient.name.split(' ')[0] : 'nosso familiar';
-      const msg = `Olá ${newMemberName}! Estou te convidando para o aplicativo *KinCare* para ajudar a cuidar de ${patientName}.\n\nPara acessar a rotina e os medicamentos, siga os passos:\n1. Acesse: https://kincare-app.pages.dev\n2. Clique em "Acessar App" e cadastre-se.\n3. Na tela de Boas-vindas, escolha "Já tenho um Código de Convite".\n4. Insira este código de segurança: *${patient?.inviteCode}*\n\nPronto! Já estamos conectados.`;
+      const patientName = patient?.name ? patient.name.split(' ')[0] : 'our family member';
+      const msg = `Hi ${newMemberName}! I'm inviting you to the *KinCare* app to help care for ${patientName}.\n\nTo access the routine and medications, follow these steps:\n1. Go to: https://kincare-app.pages.dev\n2. Click "Sign Up" and create your account.\n3. On the Welcome screen, choose "I already have an Invite Code".\n4. Enter our secure family code: *${patient?.inviteCode}*\n\nDone! We are now connected.`;
       window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
       setShowAddForm(false);
       setNewMemberName('');
@@ -51,8 +51,8 @@ const Settings = () => {
     <div className="page-content" style={{paddingBottom: '80px', paddingTop: '3rem'}}>
       <header className="px-4 mb-6 flex justify-between items-center">
         <div>
-          <h1 style={{fontSize: '1.4rem', fontWeight: '700', margin: 0}}>Configurações</h1>
-          <p style={{fontSize: '0.85rem', color: 'var(--text-light)', margin: 0}}>Gerenciar conta e família</p>
+          <h1 style={{fontSize: '1.4rem', fontWeight: '700', margin: 0}}>Settings</h1>
+          <p style={{fontSize: '0.85rem', color: 'var(--text-light)', margin: 0}}>Manage account & family</p>
         </div>
       </header>
 
@@ -66,7 +66,7 @@ const Settings = () => {
             onClick={() => navigate('/app/support')}
           >
             <LifeBuoy size={28} color="var(--primary-color)" className="mb-2" />
-            <span style={{fontSize: '0.9rem', fontWeight: '600'}}>Suporte</span>
+            <span style={{fontSize: '0.9rem', fontWeight: '600'}}>Support</span>
           </button>
           
           <button 
@@ -75,25 +75,25 @@ const Settings = () => {
             onClick={() => window.open('https://hotmart.com/pt-br/help', '_blank')}
           >
             <CreditCard size={28} color="#10b981" className="mb-2" />
-            <span style={{fontSize: '0.9rem', fontWeight: '600'}}>Assinatura</span>
+            <span style={{fontSize: '0.9rem', fontWeight: '600'}}>Billing</span>
           </button>
         </div>
 
         <div className="glass-card mb-6">
-          <h3 className="mb-4" style={{display: 'flex', alignItems: 'center', gap: '0.5rem'}}><ShieldCheck size={20} color="var(--primary-color)" /> Perfil do Idoso</h3>
+          <h3 className="mb-4" style={{display: 'flex', alignItems: 'center', gap: '0.5rem'}}><ShieldCheck size={20} color="var(--primary-color)" /> Patient Profile</h3>
           <div className="flex-col gap-3">
             <div className="flex items-center gap-4 mb-4">
               <img src={patient?.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${patient?.name || 'Idoso'}`} alt="Avatar" className="avatar avatar-lg" style={{width: '60px', height: '60px', borderRadius: '20px'}} />
-              <button className="btn-secondary" style={{padding: '0.5rem 1rem', width: 'auto'}}>Mudar Foto</button>
+              <button className="btn-secondary" style={{padding: '0.5rem 1rem', width: 'auto'}}>Change Photo</button>
             </div>
-            <label style={{fontSize: '0.85rem', fontWeight: 'bold', display: 'block', marginBottom: '0.5rem'}}>Nome Completo</label>
+            <label style={{fontSize: '0.85rem', fontWeight: 'bold', display: 'block', marginBottom: '0.5rem'}}>Full Name</label>
             <input 
               type="text" 
               value={name}
               onChange={e => setName(e.target.value)}
               style={{padding: '0.85rem', borderRadius: '10px', border: '1px solid #e2e8f0', width: '100%', marginBottom: '1rem', fontFamily: 'inherit', background: '#f8fafc'}}
             />
-            <button className="btn-primary" onClick={handleSave} style={{padding: '0.85rem', borderRadius: '10px'}}>Salvar Alterações</button>
+            <button className="btn-primary" onClick={handleSave} style={{padding: '0.85rem', borderRadius: '10px'}}>Save Changes</button>
           </div>
         </div>
 
@@ -112,7 +112,7 @@ const Settings = () => {
             <form onSubmit={handleInviteWhatsApp} className="flex-col gap-3 flex">
               <input 
                 type="text" 
-                placeholder="Nome da pessoa" 
+                placeholder="Name" 
                 value={newMemberName}
                 onChange={e => setNewMemberName(e.target.value)}
                 style={{padding: '0.85rem', borderRadius: '10px', border: '1px solid #e2e8f0', width: '100%', fontFamily: 'inherit'}}
@@ -120,7 +120,7 @@ const Settings = () => {
               />
               <input 
                 type="text" 
-                placeholder="Parentesco (ex: Filho, Cuidadora)" 
+                placeholder="Relation (e.g., Son)" 
                 value={newMemberRelation}
                 onChange={e => setNewMemberRelation(e.target.value)}
                 style={{padding: '0.85rem', borderRadius: '10px', border: '1px solid #e2e8f0', width: '100%', fontFamily: 'inherit'}}
@@ -131,12 +131,12 @@ const Settings = () => {
                 onChange={e => setNewMemberRole(e.target.value)}
                 style={{padding: '0.85rem', borderRadius: '10px', border: '1px solid #e2e8f0', width: '100%', fontFamily: 'inherit', backgroundColor: 'white'}}
               >
-                <option value="Family">Membro da Família (Acesso Total)</option>
-                <option value="Professional Caregiver">Cuidador(a) Profissional</option>
-                <option value="Nurse">Enfermeiro(a)</option>
+                <option value="Family">Family (Full Access)</option>
+                <option value="Professional Caregiver">Professional Caregiver</option>
+                <option value="Nurse">Registered Nurse</option>
               </select>
               <button type="submit" className="btn-primary mt-2 flex justify-center items-center gap-2" style={{padding: '0.85rem', borderRadius: '10px', background: '#25d366', borderColor: '#25d366'}}>
-                Enviar Convite por WhatsApp
+                Send WhatsApp Invite
               </button>
             </form>
           </div>
@@ -144,7 +144,7 @@ const Settings = () => {
 
         <div className="glass-card mb-6">
           <div className="flex justify-between items-center mb-4">
-            <h3 style={{margin: 0}}>Membros da Família</h3>
+            <h3 style={{margin: 0}}>Family Members</h3>
             {!showAddForm && (
               <button style={{background: 'var(--primary-light)', color: 'var(--primary-color)', padding: '0.5rem', borderRadius: '8px', border: 'none'}} onClick={() => setShowAddForm(true)}>
                 <UserPlus size={18} />
@@ -175,7 +175,7 @@ const Settings = () => {
           style={{width: '100%', border: '1px solid #fee2e2', color: '#ef4444', background: '#fef2f2', padding: '1rem'}}
         >
           <LogOut size={20} />
-          <strong style={{fontSize: '1rem'}}>Sair da conta</strong>
+          <strong style={{fontSize: '1rem'}}>Sign Out</strong>
         </button>
 
         <button 

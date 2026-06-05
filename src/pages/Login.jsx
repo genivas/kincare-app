@@ -79,19 +79,19 @@ const Login = () => {
             KinCare
           </h1>
           <p style={{ color: 'var(--text-light)', fontSize: '0.9rem' }}>
-            {isRegistering ? "Crie sua conta para começar" : "Bem-vindo(a) de volta"}
+            {isRegistering ? "Create your account to start" : "Welcome back"}
           </p>
         </div>
 
         {isCheckoutSuccess && (
           <div style={{ background: '#10b981', color: 'white', padding: '1rem', borderRadius: '8px', marginBottom: '1.5rem', fontSize: '0.95rem', fontWeight: '600', textAlign: 'center', boxShadow: '0 4px 6px -1px rgba(16, 185, 129, 0.2)' }}>
-            🎉 Pagamento Aprovado! Crie sua conta abaixo para acessar o KinCare.
+            🎉 Payment Approved! Create your account below to access KinCare.
           </div>
         )}
 
         {inviteId && (
           <div style={{ background: '#3b82f6', color: 'white', padding: '1rem', borderRadius: '8px', marginBottom: '1.5rem', fontSize: '0.95rem', fontWeight: '600', textAlign: 'center', boxShadow: '0 4px 6px -1px rgba(59, 130, 246, 0.2)' }}>
-            👋 Você foi convidado para uma família! Crie sua conta para acessar.
+            👋 You've been invited to a family! Create your account to access.
           </div>
         )}
 
@@ -104,32 +104,32 @@ const Login = () => {
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           {isRegistering && (
             <div>
-              <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.9rem', fontWeight: '500' }}>Nome Completo</label>
+              <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.9rem', fontWeight: '500' }}>Full Name</label>
               <input 
                 type="text" 
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 style={{ width: '100%', padding: '0.75rem', borderRadius: '8px', border: '1px solid #cbd5e1', fontFamily: 'inherit' }}
                 required={isRegistering}
-                placeholder="Ex: João da Silva"
+                placeholder="e.g. John Doe"
               />
             </div>
           )}
 
           <div>
-            <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.9rem', fontWeight: '500' }}>E-mail</label>
+            <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.9rem', fontWeight: '500' }}>Email</label>
             <input 
               type="email" 
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               style={{ width: '100%', padding: '0.75rem', borderRadius: '8px', border: '1px solid #cbd5e1', fontFamily: 'inherit' }}
               required
-              placeholder="seu@email.com"
+              placeholder="you@email.com"
             />
           </div>
 
           <div>
-            <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.9rem', fontWeight: '500' }}>Senha</label>
+            <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.9rem', fontWeight: '500' }}>Password</label>
             <input 
               type="password" 
               value={password}
@@ -146,19 +146,20 @@ const Login = () => {
             style={{ marginTop: '0.5rem', padding: '0.85rem', fontWeight: 'bold' }}
             disabled={loading}
           >
-            {loading ? "Aguarde..." : (isRegistering ? "Criar Conta" : "Entrar")}
+            {loading ? "Please wait..." : (isRegistering ? "Create Account" : "Sign In")}
           </button>
         </form>
 
         <div className="text-center mt-6">
           <button 
+            type="button"
             style={{ background: 'transparent', border: 'none', color: 'var(--primary-color)', fontSize: '0.9rem', fontWeight: '500', cursor: 'pointer' }}
             onClick={() => {
               setIsRegistering(!isRegistering);
               setError('');
             }}
           >
-            {isRegistering ? "Já tem uma conta? Entrar" : "Ainda não tem conta? Cadastre-se"}
+            {isRegistering ? "Already have an account? Sign In" : "Don't have an account? Sign Up"}
           </button>
         </div>
       </div>
