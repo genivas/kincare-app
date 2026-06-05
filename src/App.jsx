@@ -19,17 +19,20 @@ const ProtectedRoute = ({ children }) => {
   return currentUser ? children : <Navigate to="/login" />;
 };
 
+import { Capacitor } from '@capacitor/core';
+
 function AppRoutes() {
   const location = useLocation();
   const isLandingPage = location.pathname === '/';
   const isLoginPage = location.pathname === '/login';
 
   const hideNav = isLandingPage || isLoginPage;
+  const isNative = Capacitor.isNativePlatform();
 
   return (
     <div className="app-container" style={{background: isLandingPage ? 'var(--bg-color)' : ''}}>
       <Routes>
-        <Route path="/" element={<Landing />} />
+        <Route path="/" element={isNative ? <Navigate to="/app" replace /> : <Landing />} />
         <Route path="/login" element={<Login />} />
         
         {/* Protected Routes */}
