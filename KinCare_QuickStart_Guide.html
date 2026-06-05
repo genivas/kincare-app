@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KinCare Quick Start Guide</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+            color: #334155;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+        }
+        .page {
+            background-color: white;
+            width: 210mm; /* A4 width */
+            min-height: 297mm; /* A4 height */
+            padding: 20mm;
+            box-sizing: border-box;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            margin: 2rem 0;
+        }
+        .header {
+            text-align: center;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 2rem;
+            margin-bottom: 2.5rem;
+        }
+        .logo {
+            color: #2563eb;
+            font-size: 2.5rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .subtitle {
+            color: #64748b;
+            font-size: 1.1rem;
+            font-weight: 400;
+        }
+        .welcome {
+            font-size: 1.15rem;
+            line-height: 1.6;
+            margin-bottom: 3rem;
+            text-align: center;
+            color: #0f172a;
+        }
+        .step {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+            align-items: flex-start;
+        }
+        .step-number {
+            background-color: #2563eb;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            font-weight: 800;
+            flex-shrink: 0;
+        }
+        .step-content h3 {
+            margin: 0 0 0.5rem 0;
+            font-size: 1.3rem;
+            color: #0f172a;
+        }
+        .step-content p {
+            margin: 0;
+            line-height: 1.6;
+            color: #475569;
+        }
+        .link-box {
+            background-color: #eff6ff;
+            border: 1px dashed #93c5fd;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+            text-align: center;
+            font-weight: 600;
+            color: #1d4ed8;
+            font-size: 1.1rem;
+        }
+        .footer {
+            margin-top: 4rem;
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid #e2e8f0;
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+        
+        /* Print rules to remove margins and shadows when saving to PDF */
+        @media print {
+            body { background-color: white; }
+            .page { margin: 0; box-shadow: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="page">
+        <div class="header">
+            <div class="logo">
+                <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/><path d="M3.22 12H9.5l.5-1 2 4.5 2-7 1.5 3.5h5.27"/></svg>
+                KinCare
+            </div>
+            <div class="subtitle">Premium Caregiving Platform</div>
+        </div>
+
+        <div class="welcome">
+            <strong>Welcome to the KinCare family!</strong><br>
+            We are thrilled to help you bring peace of mind and organization to your caregiving routine. Follow these 3 simple steps to get started:
+        </div>
+
+        <div class="step">
+            <div class="step-number">1</div>
+            <div class="step-content">
+                <h3>Access Your Dashboard</h3>
+                <p>Open the KinCare App on your computer, tablet, or smartphone browser using the exclusive access link below:</p>
+                <div class="link-box">
+                    https://kincare-app.pages.dev
+                </div>
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-number">2</div>
+            <div class="step-content">
+                <h3>Create Your Account</h3>
+                <p>Since your payment is approved, simply enter your Name, Email, and a secure Password on the login screen to activate your account immediately.</p>
+                <p style="margin-top: 0.5rem; font-size: 0.9rem; font-style: italic;">(Tip: Save the website to your phone's home screen or bookmark it on your browser for quick access!).</p>
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-number">3</div>
+            <div class="step-content">
+                <h3>Add a Patient & Invite Family</h3>
+                <p>Once inside the app, click on <strong>"Add Patient"</strong> to register the person you are caring for. Then, go to the <strong>"Family Members"</strong> section to invite your siblings or co-caregivers to the platform so everyone stays on the same page.</p>
+            </div>
+        </div>
+
+        <div class="footer">
+            <strong>Need Help?</strong><br>
+            If you have any questions or need technical assistance, please reply to your purchase email and our team will be happy to assist you.<br><br>
+            <em>KinCare Tech &copy; 2026 &mdash; Better care. Zero stress.</em>
+        </div>
+    </div>
+
+</body>
+</html>

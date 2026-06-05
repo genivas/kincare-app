@@ -1,0 +1,115 @@
+{
+    "rsi_values": {},
+    "open_positions": [
+        {
+            "symbol": "GALA/USDT:USDT",
+            "side": "SHORT",
+            "entry_price": 0.2955,
+            "pnl": 2473.867011
+        },
+        {
+            "symbol": "FIL/USDT:USDT",
+            "side": "SHORT",
+            "entry_price": 0.9,
+            "pnl": -1.39412687
+        },
+        {
+            "symbol": "DOT/USDT:USDT",
+            "side": "SHORT",
+            "entry_price": 1.113,
+            "pnl": -0.1362247
+        },
+        {
+            "symbol": "APT/USDT:USDT",
+            "side": "SHORT",
+            "entry_price": 0.8493,
+            "pnl": -0.10878855
+        },
+        {
+            "symbol": "BCH/USDT:USDT",
+            "side": "SHORT",
+            "entry_price": 286.06,
+            "pnl": 3.10923473
+        },
+        {
+            "symbol": "TIA/USDT:USDT",
+            "side": "SHORT",
+            "entry_price": 0.3728,
+            "pnl": -0.6503623
+        },
+        {
+            "symbol": "AXS/USDT:USDT",
+            "side": "SHORT",
+            "entry_price": 1.155,
+            "pnl": -0.23876454
+        },
+        {
+            "symbol": "INJ/USDT:USDT",
+            "side": "LONG",
+            "entry_price": 6.391,
+            "pnl": 1.3104
+        },
+        {
+            "symbol": "LTC/USDT:USDT",
+            "side": "SHORT",
+            "entry_price": 48.34,
+            "pnl": 0.06556235
+        },
+        {
+            "symbol": "ATOM/USDT:USDT",
+            "side": "SHORT",
+            "entry_price": 1.887,
+            "pnl": -0.31776
+        },
+        {
+            "symbol": "LINK/USDT:USDT",
+            "side": "SHORT",
+            "entry_price": 8.706,
+            "pnl": 0.51373
+        },
+        {
+            "symbol": "ARB/USDT:USDT",
+            "side": "SHORT",
+            "entry_price": 0.096,
+            "pnl": -0.05202
+        },
+        {
+            "symbol": "NEAR/USDT:USDT",
+            "side": "LONG",
+            "entry_price": 2.472,
+            "pnl": 5.0711104
+        },
+        {
+            "symbol": "AAVE/USDT:USDT",
+            "side": "SHORT",
+            "entry_price": 76.55,
+            "pnl": 0.07372538
+        },
+        {
+            "symbol": "WLD/USDT:USDT",
+            "side": "LONG",
+            "entry_price": 0.3812,
+            "pnl": 7.76572875
+        }
+    ],
+    "wallet_balance": -191.94515915,
+    "closed_pnl": -241.94515915,
+    "entry_times": {
+        "NEAR/USDT:USDT": 1780415143.1606016,
+        "LINK/USDT:USDT": 1780417139.604037,
+        "ARB/USDT:USDT": 1780421090.1748793,
+        "BCH/USDT:USDT": 1780421628.2899745,
+        "AAVE/USDT:USDT": 1780423624.901866,
+        "WLD/USDT:USDT": 1780444387.339023,
+        "INJ/USDT:USDT": 1780453907.6395247,
+        "GALA/USDT:USDT": 1780463226.7229533,
+        "FIL/USDT:USDT": 1780475654.0785332,
+        "DOT/USDT:USDT": 1780475654.0785332,
+        "APT/USDT:USDT": 1780475654.0785332,
+        "TIA/USDT:USDT": 1780475654.0785332,
+        "AXS/USDT:USDT": 1780475654.0785332,
+        "LTC/USDT:USDT": 1780475654.0785332,
+        "ATOM/USDT:USDT": 1780475654.0785332
+    },
+    "last_update": "09:54:23"
+}

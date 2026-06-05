@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crypto Bot Dashboard</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="dashboard-container">
+        <header>
+            <h1>Bot Control Center ⚡</h1>
+            <p>Última atualização do motor: <span id="last-update" class="highlight">--:--:--</span></p>
+            <button onclick="closeAllPositions()" class="btn-panic" id="panic-btn">🚨 ZERAR TODAS AS OPERAÇÕES</button>
+            
+            <div class="wallet-summary">
+                <div class="wallet-card">
+                    <h3>💰 Caixa Desafio ($50)</h3>
+                    <p id="wallet-balance" class="value neutral">$0.00</p>
+                </div>
+                <div class="wallet-card">
+                    <h3>📈 Lucro Diário Fechado</h3>
+                    <p id="closed-pnl" class="value neutral">$0.00</p>
+                </div>
+            </div>
+        </header>
+
+        <main>
+            <section class="panel pnl-panel glass">
+                <h2>📈 Posições Abertas (PnL Real-Time)</h2>
+                <table id="positions-table">
+                    <thead>
+                        <tr>
+                            <th>Moeda</th>
+                            <th>Lado</th>
+                            <th>Entrada</th>
+                            <th>PnL (USDT)</th>
+                            <th>Tempo Aberto</th>
+                            <th>Ação</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Linhas geradas por JS -->
+                    </tbody>
+                </table>
+            </section>
+
+            <section class="panel rsi-panel glass">
+                <h2>📊 Monitor RSI Ao Vivo</h2>
+                <div class="rsi-grid" id="rsi-grid">
+                    <!-- Cards gerados por JS -->
+                </div>
+            </section>
+        </main>
+
+        <div class="card mt-4">
+            <h2>Curva de Patrimônio ($50 Virtual)</h2>
+            <div style="position: relative; height:300px; width:100%">
+                <canvas id="equityChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        async function fetchState() {
+            try {
+                const response = await fetch('/api/state');
+                const data = await response.json();
+                
+                document.getElementById('last-update').innerText = data.last_update || "Aguardando bot...";
+
+                if(data.wallet_balance !== undefined) {
+                    document.getElementById('wallet-balance').innerText = "$" + data.wallet_balance.toFixed(2);
+                }
+                
+                if(data.closed_pnl !== undefined) {
+                    const pnlEl = document.getElementById('closed-pnl');
+                    pnlEl.innerText = (data.closed_pnl >= 0 ? "+ $" : "- $") + Math.abs(data.closed_pnl).toFixed(2);
+                    pnlEl.className = "value " + (data.closed_pnl >= 0 ? "profit" : "loss");
+                }
+
+                // Update Positions
+                const tableBody = document.querySelector('#positions-table tbody');
+                tableBody.innerHTML = '';
+                if (data.open_positions && data.open_positions.length > 0) {
+                    data.open_positions.forEach(pos => {
+                        const tr = document.createElement('tr');
+                        const pnlClass = pos.pnl >= 0 ? 'profit' : 'loss';
+                        
+                        let timeHtml = "Calculando...";
+                        if (data.entry_times && data.entry_times[pos.symbol]) {
+                            const entryTime = data.entry_times[pos.symbol];
+                            const now = Math.floor(Date.now() / 1000);
+                            const elapsed = now - entryTime;
+                            
+                            const h = Math.floor(elapsed / 3600);
+                            const m = Math.floor((elapsed % 3600) / 60);
+                            const s = Math.floor(elapsed % 60);
+                            
+                            const timeString = `${h > 0 ? h+'h ' : ''}${m}m ${s}s`;
+                            
+                            // Se passou de 45 minutos (2700s) no negativo, fica vermelho e pisca
+                            if (elapsed > 2700 && pos.pnl < 0) {
+                                timeHtml = `<span style="color: #ff4757; font-weight: bold; animation: blink 1s infinite;">${timeString} ⚠️</span>`;
+                            } else {
+                                timeHtml = timeString;
+                            }
+                        }
+                        
+                        tr.innerHTML = `
+                            <td><strong>${pos.symbol}</strong></td>
+                            <td class="${pos.side === 'LONG' ? 'profit' : 'loss'}">${pos.side}</td>
+                            <td>$${pos.entry_price.toFixed(4)}</td>
+                            <td class="${pnlClass}"><strong>$${pos.pnl.toFixed(4)}</strong></td>
+                            <td>${timeHtml}</td>
+                            <td><button onclick="closePosition('${pos.symbol}')" class="btn-close">🛑 Zerar</button></td>
+                        `;
+                        tableBody.appendChild(tr);
+                    });
+                } else {
+                    tableBody.innerHTML = '<tr><td colspan="6" style="text-align:center; opacity: 0.5;">Nenhuma posição aberta no momento. O robô está espreitando...</td></tr>';
+                }
+
+                // Update RSI
+                const rsiGrid = document.getElementById('rsi-grid');
+                rsiGrid.innerHTML = '';
+                if (data.rsi_values) {
+                    for (const [coin, rsi] of Object.entries(data.rsi_values)) {
+                        const card = document.createElement('div');
+                        card.className = 'rsi-card glass-card';
+                        
+                        let statusClass = 'neutral';
+                        if (rsi < 40) statusClass = 'glow-green pulse'; // Panic = Buy (Long)
+                        if (rsi > 60) statusClass = 'glow-red pulse'; // Euphoria = Sell (Short)
+                        
+                        card.innerHTML = `
+                            <h3>${coin.split('/')[0]}</h3>
+                            <p class="rsi-value ${statusClass}">${rsi.toFixed(2)}</p>
+                        `;
+                        rsiGrid.appendChild(card);
+                    }
+                }
+
+            } catch (error) {
+                console.error("Erro ao buscar dados", error);
+            }
+        }
+
+        let equityChart = null;
+
+        async function fetchHistory() {
+            try {
+                const response = await fetch('/api/history');
+                const data = await response.json();
+                
+                const labels = data.map(d => d.time.split(' ')[1]); // Pega só a hora
+                const cumulativePnl = data.map(d => d.cumulative);
+                
+                const ctx = document.getElementById('equityChart').getContext('2d');
+                
+                if (equityChart) {
+                    equityChart.data.labels = labels;
+                    equityChart.data.datasets[0].data = cumulativePnl;
+                    equityChart.update();
+                } else {
+                    equityChart = new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                            labels: labels,
+                            datasets: [{
+                                label: 'Lucro Acumulado (USDT)',
+                                data: cumulativePnl,
+                                borderColor: '#238636',
+                                backgroundColor: 'rgba(35, 134, 54, 0.2)',
+                                fill: true,
+                                tension: 0.4
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                legend: {
+                                    labels: { color: '#c9d1d9' }
+                                }
+                            },
+                            scales: {
+                                x: { ticks: { color: '#8b949e' }, grid: { color: '#30363d' } },
+                                y: { ticks: { color: '#8b949e' }, grid: { color: '#30363d' } }
+                            }
+                        }
+                    });
+                }
+            } catch (error) {
+                console.error("Erro ao carregar historico:", error);
+            }
+        }
+
+        // Loop de Atualização
+        setInterval(() => {
+            fetchState();
+            fetchHistory();
+        }, 3000);
+        
+        // Chamada inicial
+        fetchState();
+        fetchHistory();
+
+        async function closePosition(symbol) {
+            if(!confirm(`Tem certeza que deseja ZERAR A MERCADO a posição de ${symbol}?`)) return;
+            
+            try {
+                const response = await fetch(`/api/close/${encodeURIComponent(symbol)}`, { method: 'POST' });
+                const result = await response.json();
+                if(result.status === 'success') {
+                    alert(result.message);
+                    fetchState();
+                } else {
+                    alert("Erro: " + result.message);
+                }
+            } catch(e) {
+                alert("Falha de conexão.");
+            }
+        }
+
+        async function closeAllPositions() {
+            if(!confirm(`🚨 ATENÇÃO: Deseja ZERAR TODAS as posições a mercado agora mesmo?`)) return;
+            
+            const btn = document.getElementById('panic-btn');
+            btn.innerText = "Zerando...";
+            btn.disabled = true;
+
+            try {
+                const response = await fetch(`/api/close_all`, { method: 'POST' });
+                const result = await response.json();
+                if(result.status === 'success') {
+                    alert(result.message);
+                    fetchState();
+                } else {
+                    alert("Erro: " + result.message);
+                }
+            } catch(e) {
+                alert("Falha de conexão.");
+            } finally {
+                btn.innerText = "🚨 ZERAR TODAS AS OPERAÇÕES";
+                btn.disabled = false;
+            }
+        }
+    </script>
+</body>
+</html>
