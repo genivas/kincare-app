@@ -1,10 +1,9 @@
 import React, { createContext, useState, useEffect } from 'react';
 import { initialMedications, mockUser, patientInfo, familyMembers, initialTasks } from '../mockData';
-import { auth, db } from '../firebase';
-import { onAuthStateChanged } from 'firebase/auth';
-import { doc, getDoc } from 'firebase/firestore';
+import { auth, db, storage } from '../firebase';
+import { onAuthStateChanged, deleteUser } from 'firebase/auth';
+import { doc, getDoc, setDoc, updateDoc, deleteDoc, collection, query, where, getDocs, onSnapshot, addDoc } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-import { storage } from '../firebase';
 
 export const GlobalContext = createContext();
 
@@ -12,17 +11,26 @@ export const GlobalProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  // Firestore States
+  const [patient, setPatient] = useState({ ...patientInfo, urgencyLevel: 'success' });
+  const [family, setFamily] = useState(familyMembers);
+  const [medications, setMedications] = useState([]);
+  const [history, setHistory] = useState([]);
+  const [tasks, setTasks] = useState(initialTasks);
+  const [schedule, setSchedule] = useState({
+    'Segunda': 1, 'Terça': 2, 'Quarta': 3, 'Quinta': 1, 'Sexta': 2, 'Sábado': 3, 'Domingo': 1,
+  });
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
-        // Fetch user profile from Firestore
         const userDoc = await getDoc(doc(db, "users", user.uid));
         if (userDoc.exists()) {
           setCurrentUser({ id: user.uid, ...userDoc.data() });
         } else {
           setCurrentUser({
             id: user.uid,
-            name: user.displayName || "Family Member",
+            name: user.displayName || "Membro da Família",
             email: user.email,
             avatar: user.photoURL || `https://api.dicebear.com/7.x/avataaars/svg?seed=${user.email}`
           });
@@ -32,87 +40,109 @@ export const GlobalProvider = ({ children }) => {
       }
       setLoading(false);
     });
-
     return () => unsubscribe();
   }, []);
 
-  const [patient, setPatient] = useState({
-    ...patientInfo,
-    urgencyLevel: 'success', // 'success', 'warning', 'danger', 'neutral'
-  });
-  
-  const [family, setFamily] = useState(familyMembers);
-  const [medications, setMedications] = useState([]);
-  const [history, setHistory] = useState([]);
-
-  // Firestore Realtime Listeners
+  // Realtime Listeners for Family Data
   useEffect(() => {
     if (!currentUser || !currentUser.familyId) return;
-    
-    // Listen to Medications
-    import('firebase/firestore').then(({ collection, onSnapshot, query, orderBy, where }) => {
-      const qMeds = query(collection(db, "medications"), where("familyId", "==", currentUser.familyId));
-      const unsubscribeMeds = onSnapshot(qMeds, (snapshot) => {
-        const medsData = [];
-        snapshot.forEach((doc) => medsData.push({ id: doc.id, ...doc.data() }));
-        setMedications(medsData);
-      });
 
-      const qHistory = query(collection(db, "history"), where("familyId", "==", currentUser.familyId), orderBy("timestamp", "desc"));
-      const unsubscribeHist = onSnapshot(qHistory, (snapshot) => {
-        const histData = [];
-        snapshot.forEach((doc) => histData.push({ id: doc.id, ...doc.data() }));
-        setHistory(histData);
-      });
-
-      return () => {
-        unsubscribeMeds();
-        unsubscribeHist();
-      };
+    // Listen to Family/Patient Info
+    const unsubscribeFamily = onSnapshot(doc(db, "families", currentUser.familyId), (docSnap) => {
+      if(docSnap.exists()) {
+        setPatient({ id: docSnap.id, urgencyLevel: 'success', ...docSnap.data() });
+      }
     });
-  }, [currentUser]);
 
-  const [tasks, setTasks] = useState(initialTasks);
-  const [schedule, setSchedule] = useState({
-    'Segunda': 1,
-    'Terça': 2,
-    'Quarta': 3,
-    'Quinta': 1,
-    'Sexta': 2,
-    'Sábado': 3,
-    'Domingo': 1,
-  });
+    const qMeds = query(collection(db, "medications"), where("familyId", "==", currentUser.familyId));
+    const unsubscribeMeds = onSnapshot(qMeds, (snapshot) => {
+      const medsData = [];
+      snapshot.forEach((doc) => medsData.push({ id: doc.id, ...doc.data() }));
+      setMedications(medsData);
+    });
 
-  const getTodayCaregiver = () => {
-    const days = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
-    const today = days[new Date().getDay()];
-    return family.find(f => f.id === schedule[today]);
+    const qHistory = query(collection(db, "history"), where("familyId", "==", currentUser.familyId));
+    const unsubscribeHist = onSnapshot(qHistory, (snapshot) => {
+      const histData = [];
+      snapshot.forEach((doc) => histData.push({ id: doc.id, ...doc.data() }));
+      histData.sort((a,b) => b.timestamp - a.timestamp);
+      setHistory(histData);
+    });
+
+    return () => {
+      unsubscribeFamily();
+      unsubscribeMeds();
+      unsubscribeHist();
+    };
+  }, [currentUser?.familyId]);
+
+  const createFamily = async (patientData) => {
+    if(!currentUser) return;
+    const inviteCode = Math.random().toString(36).substring(2, 8).toUpperCase();
+    
+    const familyRef = doc(collection(db, "families"));
+    await setDoc(familyRef, {
+      ...patientData,
+      inviteCode: inviteCode,
+      adminId: currentUser.id,
+      createdAt: Date.now()
+    });
+
+    const userRef = doc(db, "users", currentUser.id);
+    await setDoc(userRef, { ...currentUser, familyId: familyRef.id }, { merge: true });
+    setCurrentUser(prev => ({ ...prev, familyId: familyRef.id }));
   };
 
-  const getNextCaregiver = () => {
-    const days = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
-    const tomorrow = days[(new Date().getDay() + 1) % 7];
-    return family.find(f => f.id === schedule[tomorrow]);
+  const joinFamily = async (inviteCode) => {
+    if(!currentUser) return false;
+    const q = query(collection(db, "families"), where("inviteCode", "==", inviteCode.toUpperCase()));
+    const querySnapshot = await getDocs(q);
+    
+    if(!querySnapshot.empty) {
+      const familyDoc = querySnapshot.docs[0];
+      const familyId = familyDoc.id;
+      
+      const userRef = doc(db, "users", currentUser.id);
+      await setDoc(userRef, { ...currentUser, familyId: familyId }, { merge: true });
+      setCurrentUser(prev => ({ ...prev, familyId: familyId }));
+      return true;
+    }
+    return false;
   };
+
+  const deleteAccountAndFamily = async () => {
+    if(!currentUser) return;
+    
+    try {
+      if (currentUser.familyId) {
+        await deleteDoc(doc(db, "families", currentUser.familyId));
+      }
+      await deleteDoc(doc(db, "users", currentUser.id));
+      if (auth.currentUser) {
+        await deleteUser(auth.currentUser);
+      }
+      setCurrentUser(null);
+    } catch (error) {
+      console.error("Erro ao excluir conta:", error);
+      throw error;
+    }
+  };
+
+  const getTodayCaregiver = () => family.find(f => f.id === schedule[['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'][new Date().getDay()]]);
+  const getNextCaregiver = () => family.find(f => f.id === schedule[['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'][(new Date().getDay() + 1) % 7]]);
 
   const addMedication = async (newMed) => {
-    const { collection, addDoc } = await import('firebase/firestore');
-    
     let photoUrl = null;
     if (newMed.photoFile) {
       const storageRef = ref(storage, `medications/${Date.now()}_${newMed.photoFile.name}`);
       await uploadBytes(storageRef, newMed.photoFile);
       photoUrl = await getDownloadURL(storageRef);
     }
-
-    // Gerar doses para as proximas 24 horas baseado na frequencia
     const dosesToCreate = 24 / newMed.frequency;
     const [hours, minutes] = newMed.time.split(':').map(Number);
-    
     for (let i = 0; i < dosesToCreate; i++) {
       let doseHour = (hours + (i * newMed.frequency)) % 24;
       let doseTime = `${doseHour.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
-      
       await addDoc(collection(db, "medications"), {
         name: newMed.name,
         time: doseTime,
@@ -127,25 +157,13 @@ export const GlobalProvider = ({ children }) => {
   };
 
   const markMedicationStatus = async (id, statusType) => {
-    const { doc, updateDoc, collection, addDoc } = await import('firebase/firestore');
     const timeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    
-    // Update Medication
     const medRef = doc(db, "medications", id);
-    await updateDoc(medRef, {
-      status: statusType,
-      takenBy: currentUser,
-      takenAt: timeStr
-    });
-
-    // Create History entry
+    await updateDoc(medRef, { status: statusType, takenBy: currentUser, takenAt: timeStr });
     const med = medications.find(m => m.id === id);
-    let actionStr = '';
-    let histColor = 'success';
-    if(statusType === 'taken') actionStr = `Deu o remédio ${med?.name}`;
-    if(statusType === 'missed') { actionStr = `Idoso recusou ${med?.name}`; histColor = 'danger'; }
-    if(statusType === 'skipped') { actionStr = `Pulou ${med?.name} por orientação`; histColor = 'warning'; }
-
+    let actionStr = statusType === 'taken' ? `Deu o remédio ${med?.name}` : statusType === 'missed' ? `Idoso recusou ${med?.name}` : `Pulou ${med?.name} por orientação`;
+    let histColor = statusType === 'taken' ? 'success' : statusType === 'missed' ? 'danger' : 'warning';
+    
     await addDoc(collection(db, "history"), {
       type: 'medication',
       title: actionStr,
@@ -166,7 +184,8 @@ export const GlobalProvider = ({ children }) => {
       history, setHistory,
       schedule, setSchedule,
       getTodayCaregiver, getNextCaregiver,
-      currentUser, loading
+      currentUser, loading,
+      createFamily, joinFamily, deleteAccountAndFamily
     }}>
       {children}
     </GlobalContext.Provider>

@@ -13,20 +13,26 @@ import Alarm from './components/Alarm'
 import { GlobalProvider, GlobalContext } from './context/GlobalContext'
 import Login from './pages/Login'
 
+import Onboarding from './pages/Onboarding'
+
 const ProtectedRoute = ({ children }) => {
   const { currentUser, loading } = useContext(GlobalContext);
   if (loading) return <div style={{height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>Loading...</div>;
-  return currentUser ? children : <Navigate to="/login" />;
+  if (!currentUser) return <Navigate to="/login" />;
+  if (!currentUser.familyId) return <Navigate to="/onboarding" />;
+  return children;
 };
 
 import { Capacitor } from '@capacitor/core';
 
 function AppRoutes() {
+  const { currentUser } = useContext(GlobalContext);
   const location = useLocation();
   const isLandingPage = location.pathname === '/';
   const isLoginPage = location.pathname === '/login';
+  const isOnboardingPage = location.pathname === '/onboarding';
 
-  const hideNav = isLandingPage || isLoginPage;
+  const hideNav = isLandingPage || isLoginPage || isOnboardingPage;
   const isNative = Capacitor.isNativePlatform();
 
   return (
@@ -34,6 +40,7 @@ function AppRoutes() {
       <Routes>
         <Route path="/" element={isNative ? <Navigate to="/app" replace /> : <Landing />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/onboarding" element={currentUser ? (currentUser.familyId ? <Navigate to="/app" /> : <Onboarding />) : <Navigate to="/login" />} />
         
         {/* Protected Routes */}
         <Route path="/app" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />

@@ -6,7 +6,7 @@ import { auth } from '../firebase';
 import { signOut } from 'firebase/auth';
 
 const Settings = () => {
-  const { patient, setPatient, family, setFamily, currentUser } = useContext(GlobalContext);
+  const { patient, setPatient, family, setFamily, currentUser, deleteAccountAndFamily } = useContext(GlobalContext);
   const [name, setName] = useState(patient.name);
   const [showAddForm, setShowAddForm] = useState(false);
   const [newMemberName, setNewMemberName] = useState('');
@@ -22,12 +22,22 @@ const Settings = () => {
   const handleInviteWhatsApp = (e) => {
     e.preventDefault();
     if(newMemberName && newMemberRelation) {
-      const inviteLink = `https://kincare-app.pages.dev/login?invite=${currentUser?.familyId}`;
-      const msg = `Hi ${newMemberName}! I'm inviting you to join our family group on KinCare to help manage ${patient.name}'s care. Click here to join: ${inviteLink}`;
+      const msg = `Olá ${newMemberName}! Estou te convidando para o aplicativo KinCare para ajudar a cuidar de ${patient.name}. Baixe o app e na tela inicial insira este Código de Convite: ${patient.inviteCode}`;
       window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
       setShowAddForm(false);
       setNewMemberName('');
       setNewMemberRelation('');
+    }
+  };
+
+  const handleDeleteAccount = async () => {
+    if (window.confirm("ATENÇÃO: Você tem certeza que deseja excluir sua conta e apagar todos os dados da sua Família permanentemente? Esta ação não pode ser desfeita.")) {
+      try {
+        await deleteAccountAndFamily();
+        navigate('/');
+      } catch(e) {
+        alert("Erro ao excluir conta. Faça login novamente para tentar.");
+      }
     }
   };
 
@@ -89,10 +99,14 @@ const Settings = () => {
         {showAddForm && (
           <div className="glass-card mb-6" style={{border: '1px solid var(--primary-color)'}}>
             <div className="flex justify-between items-center mb-4">
-              <h3 style={{margin: 0}}>Invite Member</h3>
+              <h3 style={{margin: 0}}>Código de Convite</h3>
               <button style={{background: 'transparent', padding: 0, border: 'none'}} onClick={() => setShowAddForm(false)}>
                 <X size={20} color="var(--text-light)"/>
               </button>
+            </div>
+            <div style={{background: '#f8fafc', padding: '1rem', borderRadius: '10px', textAlign: 'center', marginBottom: '1rem'}}>
+              <p style={{fontSize: '0.85rem', color: 'var(--text-light)', marginBottom: '0.5rem'}}>Compartilhe este código com os cuidadores:</p>
+              <h2 style={{letterSpacing: '3px', color: 'var(--primary-color)'}}>{patient?.inviteCode || '...'}</h2>
             </div>
             <form onSubmit={handleInviteWhatsApp} className="flex-col gap-3 flex">
               <input 
@@ -159,6 +173,14 @@ const Settings = () => {
         >
           <LogOut size={20} />
           <strong style={{fontSize: '1rem'}}>Sign Out</strong>
+        </button>
+
+        <button 
+          onClick={handleDeleteAccount}
+          className="glass-card flex items-center justify-center gap-2 mt-4" 
+          style={{width: '100%', border: '1px solid #dc2626', color: '#dc2626', background: 'transparent', padding: '1rem'}}
+        >
+          <strong style={{fontSize: '1rem'}}>Excluir Conta e Família</strong>
         </button>
 
       </main>
