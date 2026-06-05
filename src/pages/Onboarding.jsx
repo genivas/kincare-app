@@ -102,22 +102,22 @@ function Onboarding() {
         )}
 
         {mode === 'create' && (
-          <form onSubmit={handleCreate}>
-            <div className="input-group">
-              <label>Nome do Idoso</label>
-              <input type="text" required value={name} onChange={e => setName(e.target.value)} placeholder="Ex: Maria Silva" />
+          <form onSubmit={handleCreate} className="flex flex-col gap-4">
+            <div>
+              <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.9rem', fontWeight: '500' }}>Nome do Idoso</label>
+              <input type="text" required value={name} onChange={e => setName(e.target.value)} placeholder="Ex: Maria Silva" style={{ width: '100%', padding: '0.75rem', borderRadius: '8px', border: '1px solid #cbd5e1', fontFamily: 'inherit' }} />
             </div>
-            <div className="input-group">
-              <label>Idade</label>
-              <input type="number" required value={age} onChange={e => setAge(e.target.value)} placeholder="Ex: 75" />
+            <div>
+              <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.9rem', fontWeight: '500' }}>Idade</label>
+              <input type="number" required value={age} onChange={e => setAge(e.target.value)} placeholder="Ex: 75" style={{ width: '100%', padding: '0.75rem', borderRadius: '8px', border: '1px solid #cbd5e1', fontFamily: 'inherit' }} />
             </div>
-            <div className="input-group">
-              <label>Condições Principais</label>
-              <input type="text" value={conditions} onChange={e => setConditions(e.target.value)} placeholder="Ex: Hipertensão, Diabetes" />
+            <div>
+              <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.9rem', fontWeight: '500' }}>Condições Principais</label>
+              <input type="text" value={conditions} onChange={e => setConditions(e.target.value)} placeholder="Ex: Hipertensão, Diabetes" style={{ width: '100%', padding: '0.75rem', borderRadius: '8px', border: '1px solid #cbd5e1', fontFamily: 'inherit' }} />
             </div>
-            <div className="input-group">
-              <label>Tipo Sanguíneo</label>
-              <select value={bloodType} onChange={e => setBloodType(e.target.value)}>
+            <div>
+              <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.9rem', fontWeight: '500' }}>Tipo Sanguíneo</label>
+              <select value={bloodType} onChange={e => setBloodType(e.target.value)} style={{ width: '100%', padding: '0.75rem', borderRadius: '8px', border: '1px solid #cbd5e1', fontFamily: 'inherit', backgroundColor: 'white' }}>
                 <option>Não sei</option>
                 <option>A+</option><option>A-</option>
                 <option>B+</option><option>B-</option>
@@ -125,9 +125,9 @@ function Onboarding() {
                 <option>O+</option><option>O-</option>
               </select>
             </div>
-            <div style={{ display: 'flex', gap: '10px', marginTop: '20px' }}>
-              <button type="button" className="secondary-button" onClick={() => setMode('choice')} disabled={loading}>Voltar</button>
-              <button type="submit" className="primary-button" disabled={loading}>
+            <div style={{ display: 'flex', gap: '10px', marginTop: '1rem' }}>
+              <button type="button" className="btn-secondary" style={{ flex: 1, padding: '0.85rem', background: 'transparent', border: '1px solid #cbd5e1', color: 'var(--text-light)', borderRadius: '8px' }} onClick={() => setMode('choice')} disabled={loading}>Voltar</button>
+              <button type="submit" className="btn-primary" style={{ flex: 2, padding: '0.85rem', borderRadius: '8px', fontWeight: 'bold' }} disabled={loading}>
                 {loading ? 'Salvando...' : 'Cadastrar'}
               </button>
             </div>
@@ -135,17 +135,17 @@ function Onboarding() {
         )}
 
         {mode === 'join' && (
-          <form onSubmit={handleJoin}>
-            <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', marginBottom: '15px' }}>
+          <form onSubmit={handleJoin} className="flex flex-col gap-4">
+            <p style={{ fontSize: '0.9rem', color: 'var(--text-light)', marginBottom: '0.5rem', textAlign: 'center' }}>
               Peça o código de 6 letras/números para o familiar que já cadastrou o idoso no aplicativo.
             </p>
-            <div className="input-group">
-              <label>Código de Convite</label>
-              <input type="text" required value={inviteCode} onChange={e => setInviteCode(e.target.value)} placeholder="Ex: A7B9X" style={{ textTransform: 'uppercase', letterSpacing: '2px', textAlign: 'center', fontSize: '1.2rem' }} maxLength={6} />
+            <div>
+              <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.9rem', fontWeight: '500' }}>Código de Convite</label>
+              <input type="text" required value={inviteCode} onChange={e => setInviteCode(e.target.value)} placeholder="Ex: A7B9X" style={{ width: '100%', padding: '1rem', borderRadius: '8px', border: '2px dashed #cbd5e1', fontFamily: 'inherit', textTransform: 'uppercase', letterSpacing: '3px', textAlign: 'center', fontSize: '1.2rem', background: '#f8fafc' }} maxLength={6} />
             </div>
-            <div style={{ display: 'flex', gap: '10px', marginTop: '20px' }}>
-              <button type="button" className="secondary-button" onClick={() => setMode('choice')} disabled={loading}>Voltar</button>
-              <button type="submit" className="primary-button" disabled={loading || inviteCode.length < 5}>
+            <div style={{ display: 'flex', gap: '10px', marginTop: '1rem' }}>
+              <button type="button" className="btn-secondary" style={{ flex: 1, padding: '0.85rem', background: 'transparent', border: '1px solid #cbd5e1', color: 'var(--text-light)', borderRadius: '8px' }} onClick={() => setMode('choice')} disabled={loading}>Voltar</button>
+              <button type="submit" className="btn-primary" style={{ flex: 2, padding: '0.85rem', borderRadius: '8px', fontWeight: 'bold' }} disabled={loading || inviteCode.length < 5}>
                 {loading ? 'Buscando...' : 'Entrar na Família'}
               </button>
             </div>
