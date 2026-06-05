@@ -1,13 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { auth, db } from '../firebase';
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
 import { HeartPulse } from 'lucide-react';
+import { GlobalContext } from '../context/GlobalContext';
 
 const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { currentUser } = useContext(GlobalContext);
+
   const queryParams = new URLSearchParams(location.search);
   const isCheckoutSuccess = queryParams.get('checkout') === 'success';
   const inviteId = queryParams.get('invite');
@@ -18,6 +21,12 @@ const Login = () => {
   const [name, setName] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (currentUser) {
+      navigate('/app');
+    }
+  }, [currentUser, navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -53,12 +62,11 @@ const Login = () => {
       } else {
         await signInWithEmailAndPassword(auth, email, password);
       }
-      navigate('/app');
+      // Do not navigate manually here; wait for currentUser to populate from context
     } catch (err) {
       console.error(err);
       setError(err.message.replace('Firebase:', '').trim());
-    } finally {
-      setLoading(false);
+      setLoading(false); // Only unset loading if there's an error, otherwise let it navigate
     }
   };
 
