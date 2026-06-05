@@ -62,34 +62,40 @@ function Onboarding() {
   };
 
   return (
-    <div className="login-page">
-      <div className="login-card" style={{ maxWidth: '400px', width: '90%' }}>
-        <h2 style={{ textAlign: 'center', marginBottom: '10px' }}>Bem-vindo(a), {currentUser?.name?.split(' ')[0]}!</h2>
-        <p style={{ textAlign: 'center', color: 'var(--text-secondary)', marginBottom: '30px' }}>
+    <div className="page-content flex flex-col justify-center items-center" style={{ minHeight: '100vh', background: 'var(--bg-color)' }}>
+      <div className="glass-card" style={{ width: '100%', maxWidth: '400px', padding: '2rem' }}>
+        <h2 style={{ textAlign: 'center', marginBottom: '10px', fontSize: '1.5rem', fontWeight: 'bold' }}>
+          Bem-vindo(a), {currentUser?.name?.split(' ')[0]}!
+        </h2>
+        <p style={{ textAlign: 'center', color: 'var(--text-light)', marginBottom: '30px', fontSize: '0.95rem' }}>
           Para continuar, precisamos configurar o perfil do idoso.
         </p>
 
-        {error && <div className="error-message" style={{ color: 'var(--danger-color)', marginBottom: '15px', textAlign: 'center' }}>{error}</div>}
+        {error && (
+          <div style={{ background: '#fee2e2', color: '#b91c1c', padding: '0.75rem', borderRadius: '8px', marginBottom: '1rem', fontSize: '0.85rem', textAlign: 'center' }}>
+            {error}
+          </div>
+        )}
 
         {mode === 'choice' && (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
-            <button className="primary-button" onClick={() => setMode('create')}>
+          <div className="flex flex-col gap-4">
+            <button className="btn-primary" style={{ padding: '1rem', fontSize: '1rem', borderRadius: '12px' }} onClick={() => setMode('create')}>
               Cadastrar Novo Idoso
             </button>
-            <button className="secondary-button" onClick={() => setMode('join')} style={{ backgroundColor: 'transparent', color: 'var(--primary-color)', border: '1px solid var(--primary-color)' }}>
+            <button className="btn-secondary" onClick={() => setMode('join')} style={{ padding: '1rem', fontSize: '1rem', borderRadius: '12px', background: 'transparent', border: '1px solid var(--primary-color)', color: 'var(--primary-color)' }}>
               Já tenho um Código de Convite
             </button>
             
-            <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '20px' }}>
-              <button onClick={handleLogout} style={{ background: 'none', border: 'none', color: 'var(--text-secondary)', textDecoration: 'underline', cursor: 'pointer' }}>
+            <div className="flex flex-col items-center gap-3" style={{ marginTop: '2rem' }}>
+              <button onClick={handleLogout} style={{ background: 'none', border: 'none', color: 'var(--text-light)', fontSize: '0.9rem', cursor: 'pointer' }}>
                 Sair da conta
               </button>
               <button onClick={async () => {
                 if (window.confirm("Certeza que deseja excluir sua conta para recomeçar os testes?")) {
                   await deleteAccountAndFamily();
                 }
-              }} style={{ background: 'none', border: 'none', color: 'var(--danger-color)', textDecoration: 'underline', cursor: 'pointer' }}>
-                Excluir Conta (Reset)
+              }} style={{ background: 'none', border: 'none', color: '#ef4444', fontSize: '0.8rem', cursor: 'pointer' }}>
+                Excluir Conta de Teste
               </button>
             </div>
           </div>
