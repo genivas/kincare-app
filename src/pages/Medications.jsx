@@ -52,16 +52,18 @@ const Medications = () => {
   const sortedMeds = [...medications].sort((a, b) => a.time.localeCompare(b.time));
 
   return (
-    <div className="page-content" style={{paddingBottom: '80px', paddingTop: '3rem'}}>
+    <div className="page-content top-gradient-bg" style={{paddingBottom: '80px', paddingTop: '3rem'}}>
       <header className="px-4 mb-6 flex justify-between items-center">
         <div>
           <h1 style={{fontSize: '1.4rem', fontWeight: '700', margin: 0}}>Today's Medications</h1>
           <p style={{fontSize: '0.85rem', color: 'var(--text-light)', margin: 0}}>Track and confirm</p>
         </div>
-        <button className="btn-primary" style={{width: 'auto', padding: '0.6rem 1.2rem', borderRadius: '999px', display: 'flex', alignItems: 'center', gap: '0.5rem', boxShadow: '0 4px 12px rgba(37,99,235,0.3)'}} onClick={() => setShowAddForm(true)}>
-          <Plus size={20} /> <span style={{fontWeight: '600'}}>Add</span>
-        </button>
       </header>
+
+      {/* Floating Action Button for Adding Medications */}
+      <button className="fab-button" onClick={() => setShowAddForm(true)}>
+        <Plus size={24} />
+      </button>
 
       <main className="px-4">
         {showAddForm && (

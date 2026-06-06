@@ -32,16 +32,18 @@ const Tasks = () => {
   };
 
   return (
-    <div className="page-content" style={{paddingBottom: '80px', paddingTop: '3rem'}}>
+    <div className="page-content top-gradient-bg" style={{paddingBottom: '80px', paddingTop: '3rem'}}>
       <header className="px-4 mb-6 flex justify-between items-center">
         <div>
           <h1 style={{fontSize: '1.4rem', fontWeight: '700', margin: 0}}>Task Board</h1>
           <p style={{fontSize: '0.85rem', color: 'var(--text-light)', margin: 0}}>Share the responsibilities</p>
         </div>
-        <button className="btn-primary" style={{width: 'auto', padding: '0.5rem 1rem', borderRadius: '999px'}} onClick={() => setShowAddForm(true)}>
-          <Plus size={20} />
-        </button>
       </header>
+
+      {/* Floating Action Button for Adding Tasks */}
+      <button className="fab-button" onClick={() => setShowAddForm(true)}>
+        <Plus size={24} />
+      </button>
 
       <main className="px-4">
         {showAddForm && (

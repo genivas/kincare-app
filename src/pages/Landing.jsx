@@ -14,7 +14,7 @@ const Landing = () => {
   };
 
   return (
-    <div style={{minHeight: '100vh', background: '#f8fafc', overflowX: 'hidden', fontFamily: "'Inter', sans-serif"}}>
+    <div style={{minHeight: '100vh', background: '#f8fafc', overflowX: 'hidden', fontFamily: "'Nunito', sans-serif"}}>
       <style>{`
         /* Minimalist & Responsive Utilities */
         .glass-nav {
@@ -134,7 +134,7 @@ const Landing = () => {
           </button>
           <button 
             onClick={() => navigate('/login')}
-            style={{background: '#2563eb', border: 'none', color: '#ffffff', fontWeight: '600', fontSize: '0.95rem', cursor: 'pointer', padding: '0.5rem 1.25rem', borderRadius: '100px'}}
+            style={{background: '#0d9488', border: 'none', color: '#ffffff', fontWeight: '600', fontSize: '0.95rem', cursor: 'pointer', padding: '0.5rem 1.25rem', borderRadius: '100px'}}
           >
             Create free care plan
           </button>

@@ -11,7 +11,7 @@ const Schedule = () => {
   };
 
   return (
-    <div className="page-content" style={{paddingBottom: '80px', paddingTop: '3rem'}}>
+    <div className="page-content top-gradient-bg" style={{paddingBottom: '80px', paddingTop: '3rem'}}>
       <header className="px-4 mb-6 flex justify-between items-center">
         <div>
           <h1 style={{fontSize: '1.4rem', fontWeight: '700', margin: 0}}>Care Schedule</h1>

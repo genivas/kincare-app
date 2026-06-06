@@ -1,19 +1,19 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap');
 
 :root {
-  --bg-color: #f4f4f5; /* Zinc 100 */
-  --text-color: #18181b;
-  --text-light: #71717a;
-  --primary-color: #2563eb; /* Modern Blue */
-  --primary-light: #eff6ff;
-  --success-color: #10b981;
-  --success-light: #ecfdf5;
+  --bg-color: #f8fafc; /* Slate 50 */
+  --text-color: #1e293b;
+  --text-light: #64748b;
+  --primary-color: #0d9488; /* Teal 600 */
+  --primary-light: #ccfbf1;
+  --success-color: #059669; /* Emerald 600 */
+  --success-light: #d1fae5;
   --warning-color: #f59e0b;
   --warning-light: #fffbeb;
   --danger-color: #ef4444;
   --danger-light: #fef2f2;
   --card-bg: #ffffff;
-  --border-radius: 16px; 
+  --border-radius: 24px; 
 }
 
 * {
@@ -23,7 +23,7 @@
 }
 
 body {
-  font-family: 'Inter', sans-serif;
+  font-family: 'Nunito', sans-serif;
   background-color: var(--bg-color);
   color: var(--text-color);
   -webkit-font-smoothing: antialiased;
@@ -32,17 +32,17 @@ body {
 /* Glassmorphism Utilities */
 .glass-card {
   background: var(--card-bg);
-  border: 1px solid rgba(0, 0, 0, 0.03);
+  border: 1px solid rgba(13, 148, 136, 0.08);
   border-radius: var(--border-radius);
   padding: 1.25rem;
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 10px 30px rgba(13, 148, 136, 0.05);
   margin-bottom: 1rem;
   transition: box-shadow 0.2s ease, transform 0.2s ease;
 }
 
 .glass-card:hover {
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
-  transform: translateY(-1px);
+  box-shadow: 0 12px 40px rgba(13, 148, 136, 0.08);
+  transform: translateY(-2px);
 }
 
 .mobile-container {
@@ -52,6 +52,11 @@ body {
   position: relative;
   background: transparent;
   padding-bottom: 90px; /* space for bottom nav */
+}
+
+.top-gradient-bg {
+  background: linear-gradient(180deg, #ccfbf1 0%, var(--bg-color) 35%);
+  min-height: 100vh;
 }
 
 .header {
@@ -100,10 +105,11 @@ button {
   color: white;
   padding: 0.75rem 1.25rem;
   width: 100%;
+  border-radius: 99px; /* Pill shape */
 }
 
 .btn-primary:hover {
-  background-color: #1e40af;
+  background-color: #0f766e;
 }
 
 .btn-success {
@@ -201,16 +207,55 @@ button {
   color: var(--text-light);
   text-decoration: none;
   font-size: 0.75rem;
-  font-weight: 500;
+  font-weight: 600;
   padding: 0.5rem;
   border-radius: 12px;
   transition: all 0.2s;
+  position: relative;
+}
+
+.nav-item .icon-wrapper {
+  padding: 0.5rem;
+  border-radius: 50%;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .nav-item.active {
   color: var(--primary-color);
 }
 
+.nav-item.active .icon-wrapper {
+  background-color: var(--primary-color);
+  color: white;
+  box-shadow: 0 4px 12px rgba(13, 148, 136, 0.4);
+}
+
 .nav-item.active svg {
   stroke-width: 2.5;
+}
+
+/* FAB */
+.fab-button {
+  position: fixed;
+  bottom: 100px;
+  right: 1.5rem;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background-color: var(--primary-color);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 24px rgba(13, 148, 136, 0.4);
+  z-index: 90;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.fab-button:hover {
+  transform: scale(1.05);
+  background-color: #0f766e;
 }
