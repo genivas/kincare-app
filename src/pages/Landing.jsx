@@ -159,13 +159,16 @@ const Landing = () => {
               Make sure your loved ones are safe with a single source of truth for the entire family. <b>Watch the short video below to see how.</b>
             </p>
             
-            {/* Fake Video Player Placeholder */}
+            {/* VSL Video Player */}
             <div className="video-wrapper">
-              {/* Here you will place the iframe from YouTube, Vimeo or Wistia after generating the video */}
-              <div className="flex flex-col items-center gap-4">
-                <PlayCircle size={80} className="play-icon" strokeWidth={1} />
-                <span style={{color: '#94a3b8', fontWeight: '500'}}>VSL Video Placeholder (Insert your AI Video here)</span>
-              </div>
+              <video 
+                src="/vsl-video.mp4" 
+                controls 
+                playsInline
+                style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover', borderRadius: '8px' }}
+              >
+                Your browser does not support the video tag.
+              </video>
             </div>
             
             <div style={{marginTop: '2rem'}}>
