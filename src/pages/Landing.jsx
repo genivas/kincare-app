@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { HeartPulse, ArrowRight, Shield, CheckCircle2, Star, Lock, PlayCircle, Clock, Plus, Minus } from 'lucide-react';
+import { HeartPulse, ArrowRight, Shield, CheckCircle2, Star, Lock, Clock, Plus, Minus } from 'lucide-react';
+import appMockup from '../assets/app_mockup.png';
 
 const Landing = () => {
   const navigate = useNavigate();
@@ -20,11 +21,12 @@ const Landing = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const handleCheckout = (url) => {
+  const handleCheckout = (e) => {
+    e.preventDefault();
     if (window.fbq) {
       window.fbq('track', 'InitiateCheckout');
     }
-    window.location.href = url;
+    window.location.href = 'https://pay.hotmart.com/O106115546S?off=agpe42pl';
   };
 
   const faqs = [
@@ -49,37 +51,80 @@ const Landing = () => {
   return (
     <div style={{minHeight: '100vh', background: '#f8fafc', overflowX: 'hidden', fontFamily: "'Nunito', sans-serif"}}>
       <style>{`
-        /* Minimalist & Responsive Utilities */
+        /* Core Layout & Spacing */
+        .page-wrapper {
+          padding-top: 120px;
+          padding-bottom: 6rem;
+        }
+
+        .section-container {
+          max-width: 1200px;
+          margin: 0 auto;
+          padding: 3rem 1.5rem;
+        }
+
+        .flex-center {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+
+        .flex-between {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+        }
+
+        .flex-row {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+        }
+        
+        .flex-col {
+          display: flex;
+          flex-direction: column;
+        }
+
+        .grid-2 {
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 1.5rem;
+        }
+
+        @media (min-width: 768px) {
+          .grid-2 {
+            grid-template-columns: 1fr 1fr;
+          }
+        }
+
+        /* Header Elements */
+        .trust-banner {
+          background: #e0f2fe;
+          color: #0369a1;
+          text-align: center;
+          padding: 0.75rem 1rem;
+          font-size: 0.9rem;
+          font-weight: 700;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          gap: 0.5rem;
+        }
+
         .glass-nav {
           background: rgba(255, 255, 255, 0.95);
           backdrop-filter: blur(10px);
           -webkit-backdrop-filter: blur(10px);
           border-bottom: 1px solid rgba(0,0,0,0.05);
-        }
-        
-        .section-container {
-          max-width: 1200px;
-          margin: 0 auto;
-          padding: 5rem 1.5rem;
+          padding: 0.75rem 1.5rem;
         }
 
-        /* VSL Layout Utilities */
+        /* Hero & Typography */
         .vsl-container {
-          max-width: 900px;
+          max-width: 800px;
           margin: 0 auto;
           text-align: center;
-        }
-        
-        .video-wrapper {
-          position: relative;
-          padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
-          height: 0;
-          overflow: hidden;
-          background: #000;
-          border-radius: 12px;
-          box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-          margin: 2rem 0;
-          border: 4px solid #1e293b;
         }
 
         .vsl-headline {
@@ -93,39 +138,60 @@ const Landing = () => {
         .vsl-subheadline {
           font-size: clamp(1.1rem, 2.5vw, 1.4rem);
           color: #475569;
-          margin-top: 1rem;
+          margin-top: 1.5rem;
           font-weight: 500;
+          line-height: 1.5;
         }
 
+        /* Video Box */
+        .video-wrapper {
+          position: relative;
+          padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+          height: 0;
+          overflow: hidden;
+          background: #1e293b;
+          border-radius: 12px;
+          box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.2);
+          margin: 2.5rem 0;
+          border: 4px solid #fff;
+        }
+
+        /* Trust-focused Buttons */
         .buy-button {
-          background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+          background: #0d9488;
           color: white;
           border: none;
-          padding: 1.5rem 3rem;
+          padding: 1.5rem 2rem;
           font-size: 1.25rem;
           font-weight: 800;
           border-radius: 100px;
-          box-shadow: 0 10px 25px rgba(16, 185, 129, 0.4);
+          box-shadow: 0 4px 6px -1px rgba(13, 148, 136, 0.3);
           width: 100%;
-          max-width: 400px;
+          max-width: 450px;
           cursor: pointer;
-          transition: transform 0.2s, box-shadow 0.2s;
+          transition: transform 0.2s, background 0.2s;
           display: inline-flex;
           align-items: center;
           justify-content: center;
           gap: 0.5rem;
-          animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-          0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
-          70% { box-shadow: 0 0 0 15px rgba(16, 185, 129, 0); }
-          100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+          text-decoration: none;
         }
 
         .buy-button:hover {
+          background: #0f766e;
           transform: translateY(-2px);
-          box-shadow: 0 15px 30px rgba(16, 185, 129, 0.5);
+        }
+
+        .sign-in-btn {
+          background: white;
+          border: 1px solid #cbd5e1;
+          color: #475569;
+          font-weight: 600;
+          font-size: 0.95rem;
+          cursor: pointer;
+          padding: 0.4rem 1rem;
+          border-radius: 100px;
+          box-shadow: 0 1px 2px rgba(0,0,0,0.05);
         }
 
         /* Sticky CTA */
@@ -136,31 +202,51 @@ const Landing = () => {
           width: 100%;
           background: rgba(255,255,255,0.98);
           padding: 1rem;
-          box-shadow: 0 -10px 30px rgba(0,0,0,0.1);
+          box-shadow: 0 -10px 30px rgba(0,0,0,0.08);
           z-index: 100;
           transform: translateY(100%);
           transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-          display: flex;
-          justify-content: center;
-          align-items: center;
           border-top: 1px solid #e2e8f0;
         }
         .sticky-cta.visible {
           transform: translateY(0);
         }
 
-        /* Guarantee Box */
-        .guarantee-box {
-          background: #ecfdf5;
-          border: 2px dashed #34d399;
-          border-radius: 24px;
-          padding: 3rem 2rem;
-          text-align: center;
-          max-width: 800px;
-          margin: 4rem auto;
+        .sticky-content {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          max-width: 900px;
+          margin: 0 auto;
+          width: 100%;
+          gap: 1rem;
         }
 
-        /* FAQ */
+        @media (min-width: 768px) {
+          .sticky-content {
+            justify-content: space-between;
+          }
+        }
+
+        .sticky-text {
+          display: none;
+        }
+        @media (min-width: 768px) {
+          .sticky-text { display: block; }
+        }
+
+        /* Risk Reversal / Guarantee Box */
+        .guarantee-box {
+          background: #f0fdf4;
+          border: 2px dashed #86efac;
+          border-radius: 24px;
+          padding: 2.5rem 1.5rem;
+          text-align: center;
+          max-width: 800px;
+          margin: 3rem auto;
+        }
+
+        /* FAQ Accessible */
         .faq-item {
           background: white;
           border-radius: 16px;
@@ -168,7 +254,8 @@ const Landing = () => {
           box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
           overflow: hidden;
         }
-        .faq-question {
+        .faq-button {
+          width: 100%;
           padding: 1.5rem;
           font-weight: 700;
           font-size: 1.1rem;
@@ -177,6 +264,10 @@ const Landing = () => {
           justify-content: space-between;
           align-items: center;
           color: #0f172a;
+          background: none;
+          border: none;
+          text-align: left;
+          font-family: inherit;
         }
         .faq-answer {
           padding: 0 1.5rem 1.5rem 1.5rem;
@@ -184,56 +275,64 @@ const Landing = () => {
           line-height: 1.6;
         }
 
-        @media (max-width: 900px) {
-          .buy-button {
-            width: 100%;
-            padding: 1.25rem;
-            font-size: 1.1rem;
-          }
-          .sticky-cta .buy-button {
-            padding: 1rem;
-            font-size: 1rem;
-          }
+        /* Review Cards */
+        .review-card {
+          background: #f8fafc;
+          padding: 2rem;
+          border-radius: 24px;
+          border: 1px solid #e2e8f0;
+        }
+        
+        /* Features Section */
+        .features-section {
+          background: #0f172a;
+          color: white;
+          padding: 4rem 1.5rem;
+          margin: 2rem auto;
+          max-width: 1000px;
+          border-radius: 32px;
+        }
+
+        .feature-item {
+          display: flex;
+          align-items: flex-start;
+          gap: 1rem;
+          font-size: 1.1rem;
+          margin-bottom: 1.5rem;
         }
       `}</style>
 
       {/* Fixed Header Wrapper */}
       <header style={{position: 'fixed', top: 0, width: '100%', zIndex: 60}}>
-        {/* Urgency Banner */}
-        <div style={{background: '#dc2626', color: 'white', textAlign: 'center', padding: '0.75rem', fontSize: '0.9rem', fontWeight: '700', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '0.5rem'}}>
-          <Clock size={16} /> SPECIAL LAUNCH OFFER: Claim Your 14-Day Free Trial Today!
+        {/* Trust Banner instead of Urgency Banner */}
+        <div className="trust-banner">
+          <Shield size={16} /> <span>One plan covers your entire family. Private care log. Cancel anytime.</span>
         </div>
 
         {/* Navigation Bar */}
-        <nav className="glass-nav flex justify-between items-center px-4 md:px-6 py-3 md:py-4">
-          <div className="flex items-center gap-2">
+        <nav className="glass-nav flex-between">
+          <div className="flex-row">
             <HeartPulse color="#0d9488" size={28} />
             <span style={{fontSize: '1.25rem', fontWeight: '800', letterSpacing: '-0.5px'}}>
               <span style={{color: '#0d9488'}}>Kin</span><span style={{color: '#0f172a'}}>Care</span>
             </span>
           </div>
-          <div className="flex gap-4 items-center">
-            <button 
-              onClick={() => navigate('/login')}
-              style={{background: 'white', border: '1px solid #cbd5e1', color: '#475569', fontWeight: '600', fontSize: '0.95rem', cursor: 'pointer', padding: '0.4rem 1rem', borderRadius: '100px', boxShadow: '0 1px 2px rgba(0,0,0,0.05)'}}
-            >
+          <div>
+            <button className="sign-in-btn" onClick={() => navigate('/login')}>
               Sign in
             </button>
           </div>
         </nav>
       </header>
 
-      <main style={{paddingTop: '120px', paddingBottom: '6rem'}}>
+      <main className="page-wrapper">
         
         {/* VSL Hero Section */}
-        <section className="section-container" style={{paddingTop: '2rem', paddingBottom: '3rem'}}>
+        <section className="section-container">
           <div className="vsl-container">
-            <div className="inline-flex items-center justify-center gap-2 px-4 py-2 mb-6 rounded-full" style={{background: '#fef2f2', color: '#dc2626', fontWeight: '800', fontSize: '0.9rem', border: '1px solid #fecaca'}}>
-              <HeartPulse size={16} /> Attention: Family Caregivers
-            </div>
             
             <h1 className="vsl-headline">
-              <span style={{color: '#dc2626'}}>Stop The WhatsApp Chaos.</span><br/>
+              <span style={{color: '#0d9488'}}>Stop The WhatsApp Chaos.</span><br/>
               Know Exactly Who Handled Mom’s Medication.
             </h1>
             
@@ -241,52 +340,52 @@ const Landing = () => {
               Make sure your loved ones are safe with a single source of truth for the entire family. <b>Watch the short video below to see how.</b>
             </p>
             
-            {/* VSL Video Player */}
+            {/* VSL Video Player with Poster */}
             <div className="video-wrapper">
               <video 
                 src="/vsl-video.mp4" 
+                poster={appMockup}
                 controls 
                 playsInline
-                style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover', borderRadius: '8px' }}
+                aria-label="KinCare App Demonstration Video"
+                style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover' }}
               >
+                <track kind="captions" srcLang="en" label="English" />
                 Your browser does not support the video tag.
               </video>
             </div>
             
             <div style={{marginTop: '2rem'}}>
-              <button 
-                onClick={() => handleCheckout('https://pay.hotmart.com/O106115546S?off=agpe42pl')}
-                className="buy-button" 
-              >
-                START 14-DAY FREE TRIAL - $9.99/mo <ArrowRight size={24} />
+              <button onClick={handleCheckout} className="buy-button">
+                Try free for 14 days <ArrowRight size={24} />
               </button>
               
-              <div className="flex justify-center items-center gap-6 text-sm font-semibold mt-4" style={{color: '#64748b'}}>
-                <div className="flex items-center gap-1"><Shield size={16} color="#10b981"/> 14-Day Free Trial</div>
-                <div className="flex items-center gap-1"><Lock size={16} color="#10b981"/> 100% Secure Checkout</div>
+              <div className="flex-center" style={{gap: '1.5rem', color: '#64748b', fontSize: '0.85rem', fontWeight: '600', marginTop: '1rem'}}>
+                <div className="flex-row"><Shield size={16} color="#0d9488"/> 14-Day Free Trial</div>
+                <div className="flex-row"><Lock size={16} color="#0d9488"/> Secure Checkout</div>
               </div>
             </div>
           </div>
         </section>
 
         {/* Social Proof / Testimonials */}
-        <section style={{background: '#ffffff', padding: '5rem 1.5rem'}}>
-          <div className="max-w-4xl mx-auto">
+        <section style={{background: '#ffffff', padding: '4rem 1.5rem'}}>
+          <div className="section-container" style={{padding: 0}}>
             <h2 style={{textAlign: 'center', fontSize: '2.2rem', fontWeight: '800', marginBottom: '3rem', color: '#0f172a'}}>
               Families Sleep Better With KinCare.
             </h2>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div style={{background: '#f8fafc', padding: '2rem', borderRadius: '24px', border: '1px solid #e2e8f0'}}>
-                <div className="flex gap-1 mb-3">
+            <div className="grid-2">
+              <div className="review-card">
+                <div className="flex-row" style={{marginBottom: '0.75rem'}}>
                   {[1,2,3,4,5].map(i => <Star key={i} size={20} color="#f59e0b" fill="#f59e0b" />)}
                 </div>
                 <p style={{fontSize: '1.1rem', color: '#334155', fontStyle: 'italic', marginBottom: '1.5rem'}}>
                   "My brother and I almost gave my dad a double dose of insulin because a WhatsApp message got lost in the chat. KinCare literally saved us from a hospital visit."
                 </p>
-                <div className="flex items-center gap-3">
+                <div className="flex-row">
                   <div style={{width: '48px', height: '48px', borderRadius: '50%', background: '#cbd5e1', overflow: 'hidden'}}>
-                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Sarah" alt="User" />
+                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Sarah" alt="Sarah" />
                   </div>
                   <div>
                     <strong style={{display: 'block', color: '#0f172a'}}>Sarah T.</strong>
@@ -295,16 +394,16 @@ const Landing = () => {
                 </div>
               </div>
 
-              <div style={{background: '#f8fafc', padding: '2rem', borderRadius: '24px', border: '1px solid #e2e8f0'}}>
-                <div className="flex gap-1 mb-3">
+              <div className="review-card">
+                <div className="flex-row" style={{marginBottom: '0.75rem'}}>
                   {[1,2,3,4,5].map(i => <Star key={i} size={20} color="#f59e0b" fill="#f59e0b" />)}
                 </div>
                 <p style={{fontSize: '1.1rem', color: '#334155', fontStyle: 'italic', marginBottom: '1.5rem'}}>
                   "Finally, no more waking up at 2 AM wondering if mom took her heart pills. I just open the app and see the green checkmark. Total peace of mind."
                 </p>
-                <div className="flex items-center gap-3">
+                <div className="flex-row">
                   <div style={{width: '48px', height: '48px', borderRadius: '50%', background: '#cbd5e1', overflow: 'hidden'}}>
-                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Michael" alt="User" />
+                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Michael" alt="Michael" />
                   </div>
                   <div>
                     <strong style={{display: 'block', color: '#0f172a'}}>Michael R.</strong>
@@ -317,53 +416,70 @@ const Landing = () => {
         </section>
 
         {/* What You Get Section */}
-        <section style={{background: '#0f172a', color: 'white', padding: '5rem 1.5rem', margin: '2rem auto', maxWidth: '1000px', borderRadius: '32px'}}>
-          <div className="text-center max-w-2xl mx-auto mb-10">
+        <section className="features-section">
+          <div style={{textAlign: 'center', marginBottom: '3rem'}}>
             <h2 style={{fontSize: '2rem', fontWeight: '800', marginBottom: '1rem', letterSpacing: '-1px'}}>
               Everything you need for total peace of mind.
             </h2>
             <p style={{color: '#94a3b8', fontSize: '1.1rem'}}>Stop guessing. Start knowing.</p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-3xl mx-auto">
-             <ul className="flex flex-col gap-4" style={{fontSize: '1.1rem'}}>
-                <li className="flex items-start gap-3"><CheckCircle2 size={24} color="#10b981" className="shrink-0 mt-1"/> <div><b>Shared Medication Log:</b> Know exactly what was taken and when.</div></li>
-                <li className="flex items-start gap-3"><CheckCircle2 size={24} color="#10b981" className="shrink-0 mt-1"/> <div><b>Real-Time Sync:</b> Everyone in the family sees updates instantly.</div></li>
-             </ul>
-             <ul className="flex flex-col gap-4" style={{fontSize: '1.1rem'}}>
-                <li className="flex items-start gap-3"><CheckCircle2 size={24} color="#10b981" className="shrink-0 mt-1"/> <div><b>Family Care Schedule:</b> Assign shifts so no one is overwhelmed.</div></li>
-                <li className="flex items-start gap-3"><CheckCircle2 size={24} color="#10b981" className="shrink-0 mt-1"/> <div><b>Task Management:</b> Organize doctor visits, groceries, and pharmacy runs.</div></li>
-             </ul>
+          <div className="grid-2">
+             <div className="flex-col">
+                <div className="feature-item">
+                  <CheckCircle2 size={24} color="#34d399" style={{flexShrink: 0, marginTop: '2px'}}/> 
+                  <div><b>Shared Medication Log:</b> Know exactly what was taken and when.</div>
+                </div>
+                <div className="feature-item">
+                  <CheckCircle2 size={24} color="#34d399" style={{flexShrink: 0, marginTop: '2px'}}/> 
+                  <div><b>Real-Time Sync:</b> Everyone in the family sees updates instantly.</div>
+                </div>
+             </div>
+             <div className="flex-col">
+                <div className="feature-item">
+                  <CheckCircle2 size={24} color="#34d399" style={{flexShrink: 0, marginTop: '2px'}}/> 
+                  <div><b>Family Care Schedule:</b> Assign shifts so no one is overwhelmed.</div>
+                </div>
+                <div className="feature-item">
+                  <CheckCircle2 size={24} color="#34d399" style={{flexShrink: 0, marginTop: '2px'}}/> 
+                  <div><b>Task Management:</b> Organize doctor visits, groceries, and pharmacy runs.</div>
+                </div>
+             </div>
           </div>
         </section>
 
         {/* Risk Reversal / Guarantee Box */}
-        <section className="px-6">
+        <section style={{padding: '0 1.5rem'}}>
           <div className="guarantee-box">
-            <Shield size={64} color="#10b981" style={{margin: '0 auto 1.5rem'}} />
-            <h2 style={{fontSize: '2.5rem', fontWeight: '900', color: '#064e3b', marginBottom: '1rem'}}>
+            <Shield size={64} color="#0d9488" style={{margin: '0 auto 1.5rem'}} />
+            <h2 style={{fontSize: '2.2rem', fontWeight: '900', color: '#134e4a', marginBottom: '1rem'}}>
               100% Risk-Free 14-Day Guarantee
             </h2>
-            <p style={{fontSize: '1.25rem', color: '#065f46', maxWidth: '600px', margin: '0 auto', lineHeight: '1.6'}}>
+            <p style={{fontSize: '1.15rem', color: '#0f766e', maxWidth: '600px', margin: '0 auto', lineHeight: '1.6'}}>
               Try KinCare with your family for a full 14 days. If you don't feel significantly more relaxed, organized, and confident in your loved one's care, simply cancel with one click. <b>You won't be charged a single cent.</b>
             </p>
           </div>
         </section>
 
         {/* FAQ Section */}
-        <section style={{maxWidth: '800px', margin: '0 auto 5rem', padding: '0 1.5rem'}}>
+        <section style={{maxWidth: '800px', margin: '0 auto', padding: '0 1.5rem'}}>
           <h2 style={{textAlign: 'center', fontSize: '2.2rem', fontWeight: '800', marginBottom: '3rem', color: '#0f172a'}}>
             Frequently Asked Questions
           </h2>
           <div>
             {faqs.map((faq, index) => (
               <div key={index} className="faq-item">
-                <div className="faq-question" onClick={() => setOpenFaq(openFaq === index ? null : index)}>
-                  {faq.q}
+                <button 
+                  className="faq-button" 
+                  onClick={() => setOpenFaq(openFaq === index ? null : index)}
+                  aria-expanded={openFaq === index}
+                  aria-controls={`faq-answer-${index}`}
+                >
+                  <span>{faq.q}</span>
                   {openFaq === index ? <Minus size={20} color="#0d9488" /> : <Plus size={20} color="#0d9488" />}
-                </div>
+                </button>
                 {openFaq === index && (
-                  <div className="faq-answer">
+                  <div id={`faq-answer-${index}`} className="faq-answer" role="region">
                     {faq.a}
                   </div>
                 )}
@@ -375,32 +491,28 @@ const Landing = () => {
       </main>
       
       {/* Sticky CTA (Appears on scroll) */}
-      <div className={`sticky-cta ${showSticky ? 'visible' : ''}`}>
-        <div className="flex justify-between items-center w-full max-w-4xl mx-auto gap-4">
-          <div className="hidden md:block">
+      <div className={`sticky-cta ${showSticky ? 'visible' : ''}`} aria-hidden={!showSticky}>
+        <div className="sticky-content">
+          <div className="sticky-text">
             <strong style={{display: 'block', fontSize: '1.2rem', color: '#0f172a'}}>Ready for peace of mind?</strong>
             <span style={{color: '#64748b'}}>Start your 14-Day Free Trial now.</span>
           </div>
-          <button 
-            onClick={() => handleCheckout('https://pay.hotmart.com/O106115546S?off=agpe42pl')}
-            className="buy-button"
-            style={{margin: 0, padding: '1rem 2rem'}} 
-          >
-            START FREE TRIAL <ArrowRight size={20} />
+          <button onClick={handleCheckout} className="buy-button" style={{margin: 0, padding: '1rem 2rem', maxWidth: '100%', flex: 1}}>
+            Try free for 14 days <ArrowRight size={20} />
           </button>
         </div>
       </div>
 
       {/* Footer */}
-      <footer className="px-6 py-10" style={{background: '#020617', color: '#64748b', textAlign: 'center'}}>
-        <div className="flex items-center justify-center gap-2 mb-4">
+      <footer style={{background: '#020617', color: '#64748b', textAlign: 'center', padding: '3rem 1.5rem'}}>
+        <div className="flex-center" style={{gap: '0.5rem', marginBottom: '1rem'}}>
           <HeartPulse color="#0d9488" size={24} />
           <span style={{fontSize: '1.4rem', fontWeight: '800', letterSpacing: '-0.5px'}}>
             <span style={{color: '#0d9488'}}>Kin</span><span style={{color: '#f8fafc'}}>Care</span>
           </span>
         </div>
         <p style={{fontSize: '0.9rem', marginBottom: '1.5rem'}}>&copy; 2026 KinCare Tech. Built for real families.</p>
-        <div className="flex justify-center gap-6" style={{fontSize: '0.9rem', fontWeight: '500'}}>
+        <div className="flex-center" style={{gap: '1.5rem', fontSize: '0.9rem', fontWeight: '500'}}>
           <a href="/login" style={{color: '#94a3b8', textDecoration: 'none'}}>Terms of Service</a>
           <a href="/login" style={{color: '#94a3b8', textDecoration: 'none'}}>Privacy Policy</a>
           <a href="/login" style={{color: '#94a3b8', textDecoration: 'none'}}>Support</a>
