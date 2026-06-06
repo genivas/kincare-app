@@ -197,28 +197,31 @@ const Landing = () => {
         }
       `}</style>
 
-      {/* Urgency Banner */}
-      <div style={{background: '#dc2626', color: 'white', textAlign: 'center', padding: '0.75rem', fontSize: '0.9rem', fontWeight: '700', position: 'fixed', top: 0, width: '100%', zIndex: 60, display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '0.5rem'}}>
-        <Clock size={16} /> SPECIAL LAUNCH OFFER: Claim Your 14-Day Free Trial Today!
-      </div>
+      {/* Fixed Header Wrapper */}
+      <header style={{position: 'fixed', top: 0, width: '100%', zIndex: 60}}>
+        {/* Urgency Banner */}
+        <div style={{background: '#dc2626', color: 'white', textAlign: 'center', padding: '0.75rem', fontSize: '0.9rem', fontWeight: '700', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '0.5rem'}}>
+          <Clock size={16} /> SPECIAL LAUNCH OFFER: Claim Your 14-Day Free Trial Today!
+        </div>
 
-      {/* Navigation Bar */}
-      <nav className="glass-nav flex justify-between items-center px-6 py-4" style={{position: 'fixed', top: '40px', width: '100%', zIndex: 50}}>
-        <div className="flex items-center gap-2">
-          <HeartPulse color="#0d9488" size={28} />
-          <span style={{fontSize: '1.25rem', fontWeight: '800', letterSpacing: '-0.5px'}}>
-            <span style={{color: '#0d9488'}}>Kin</span><span style={{color: '#0f172a'}}>Care</span>
-          </span>
-        </div>
-        <div className="flex gap-4 items-center">
-          <button 
-            onClick={() => navigate('/login')}
-            style={{background: 'transparent', border: 'none', color: '#475569', fontWeight: '600', fontSize: '0.95rem', cursor: 'pointer'}}
-          >
-            Sign in
-          </button>
-        </div>
-      </nav>
+        {/* Navigation Bar */}
+        <nav className="glass-nav flex justify-between items-center px-4 md:px-6 py-3 md:py-4">
+          <div className="flex items-center gap-2">
+            <HeartPulse color="#0d9488" size={28} />
+            <span style={{fontSize: '1.25rem', fontWeight: '800', letterSpacing: '-0.5px'}}>
+              <span style={{color: '#0d9488'}}>Kin</span><span style={{color: '#0f172a'}}>Care</span>
+            </span>
+          </div>
+          <div className="flex gap-4 items-center">
+            <button 
+              onClick={() => navigate('/login')}
+              style={{background: 'white', border: '1px solid #cbd5e1', color: '#475569', fontWeight: '600', fontSize: '0.95rem', cursor: 'pointer', padding: '0.4rem 1rem', borderRadius: '100px', boxShadow: '0 1px 2px rgba(0,0,0,0.05)'}}
+            >
+              Sign in
+            </button>
+          </div>
+        </nav>
+      </header>
 
       <main style={{paddingTop: '120px', paddingBottom: '6rem'}}>
         
