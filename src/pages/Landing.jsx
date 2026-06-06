@@ -173,11 +173,11 @@ const Landing = () => {
                 onClick={() => handleCheckout('https://pay.hotmart.com/O106115546S?off=agpe42pl')}
                 className="buy-button" 
               >
-                GET LIFETIME ACCESS - $37 <ArrowRight size={24} />
+                START 14-DAY FREE TRIAL - $9.99/mo <ArrowRight size={24} />
               </button>
               
               <div className="flex justify-center items-center gap-6 text-sm font-semibold mt-4" style={{color: '#64748b'}}>
-                <div className="flex items-center gap-1"><Shield size={16} color="#10b981"/> 30-Day Money Back Guarantee</div>
+                <div className="flex items-center gap-1"><Shield size={16} color="#10b981"/> 14-Day Free Trial</div>
                 <div className="flex items-center gap-1"><Lock size={16} color="#10b981"/> 100% Secure Checkout</div>
               </div>
             </div>
@@ -190,7 +190,7 @@ const Landing = () => {
             <h2 style={{fontSize: '2rem', fontWeight: '800', marginBottom: '1rem', letterSpacing: '-1px'}}>
               Everything you need for total peace of mind.
             </h2>
-            <p style={{color: '#94a3b8', fontSize: '1.1rem'}}>No recurring fees. Pay once, use forever.</p>
+            <p style={{color: '#94a3b8', fontSize: '1.1rem'}}>Try it free for 14 days. Cancel anytime.</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-3xl mx-auto">
