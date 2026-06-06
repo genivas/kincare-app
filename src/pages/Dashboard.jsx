@@ -4,11 +4,14 @@ import { Activity, Droplets, AlertTriangle, BellRing, Settings as SettingsIcon, 
 import { useNavigate } from 'react-router-dom';
 
 const Dashboard = () => {
-  const { patient, setPatient, medications, getTodayCaregiver, history } = useContext(GlobalContext);
+  const { patient, setPatient, medications, getTodayCaregiver, history, tasks, currentUser } = useContext(GlobalContext);
   const [showAlertModal, setShowAlertModal] = useState(false);
   const [showStatusModal, setShowStatusModal] = useState(false);
+  const [showAlarmModal, setShowAlarmModal] = useState(false);
   const navigate = useNavigate();
   
+  const myTasks = tasks ? tasks.filter(t => t.assignedTo?.name === currentUser?.name && t.status !== 'completed') : [];
+
   const nextMeds = medications.filter(m => m.status === 'pending');
   nextMeds.sort((a, b) => a.time.localeCompare(b.time));
   const nextMed = nextMeds.length > 0 ? nextMeds[0] : null;
@@ -45,6 +48,19 @@ const Dashboard = () => {
             <h3 style={{fontSize: '1.4rem', marginBottom: '0.5rem'}}>Alert Triggered</h3>
             <p className="mb-4" style={{color: 'var(--text-light)'}}>The family WhatsApp group was successfully notified.</p>
             <button className="btn-primary" onClick={() => setShowAlertModal(false)} style={{padding: '1rem', fontSize: '1.1rem', borderRadius: '12px'}}>Done</button>
+          </div>
+        </div>
+      )}
+
+      {showAlarmModal && (
+        <div style={{position: 'fixed', top:0, left:0, right:0, bottom:0, background: 'rgba(0,0,0,0.4)', backdropFilter: 'blur(4px)', zIndex: 999, display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+          <div className="glass-card m-4 text-center" style={{padding: '2rem'}}>
+            <div style={{background: 'var(--primary-color)', color: 'white', padding: '1rem', borderRadius: '50%', display: 'inline-block', marginBottom: '1rem', boxShadow: '0 8px 24px rgba(13, 148, 136, 0.3)'}}>
+              <BellRing size={32} />
+            </div>
+            <h3 style={{fontSize: '1.4rem', marginBottom: '0.5rem'}}>Alarm Set!</h3>
+            <p className="mb-4" style={{color: 'var(--text-light)'}}>You will be reminded 30 minutes before this task is due.</p>
+            <button className="btn-primary" onClick={() => setShowAlarmModal(false)} style={{padding: '1rem', fontSize: '1.1rem', borderRadius: '12px'}}>Great</button>
           </div>
         </div>
       )}
@@ -129,6 +145,32 @@ const Dashboard = () => {
             </div>
           )}
         </section>
+
+        {/* My Active Tasks */}
+        {myTasks.length > 0 && (
+          <section className="mb-6">
+            <div className="flex justify-between items-center mb-3">
+              <h2 style={{fontSize: '1.1rem', fontWeight: '600', color: 'var(--text-color)'}}>My Active Tasks</h2>
+              <button style={{fontSize: '0.85rem', color: 'var(--primary-color)', fontWeight: '600', background: 'transparent', padding: 0}} onClick={() => navigate('/app/tasks')}>
+                Task Board
+              </button>
+            </div>
+            {myTasks.map(task => (
+              <div key={task.id} className="glass-card flex items-center justify-between mb-3" style={{padding: '1.25rem', borderLeft: `4px solid ${task.priority === 'high' ? 'var(--danger-color)' : 'var(--primary-color)'}`}}>
+                <div>
+                  <strong style={{fontSize: '1.05rem', display: 'block', marginBottom: '0.25rem'}}>{task.title}</strong>
+                  <span style={{fontSize: '0.85rem', color: 'var(--text-light)'}}>Assigned to you</span>
+                </div>
+                <button 
+                  onClick={() => setShowAlarmModal(true)}
+                  style={{background: 'var(--primary-light)', border: 'none', width: '40px', height: '40px', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--primary-color)', cursor: 'pointer'}}
+                >
+                  <BellRing size={20} />
+                </button>
+              </div>
+            ))}
+          </section>
+        )}
 
         {/* Today's Caregiver & Vitals Grid */}
         <section className="flex gap-3 mb-6">
