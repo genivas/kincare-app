@@ -183,15 +183,20 @@ const Landing = () => {
         }
 
         .sign-in-btn {
-          background: white;
-          border: 1px solid #cbd5e1;
-          color: #475569;
-          font-weight: 600;
+          background: #0f172a;
+          border: 1px solid #0f172a;
+          color: white;
+          font-weight: 700;
           font-size: 0.95rem;
           cursor: pointer;
-          padding: 0.4rem 1rem;
+          padding: 0.5rem 1.25rem;
           border-radius: 100px;
-          box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+          box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+          transition: background 0.2s, transform 0.2s;
+        }
+        .sign-in-btn:hover {
+          background: #1e293b;
+          transform: translateY(-1px);
         }
 
         /* Sticky CTA */
