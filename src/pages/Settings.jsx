@@ -2,8 +2,11 @@ import React, { useContext, useState } from 'react';
 import { GlobalContext } from '../context/GlobalContext';
 import { UserPlus, X, ShieldCheck, CreditCard, LifeBuoy, LogOut } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { auth } from '../firebase';
+import { auth, db, storage } from '../firebase';
 import { signOut } from 'firebase/auth';
+import { doc, updateDoc } from 'firebase/firestore';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { Camera } from 'lucide-react';
 
 const Settings = () => {
   const { patient, setPatient, family, setFamily, currentUser, deleteAccountAndFamily } = useContext(GlobalContext);
@@ -17,6 +20,34 @@ const Settings = () => {
   const handleSave = () => {
     setPatient({ ...patient, name });
     alert('Saved successfully!');
+  };
+
+  const handlePhotoUpload = async (e, type, memberId = null) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    try {
+      let storagePath = '';
+      let docRef = null;
+
+      if (type === 'patient') {
+        storagePath = `avatars/families/${patient.id}/patient_avatar_${Date.now()}`;
+        docRef = doc(db, "families", patient.id);
+      } else if (type === 'member' && memberId) {
+        storagePath = `avatars/users/${memberId}/avatar_${Date.now()}`;
+        docRef = doc(db, "users", memberId);
+      }
+
+      const fileRef = ref(storage, storagePath);
+      await uploadBytes(fileRef, file);
+      const downloadURL = await getDownloadURL(fileRef);
+
+      await updateDoc(docRef, { avatar: downloadURL });
+      alert('Photo updated successfully!');
+    } catch (err) {
+      console.error("Error uploading photo:", err);
+      alert('Error uploading photo. Please try again.');
+    }
   };
 
   const handleInviteWhatsApp = (e) => {
@@ -74,8 +105,11 @@ const Settings = () => {
           <h3 className="mb-4" style={{display: 'flex', alignItems: 'center', gap: '0.5rem'}}><ShieldCheck size={20} color="var(--primary-color)" /> Patient Profile</h3>
           <div className="flex-col gap-3">
             <div className="flex items-center gap-4 mb-4">
-              <img src={patient?.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${patient?.name || 'Idoso'}`} alt="Avatar" className="avatar avatar-lg" style={{width: '60px', height: '60px', borderRadius: '20px'}} />
-              <button className="btn-secondary" style={{padding: '0.5rem 1rem', width: 'auto'}}>Change Photo</button>
+              <img src={patient?.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${patient?.name || 'Idoso'}`} alt="Avatar" className="avatar avatar-lg" style={{width: '60px', height: '60px', borderRadius: '20px', objectFit: 'cover'}} />
+              <label className="btn-secondary" style={{padding: '0.5rem 1rem', width: 'auto', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.5rem'}}>
+                <Camera size={16} /> Change Photo
+                <input type="file" accept="image/*" style={{display: 'none'}} onChange={(e) => handlePhotoUpload(e, 'patient')} />
+              </label>
             </div>
             <label style={{fontSize: '0.85rem', fontWeight: 'bold', display: 'block', marginBottom: '0.5rem'}}>Full Name</label>
             <input 
@@ -147,7 +181,13 @@ const Settings = () => {
             {family.map((f, i) => (
               <div key={f.id} className="flex items-center justify-between" style={{borderBottom: i !== family.length - 1 ? '1px solid #f1f5f9' : 'none', paddingBottom: i !== family.length - 1 ? '1rem' : '0'}}>
                 <div className="flex items-center gap-3">
-                  <img src={f.avatar} alt={f.name} className="avatar" style={{width: '40px', height: '40px', borderRadius: '12px'}} />
+                  <div style={{position: 'relative'}}>
+                    <img src={f.avatar} alt={f.name} className="avatar" style={{width: '40px', height: '40px', borderRadius: '12px', objectFit: 'cover'}} />
+                    <label style={{position: 'absolute', bottom: -5, right: -5, background: 'var(--primary-color)', color: 'white', borderRadius: '50%', padding: '4px', cursor: 'pointer', display: 'flex'}}>
+                      <Camera size={10} />
+                      <input type="file" accept="image/*" style={{display: 'none'}} onChange={(e) => handlePhotoUpload(e, 'member', f.id)} />
+                    </label>
+                  </div>
                   <div>
                     <strong style={{display: 'block', fontSize: '0.95rem'}}>{f.name}</strong>
                     <span style={{fontSize: '0.8rem', color: 'var(--text-light)'}}>
