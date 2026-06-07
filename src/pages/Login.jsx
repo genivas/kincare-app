@@ -19,6 +19,7 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
+  const [accessCode, setAccessCode] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -35,6 +36,10 @@ const Login = () => {
 
     try {
       if (isRegistering) {
+        if (!inviteId && accessCode.trim().toUpperCase() !== 'KINCARE-VIP-26') {
+          throw new Error('Invalid VIP Access Code. Please check the email you received after purchase.');
+        }
+
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         await updateProfile(userCredential.user, {
           displayName: name,
@@ -112,6 +117,20 @@ const Login = () => {
                 style={{ width: '100%', padding: '0.75rem', borderRadius: '8px', border: '1px solid #cbd5e1', fontFamily: 'inherit' }}
                 required={isRegistering}
                 placeholder="e.g. John Doe"
+              />
+            </div>
+          )}
+
+          {isRegistering && !inviteId && (
+            <div>
+              <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.9rem', fontWeight: '500' }}>VIP Access Code</label>
+              <input 
+                type="text" 
+                value={accessCode}
+                onChange={(e) => setAccessCode(e.target.value)}
+                style={{ width: '100%', padding: '0.75rem', borderRadius: '8px', border: '1px solid #cbd5e1', fontFamily: 'inherit', textTransform: 'uppercase' }}
+                required={isRegistering && !inviteId}
+                placeholder="KINCARE-VIP-26"
               />
             </div>
           )}
