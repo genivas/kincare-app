@@ -362,11 +362,11 @@ const Landing = () => {
             
             <div style={{marginTop: '2rem'}}>
               <button onClick={handleCheckout} className="buy-button">
-                Try free for 14 days <ArrowRight size={24} />
+                Get KinCare Now <ArrowRight size={24} />
               </button>
               
               <div className="flex-center" style={{gap: '1.5rem', color: '#64748b', fontSize: '0.85rem', fontWeight: '600', marginTop: '1rem'}}>
-                <div className="flex-row"><Shield size={16} color="#0d9488"/> 14-Day Free Trial</div>
+                <div className="flex-row"><Shield size={16} color="#0d9488"/> 14-Day Money-Back Guarantee</div>
                 <div className="flex-row"><Lock size={16} color="#0d9488"/> Secure Checkout</div>
               </div>
             </div>
@@ -461,7 +461,7 @@ const Landing = () => {
               100% Risk-Free 14-Day Guarantee
             </h2>
             <p style={{fontSize: '1.15rem', color: '#0f766e', maxWidth: '600px', margin: '0 auto', lineHeight: '1.6'}}>
-              Try KinCare with your family for a full 14 days. If you don't feel significantly more relaxed, organized, and confident in your loved one's care, simply cancel with one click. <b>You won't be charged a single cent.</b>
+              Get KinCare for your family today. If you don't feel significantly more relaxed, organized, and confident in your loved one's care within 14 days, simply let us know and we'll refund you. <b>100% Risk-Free.</b>
             </p>
           </div>
         </section>
@@ -500,10 +500,10 @@ const Landing = () => {
         <div className="sticky-content">
           <div className="sticky-text">
             <strong style={{display: 'block', fontSize: '1.2rem', color: '#0f172a'}}>Ready for peace of mind?</strong>
-            <span style={{color: '#64748b'}}>Start your 14-Day Free Trial now.</span>
+            <span style={{color: '#64748b'}}>Secure your family's care today.</span>
           </div>
           <button onClick={handleCheckout} className="buy-button" style={{margin: 0, padding: '1rem 2rem', maxWidth: '100%', flex: 1}}>
-            Try free for 14 days <ArrowRight size={20} />
+            Get KinCare Now <ArrowRight size={20} />
           </button>
         </div>
       </div>

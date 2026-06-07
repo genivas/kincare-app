@@ -4,6 +4,8 @@ import { auth, db, storage } from '../firebase';
 import { onAuthStateChanged, deleteUser } from 'firebase/auth';
 import { doc, getDoc, setDoc, updateDoc, deleteDoc, collection, query, where, getDocs, onSnapshot, addDoc } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { Capacitor } from '@capacitor/core';
+import { LocalNotifications } from '@capacitor/local-notifications';
 
 export const GlobalContext = createContext();
 
@@ -92,6 +94,53 @@ export const GlobalProvider = ({ children }) => {
       unsubscribeHist();
     };
   }, [currentUser?.familyId]);
+
+  // Schedule Local Notifications for Medications
+  useEffect(() => {
+    const scheduleAlarms = async () => {
+      if (!Capacitor.isNativePlatform()) return;
+      try {
+        const permStatus = await LocalNotifications.requestPermissions();
+        if (permStatus.display === 'granted') {
+          // Clear old notifications
+          const pending = await LocalNotifications.getPending();
+          if (pending.notifications.length > 0) {
+            await LocalNotifications.cancel({ notifications: pending.notifications });
+          }
+          
+          const notificationsToSchedule = medications
+            .filter(m => m.status === 'pending')
+            .map((m, index) => {
+              const [hours, minutes] = m.time.split(':');
+              const now = new Date();
+              let scheduleDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), parseInt(hours), parseInt(minutes), 0);
+              
+              // If time has passed today, schedule for tomorrow
+              if (scheduleDate < now) {
+                scheduleDate.setDate(scheduleDate.getDate() + 1);
+              }
+              
+              return {
+                title: 'KinCare Medication Alert',
+                body: `It's time to give ${m.name} (${m.dosage}) to ${patient?.name || 'your loved one'}.`,
+                id: index + 1,
+                schedule: { at: scheduleDate, allowWhileIdle: true },
+              };
+            });
+          
+          if (notificationsToSchedule.length > 0) {
+            await LocalNotifications.schedule({ notifications: notificationsToSchedule });
+          }
+        }
+      } catch (e) {
+        console.error("Local notifications error:", e);
+      }
+    };
+    
+    if (medications.length > 0) {
+      scheduleAlarms();
+    }
+  }, [medications, patient?.name]);
 
   const createFamily = async (patientData) => {
     if(!currentUser) return;

@@ -23,7 +23,7 @@ const Settings = () => {
     e.preventDefault();
     if(newMemberName && newMemberRelation) {
       const patientName = patient?.name ? patient.name.split(' ')[0] : 'our family member';
-      const msg = `Hi ${newMemberName}! I'm inviting you to the *KinCare* app to help care for ${patientName}.\n\nTo access the routine and medications, follow these steps:\n1. Go to: https://kincare-app.pages.dev\n2. Click "Sign Up" and create your account.\n3. On the Welcome screen, choose "I already have an Invite Code".\n4. Enter our secure family code: *${patient?.inviteCode}*\n\nDone! We are now connected.`;
+      const msg = `Hi ${newMemberName}! I'm inviting you to the *KinCare* app to help care for ${patientName}.\n\nTo access the routine and medications, simply click the link below and create your free account:\n👉 https://kincare-app.pages.dev/login?invite=${currentUser?.familyId}\n\nDone! We are now connected.`;
       window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
       setShowAddForm(false);
       setNewMemberName('');
