@@ -22,14 +22,12 @@ const Medications = () => {
       const image = await CapCamera.getPhoto({
         quality: 60,
         allowEditing: false,
-        resultType: CameraResultType.Uri,
+        resultType: CameraResultType.Base64,
         source: CameraSource.Prompt
       });
-      if (image.webPath) {
-        setPhotoPreview(image.webPath);
-        const response = await fetch(image.webPath);
-        const blob = await response.blob();
-        setPhotoFile(blob);
+      if (image.base64String) {
+        setPhotoPreview(`data:image/${image.format};base64,${image.base64String}`);
+        setPhotoFile(image.base64String);
       }
     } catch(err) {
       console.log(err);
@@ -44,7 +42,7 @@ const Medications = () => {
         name: newMedName,
         time: newMedTime,
         frequency: parseInt(newMedFrequency),
-        photoFile: photoFile
+        photoBase64: photoFile
       });
       setIsUploading(false);
       setShowAddForm(false);

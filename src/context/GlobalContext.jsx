@@ -3,7 +3,7 @@ import { initialMedications, mockUser, patientInfo, familyMembers, initialTasks 
 import { auth, db, storage } from '../firebase';
 import { onAuthStateChanged, deleteUser } from 'firebase/auth';
 import { doc, getDoc, setDoc, updateDoc, deleteDoc, collection, query, where, getDocs, onSnapshot, addDoc } from 'firebase/firestore';
-import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { ref, uploadBytes, uploadString, getDownloadURL } from 'firebase/storage';
 import { Capacitor } from '@capacitor/core';
 import { LocalNotifications } from '@capacitor/local-notifications';
 
@@ -199,7 +199,11 @@ export const GlobalProvider = ({ children }) => {
 
   const addMedication = async (newMed) => {
     let photoUrl = null;
-    if (newMed.photoFile) {
+    if (newMed.photoBase64) {
+      const storageRef = ref(storage, `medications/${Date.now()}_image`);
+      await uploadString(storageRef, newMed.photoBase64, 'base64', { contentType: 'image/jpeg' });
+      photoUrl = await getDownloadURL(storageRef);
+    } else if (newMed.photoFile) {
       const storageRef = ref(storage, `medications/${Date.now()}_${newMed.photoFile.name}`);
       await uploadBytes(storageRef, newMed.photoFile);
       photoUrl = await getDownloadURL(storageRef);

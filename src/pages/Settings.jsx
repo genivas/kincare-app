@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { auth, db, storage } from '../firebase';
 import { signOut } from 'firebase/auth';
 import { doc, updateDoc } from 'firebase/firestore';
-import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { ref, uploadString, getDownloadURL } from 'firebase/storage';
 import { Camera } from 'lucide-react';
 import { Camera as CapCamera, CameraResultType, CameraSource } from '@capacitor/camera';
 
@@ -29,16 +29,13 @@ const Settings = () => {
       const image = await CapCamera.getPhoto({
         quality: 60,
         allowEditing: false,
-        resultType: CameraResultType.Uri,
+        resultType: CameraResultType.Base64,
         source: CameraSource.Prompt
       });
 
-      if (!image.webPath) return;
+      if (!image.base64String) return;
 
       setIsUploading(true);
-      
-      const response = await fetch(image.webPath);
-      const blob = await response.blob();
       let storagePath = '';
       let docRef = null;
 
@@ -51,7 +48,7 @@ const Settings = () => {
       }
 
       const fileRef = ref(storage, storagePath);
-      await uploadBytes(fileRef, blob);
+      await uploadString(fileRef, image.base64String, 'base64', { contentType: `image/${image.format}` });
       const downloadURL = await getDownloadURL(fileRef);
 
       await updateDoc(docRef, { avatar: downloadURL });
