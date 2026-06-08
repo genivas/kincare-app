@@ -261,12 +261,28 @@ export const GlobalProvider = ({ children }) => {
     await updateDoc(doc(db, "tasks", taskId), updates);
   };
 
+  const deleteMedication = async (id) => {
+    try {
+      await deleteDoc(doc(db, "medications", id));
+    } catch (e) {
+      console.error("Error deleting medication:", e);
+    }
+  };
+
+  const deleteTask = async (id) => {
+    try {
+      await deleteDoc(doc(db, "tasks", id));
+    } catch (e) {
+      console.error("Error deleting task:", e);
+    }
+  };
+
   return (
     <GlobalContext.Provider value={{
       patient, setPatient,
       family, setFamily,
-      medications, addMedication, markMedicationStatus,
-      tasks, setTasks, addTask, updateTask,
+      medications, addMedication, markMedicationStatus, deleteMedication,
+      tasks, setTasks, addTask, updateTask, deleteTask,
       history, setHistory,
       schedule, setSchedule, updateSchedule,
       getTodayCaregiver, getNextCaregiver,

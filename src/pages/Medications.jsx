@@ -1,9 +1,9 @@
 import React, { useContext, useState, useRef } from 'react';
 import { GlobalContext } from '../context/GlobalContext';
-import { Check, Clock, Plus, X, AlertCircle, Camera } from 'lucide-react';
+import { Check, Clock, Plus, X, AlertCircle, Camera, Trash2 } from 'lucide-react';
 
 const Medications = () => {
-  const { medications, markMedicationStatus, addMedication } = useContext(GlobalContext);
+  const { medications, markMedicationStatus, addMedication, deleteMedication } = useContext(GlobalContext);
   const [showAddForm, setShowAddForm] = useState(false);
   const [activeActionMed, setActiveActionMed] = useState(null); // Which med is being acted on
   const [isUploading, setIsUploading] = useState(false);
@@ -47,6 +47,12 @@ const Medications = () => {
   const handleStatusAction = (id, status) => {
     markMedicationStatus(id, status);
     setActiveActionMed(null);
+  };
+
+  const handleDelete = (id, name) => {
+    if (window.confirm(`Are you sure you want to delete ${name}? This action cannot be undone.`)) {
+      deleteMedication(id);
+    }
   };
 
   const sortedMeds = [...medications].sort((a, b) => a.time.localeCompare(b.time));
@@ -187,7 +193,16 @@ const Medications = () => {
                     {med.frequency && <p style={{fontSize: '0.8rem', color: 'var(--text-light)', margin: '0.15rem 0 0 0', fontWeight: '500'}}>Every {med.frequency} hours</p>}
                   </div>
                 </div>
-                {statusBadge}
+                <div className="flex flex-col items-end gap-2">
+                  {statusBadge}
+                  <button 
+                    onClick={() => handleDelete(med.id, med.name)}
+                    style={{background: 'transparent', border: 'none', color: '#cbd5e1', cursor: 'pointer', padding: '0.25rem'}}
+                    title="Delete Medication"
+                  >
+                    <Trash2 size={16} />
+                  </button>
+                </div>
               </div>
 
               {med.status !== 'pending' ? (

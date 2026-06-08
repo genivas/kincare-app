@@ -1,9 +1,9 @@
 import React, { useContext, useState } from 'react';
 import { GlobalContext } from '../context/GlobalContext';
-import { Plus, X } from 'lucide-react';
+import { Plus, X, Trash2 } from 'lucide-react';
 
 const Tasks = () => {
-  const { tasks, addTask, updateTask, currentUser } = useContext(GlobalContext);
+  const { tasks, addTask, updateTask, currentUser, deleteTask } = useContext(GlobalContext);
   const [showAddForm, setShowAddForm] = useState(false);
   
   const [newTaskTitle, setNewTaskTitle] = useState('');
@@ -80,10 +80,23 @@ const Tasks = () => {
         {tasks.map(task => (
           <div key={task.id} className="glass-card mb-4">
             <div className="flex justify-between items-start mb-3">
-              <strong style={{fontSize: '1.05rem', lineHeight: '1.4'}}>{task.title}</strong>
-              {task.priority === 'high' && <span className="badge badge-danger">High</span>}
-              {task.priority === 'medium' && <span className="badge badge-warning">Normal</span>}
-              {task.priority === 'low' && <span className="badge badge-success">Low</span>}
+              <strong style={{fontSize: '1.05rem', lineHeight: '1.4', flex: 1, paddingRight: '1rem'}}>{task.title}</strong>
+              <div className="flex items-center gap-2">
+                {task.priority === 'high' && <span className="badge badge-danger">High</span>}
+                {task.priority === 'medium' && <span className="badge badge-warning">Normal</span>}
+                {task.priority === 'low' && <span className="badge badge-success">Low</span>}
+                <button 
+                  onClick={() => {
+                    if(window.confirm('Are you sure you want to delete this task?')) {
+                      deleteTask(task.id);
+                    }
+                  }}
+                  style={{background: 'transparent', border: 'none', color: '#cbd5e1', cursor: 'pointer', padding: '0.25rem'}}
+                  title="Delete Task"
+                >
+                  <Trash2 size={16} />
+                </button>
+              </div>
             </div>
 
             {task.status === 'open' ? (

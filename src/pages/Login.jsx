@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { auth, db } from '../firebase';
-import { signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
+import { signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile, sendPasswordResetEmail } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
 import { HeartPulse } from 'lucide-react';
 import { GlobalContext } from '../context/GlobalContext';
@@ -22,6 +22,7 @@ const Login = () => {
   const [accessCode, setAccessCode] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [isResetting, setIsResetting] = useState(false);
 
   useEffect(() => {
     if (currentUser) {
@@ -64,6 +65,10 @@ const Login = () => {
           });
         }
 
+      } else if (isResetting) {
+        await sendPasswordResetEmail(auth, email);
+        alert("Password reset email sent! Please check your inbox.");
+        setIsResetting(false);
       } else {
         await signInWithEmailAndPassword(auth, email, password);
       }
@@ -147,17 +152,30 @@ const Login = () => {
             />
           </div>
 
-          <div>
-            <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.9rem', fontWeight: '500' }}>Password</label>
-            <input 
-              type="password" 
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              style={{ width: '100%', padding: '0.75rem', borderRadius: '8px', border: '1px solid #cbd5e1', fontFamily: 'inherit' }}
-              required
-              placeholder="••••••••"
-            />
-          </div>
+          {!isResetting && (
+            <div>
+              <div className="flex justify-between items-center mb-2">
+                <label style={{ fontSize: '0.9rem', fontWeight: '500' }}>Password</label>
+                {!isRegistering && (
+                  <button 
+                    type="button" 
+                    onClick={() => { setIsResetting(true); setError(''); }}
+                    style={{ background: 'transparent', border: 'none', color: 'var(--primary-color)', fontSize: '0.8rem', cursor: 'pointer', padding: 0 }}
+                  >
+                    Forgot Password?
+                  </button>
+                )}
+              </div>
+              <input 
+                type="password" 
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                style={{ width: '100%', padding: '0.75rem', borderRadius: '8px', border: '1px solid #cbd5e1', fontFamily: 'inherit' }}
+                required={!isResetting}
+                placeholder="••••••••"
+              />
+            </div>
+          )}
 
           <button 
             type="submit" 
@@ -165,7 +183,7 @@ const Login = () => {
             style={{ marginTop: '0.5rem', padding: '0.85rem', fontWeight: 'bold' }}
             disabled={loading}
           >
-            {loading ? "Please wait..." : (isRegistering ? "Create Account" : "Sign In")}
+            {loading ? "Please wait..." : (isResetting ? "Send Reset Email" : (isRegistering ? "Create Account" : "Sign In"))}
           </button>
         </form>
 
@@ -174,11 +192,15 @@ const Login = () => {
             type="button"
             style={{ background: 'transparent', border: 'none', color: 'var(--primary-color)', fontSize: '0.9rem', fontWeight: '500', cursor: 'pointer' }}
             onClick={() => {
-              setIsRegistering(!isRegistering);
+              if (isResetting) {
+                setIsResetting(false);
+              } else {
+                setIsRegistering(!isRegistering);
+              }
               setError('');
             }}
           >
-            {isRegistering ? "Already have an account? Sign In" : "Don't have an account? Sign Up"}
+            {isResetting ? "Back to Login" : (isRegistering ? "Already have an account? Sign In" : "Don't have an account? Sign Up")}
           </button>
         </div>
       </div>
