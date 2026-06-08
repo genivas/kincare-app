@@ -13,34 +13,14 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-async function checkPhotos() {
-  console.log("Checking database for saved avatars...");
-  
-  // Check users collection
-  const usersSnapshot = await getDocs(collection(db, "users"));
-  console.log("Found " + usersSnapshot.size + " users.");
-  usersSnapshot.forEach(doc => {
-    const data = doc.data();
-    if (data.avatar) {
-      console.log(`[YES] User ${data.name} (ID: ${doc.id}) HAS avatar: ${data.avatar.substring(0, 50)}...`);
-    } else {
-      console.log(`[NO] User ${data.name} (ID: ${doc.id}) DOES NOT have an avatar.`);
-    }
-  });
-
-  // Check families collection
+async function checkSchedule() {
   const familiesSnapshot = await getDocs(collection(db, "families"));
-  console.log("\nFound " + familiesSnapshot.size + " families (Patient profiles).");
   familiesSnapshot.forEach(doc => {
     const data = doc.data();
-    if (data.avatar) {
-      console.log(`[YES] Patient in family (ID: ${doc.id}) HAS avatar: ${data.avatar.substring(0, 50)}...`);
-    } else {
-      console.log(`[NO] Patient in family (ID: ${doc.id}) DOES NOT have an avatar.`);
-    }
+    console.log(`Family ID: ${doc.id}`);
+    console.log(`Schedule:`, data.schedule);
   });
-  
   process.exit(0);
 }
 
-checkPhotos().catch(console.error);
+checkSchedule().catch(console.error);

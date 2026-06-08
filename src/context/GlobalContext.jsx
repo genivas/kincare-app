@@ -194,8 +194,8 @@ export const GlobalProvider = ({ children }) => {
     }
   };
 
-  const getTodayCaregiver = () => family.find(f => f.id === schedule[['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'][new Date().getDay()]]);
-  const getNextCaregiver = () => family.find(f => f.id === schedule[['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'][(new Date().getDay() + 1) % 7]]);
+  const getTodayCaregiver = () => family.find(f => f.id === schedule[['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][new Date().getDay()]]);
+  const getNextCaregiver = () => family.find(f => f.id === schedule[['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][(new Date().getDay() + 1) % 7]]);
 
   const addMedication = async (newMed) => {
     let photoUrl = null;
