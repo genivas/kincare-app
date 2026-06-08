@@ -215,6 +215,15 @@ const Settings = () => {
           </div>
         </div>
 
+        <a 
+          href="mailto:suporte@kincareapp.com?subject=KinCare App Support Request"
+          className="glass-card flex items-center justify-center gap-2 mb-4" 
+          style={{width: '100%', border: '1px solid var(--primary-light)', color: 'var(--primary-color)', background: '#f0fdfa', padding: '1rem', textDecoration: 'none'}}
+        >
+          <LifeBuoy size={20} />
+          <strong style={{fontSize: '1rem'}}>Contact Support</strong>
+        </a>
+
         <button 
           onClick={handleLogout}
           className="glass-card flex items-center justify-center gap-2" 
