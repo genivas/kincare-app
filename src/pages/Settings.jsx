@@ -13,7 +13,7 @@ const Settings = () => {
   const { patient, setPatient, family, setFamily, currentUser, deleteAccountAndFamily } = useContext(GlobalContext);
   const [name, setName] = useState(patient?.name || '');
   const [showAddForm, setShowAddForm] = useState(false);
-  const [isUploading, setIsUploading] = useState(false);
+  const [uploadingId, setUploadingId] = useState(null);
   const [newMemberName, setNewMemberName] = useState('');
   const [newMemberRelation, setNewMemberRelation] = useState('');
   const [newMemberRole, setNewMemberRole] = useState('Family');
@@ -35,7 +35,7 @@ const Settings = () => {
 
       if (!image.base64String) return;
 
-      setIsUploading(true);
+      setUploadingId(type === 'patient' ? 'patient' : memberId);
       let storagePath = '';
       let docRef = null;
 
@@ -59,7 +59,7 @@ const Settings = () => {
         alert('Error uploading photo. Please check your connection and try again.');
       }
     } finally {
-      setIsUploading(false);
+      setUploadingId(null);
     }
   };
 
@@ -118,14 +118,14 @@ const Settings = () => {
           <h3 className="mb-4" style={{display: 'flex', alignItems: 'center', gap: '0.5rem'}}><ShieldCheck size={20} color="var(--primary-color)" /> Patient Profile</h3>
           <div className="flex-col gap-3">
             <div className="flex items-center gap-4 mb-4">
-              <img src={patient?.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${patient?.name || 'Idoso'}`} alt="Avatar" className="avatar avatar-lg" style={{width: '60px', height: '60px', borderRadius: '20px', objectFit: 'cover', opacity: isUploading ? 0.5 : 1}} />
+              <img src={patient?.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${patient?.name || 'Idoso'}`} alt="Avatar" className="avatar avatar-lg" style={{width: '60px', height: '60px', borderRadius: '20px', objectFit: 'cover', opacity: uploadingId === 'patient' ? 0.5 : 1}} />
               <button 
                 className="btn-secondary" 
                 style={{padding: '0.5rem 1rem', width: 'auto', display: 'flex', alignItems: 'center', gap: '0.5rem'}}
                 onClick={() => handlePhotoUpload('patient')}
-                disabled={isUploading}
+                disabled={uploadingId !== null}
               >
-                <Camera size={16} /> {isUploading ? 'Uploading...' : 'Change Photo'}
+                <Camera size={16} /> {uploadingId === 'patient' ? 'Uploading...' : 'Change Photo'}
               </button>
             </div>
             <label style={{fontSize: '0.85rem', fontWeight: 'bold', display: 'block', marginBottom: '0.5rem'}}>Full Name</label>
@@ -198,12 +198,12 @@ const Settings = () => {
             {family.map((f, i) => (
               <div key={f.id} className="flex items-center justify-between" style={{borderBottom: i !== family.length - 1 ? '1px solid #f1f5f9' : 'none', paddingBottom: i !== family.length - 1 ? '1rem' : '0'}}>
                 <div className="flex items-center gap-3">
-                  <div style={{position: 'relative', opacity: isUploading ? 0.5 : 1}}>
+                  <div style={{position: 'relative', opacity: uploadingId === f.id ? 0.5 : 1}}>
                     <img src={f.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${f.name}`} alt={f.name} className="avatar" style={{width: '40px', height: '40px', borderRadius: '12px', objectFit: 'cover'}} />
                     <button 
                       style={{position: 'absolute', bottom: -5, right: -5, background: 'var(--primary-color)', color: 'white', borderRadius: '50%', padding: '4px', border: 'none', cursor: 'pointer', display: 'flex'}}
                       onClick={() => handlePhotoUpload('member', f.id)}
-                      disabled={isUploading}
+                      disabled={uploadingId !== null}
                     >
                       <Camera size={10} />
                     </button>
