@@ -21,6 +21,7 @@ const Medications = () => {
     try {
       const image = await CapCamera.getPhoto({
         quality: 60,
+        width: 500,
         allowEditing: false,
         resultType: CameraResultType.Base64,
         source: CameraSource.Prompt
