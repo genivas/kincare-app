@@ -51,7 +51,7 @@ const Settings = () => {
     } catch (err) {
       console.error("Error with camera or upload:", err);
       if (err.message && err.message.indexOf('User cancelled') === -1) {
-        alert('Error uploading photo. Please check your connection and try again.');
+        alert('Error uploading photo: ' + err.message);
       }
     } finally {
       setUploadingId(null);
