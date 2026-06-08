@@ -10,8 +10,9 @@ import { Camera } from 'lucide-react';
 
 const Settings = () => {
   const { patient, setPatient, family, setFamily, currentUser, deleteAccountAndFamily } = useContext(GlobalContext);
-  const [name, setName] = useState(patient.name);
+  const [name, setName] = useState(patient?.name || '');
   const [showAddForm, setShowAddForm] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
   const [newMemberName, setNewMemberName] = useState('');
   const [newMemberRelation, setNewMemberRelation] = useState('');
   const [newMemberRole, setNewMemberRole] = useState('Family');
@@ -26,6 +27,7 @@ const Settings = () => {
     const file = e.target.files[0];
     if (!file) return;
 
+    setIsUploading(true);
     try {
       let storagePath = '';
       let docRef = null;
@@ -43,10 +45,12 @@ const Settings = () => {
       const downloadURL = await getDownloadURL(fileRef);
 
       await updateDoc(docRef, { avatar: downloadURL });
-      alert('Photo updated successfully!');
+      // Remove the alert, the UI will update automatically via snapshot
     } catch (err) {
       console.error("Error uploading photo:", err);
-      alert('Error uploading photo. Please try again.');
+      alert('Error uploading photo. Please check your connection and try again.');
+    } finally {
+      setIsUploading(false);
     }
   };
 
@@ -105,10 +109,10 @@ const Settings = () => {
           <h3 className="mb-4" style={{display: 'flex', alignItems: 'center', gap: '0.5rem'}}><ShieldCheck size={20} color="var(--primary-color)" /> Patient Profile</h3>
           <div className="flex-col gap-3">
             <div className="flex items-center gap-4 mb-4">
-              <img src={patient?.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${patient?.name || 'Idoso'}`} alt="Avatar" className="avatar avatar-lg" style={{width: '60px', height: '60px', borderRadius: '20px', objectFit: 'cover'}} />
+              <img src={patient?.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${patient?.name || 'Idoso'}`} alt="Avatar" className="avatar avatar-lg" style={{width: '60px', height: '60px', borderRadius: '20px', objectFit: 'cover', opacity: isUploading ? 0.5 : 1}} />
               <label className="btn-secondary" style={{padding: '0.5rem 1rem', width: 'auto', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.5rem'}}>
-                <Camera size={16} /> Change Photo
-                <input type="file" accept="image/*" style={{display: 'none'}} onChange={(e) => handlePhotoUpload(e, 'patient')} />
+                <Camera size={16} /> {isUploading ? 'Uploading...' : 'Change Photo'}
+                <input type="file" accept="image/*" capture="environment" style={{display: 'none'}} onChange={(e) => handlePhotoUpload(e, 'patient')} disabled={isUploading} />
               </label>
             </div>
             <label style={{fontSize: '0.85rem', fontWeight: 'bold', display: 'block', marginBottom: '0.5rem'}}>Full Name</label>
@@ -181,11 +185,11 @@ const Settings = () => {
             {family.map((f, i) => (
               <div key={f.id} className="flex items-center justify-between" style={{borderBottom: i !== family.length - 1 ? '1px solid #f1f5f9' : 'none', paddingBottom: i !== family.length - 1 ? '1rem' : '0'}}>
                 <div className="flex items-center gap-3">
-                  <div style={{position: 'relative'}}>
-                    <img src={f.avatar} alt={f.name} className="avatar" style={{width: '40px', height: '40px', borderRadius: '12px', objectFit: 'cover'}} />
+                  <div style={{position: 'relative', opacity: isUploading ? 0.5 : 1}}>
+                    <img src={f.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${f.name}`} alt={f.name} className="avatar" style={{width: '40px', height: '40px', borderRadius: '12px', objectFit: 'cover'}} />
                     <label style={{position: 'absolute', bottom: -5, right: -5, background: 'var(--primary-color)', color: 'white', borderRadius: '50%', padding: '4px', cursor: 'pointer', display: 'flex'}}>
                       <Camera size={10} />
-                      <input type="file" accept="image/*" style={{display: 'none'}} onChange={(e) => handlePhotoUpload(e, 'member', f.id)} />
+                      <input type="file" accept="image/*" capture="environment" style={{display: 'none'}} onChange={(e) => handlePhotoUpload(e, 'member', f.id)} disabled={isUploading} />
                     </label>
                   </div>
                   <div>
