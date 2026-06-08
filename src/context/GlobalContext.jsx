@@ -200,13 +200,7 @@ export const GlobalProvider = ({ children }) => {
   const addMedication = async (newMed) => {
     let photoUrl = null;
     if (newMed.photoBase64) {
-      const storageRef = ref(storage, `medications/${Date.now()}_image`);
-      await uploadString(storageRef, newMed.photoBase64, 'base64', { contentType: 'image/jpeg' });
-      photoUrl = await getDownloadURL(storageRef);
-    } else if (newMed.photoFile) {
-      const storageRef = ref(storage, `medications/${Date.now()}_${newMed.photoFile.name}`);
-      await uploadBytes(storageRef, newMed.photoFile);
-      photoUrl = await getDownloadURL(storageRef);
+      photoUrl = `data:image/jpeg;base64,${newMed.photoBase64}`;
     }
     const dosesToCreate = 24 / newMed.frequency;
     const [hours, minutes] = newMed.time.split(':').map(Number);

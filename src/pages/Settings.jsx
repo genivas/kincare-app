@@ -36,22 +36,16 @@ const Settings = () => {
       if (!image.base64String) return;
 
       setUploadingId(type === 'patient' ? 'patient' : memberId);
-      let storagePath = '';
       let docRef = null;
 
       if (type === 'patient') {
-        storagePath = `avatars/families/${patient.id}/patient_avatar_${Date.now()}`;
         docRef = doc(db, "families", patient.id);
       } else if (type === 'member' && memberId) {
-        storagePath = `avatars/users/${memberId}/avatar_${Date.now()}`;
         docRef = doc(db, "users", memberId);
       }
 
-      const fileRef = ref(storage, storagePath);
-      await uploadString(fileRef, image.base64String, 'base64', { contentType: `image/${image.format}` });
-      const downloadURL = await getDownloadURL(fileRef);
-
-      await updateDoc(docRef, { avatar: downloadURL });
+      const base64DataUrl = `data:image/${image.format};base64,${image.base64String}`;
+      await updateDoc(docRef, { avatar: base64DataUrl });
       // Remove the alert, the UI will update automatically via snapshot
     } catch (err) {
       console.error("Error with camera or upload:", err);
