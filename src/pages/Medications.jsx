@@ -1,6 +1,7 @@
 import React, { useContext, useState, useRef } from 'react';
 import { GlobalContext } from '../context/GlobalContext';
 import { Check, Clock, Plus, X, AlertCircle, Camera, Trash2 } from 'lucide-react';
+import { Camera as CapCamera, CameraResultType, CameraSource } from '@capacitor/camera';
 
 const Medications = () => {
   const { medications, markMedicationStatus, addMedication, deleteMedication } = useContext(GlobalContext);
@@ -16,11 +17,22 @@ const Medications = () => {
   
   const fileInputRef = useRef(null);
 
-  const handlePhotoCapture = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setPhotoFile(file);
-      setPhotoPreview(URL.createObjectURL(file));
+  const handlePhotoCapture = async () => {
+    try {
+      const image = await CapCamera.getPhoto({
+        quality: 60,
+        allowEditing: false,
+        resultType: CameraResultType.Uri,
+        source: CameraSource.Prompt
+      });
+      if (image.webPath) {
+        setPhotoPreview(image.webPath);
+        const response = await fetch(image.webPath);
+        const blob = await response.blob();
+        setPhotoFile(blob);
+      }
+    } catch(err) {
+      console.log(err);
     }
   };
 
@@ -83,7 +95,7 @@ const Medications = () => {
             <form onSubmit={handleAddSubmit} className="flex-col gap-4 flex">
               
               {/* Photo Upload Section */}
-              <div className="flex flex-col items-center justify-center p-6" style={{border: '2px dashed #94a3b8', borderRadius: '16px', background: '#f8fafc', cursor: 'pointer', transition: 'all 0.2s'}} onClick={() => fileInputRef.current.click()}>
+              <div className="flex flex-col items-center justify-center p-6" style={{border: '2px dashed #94a3b8', borderRadius: '16px', background: '#f8fafc', cursor: 'pointer', transition: 'all 0.2s'}} onClick={handlePhotoCapture}>
                 {photoPreview ? (
                   <img src={photoPreview} alt="Preview" style={{width: '100%', maxHeight: '180px', objectFit: 'cover', borderRadius: '12px'}} />
                 ) : (
@@ -94,14 +106,6 @@ const Medications = () => {
                     <span style={{fontSize: '0.95rem', color: '#475569', fontWeight: '600'}}>Take Photo of the Box</span>
                   </>
                 )}
-                <input 
-                  type="file" 
-                  accept="image/*" 
-                  capture="environment" 
-                  ref={fileInputRef} 
-                  onChange={handlePhotoCapture} 
-                  style={{display: 'none'}} 
-                />
               </div>
 
               <div>

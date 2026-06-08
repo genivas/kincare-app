@@ -7,6 +7,7 @@ import { signOut } from 'firebase/auth';
 import { doc, updateDoc } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { Camera } from 'lucide-react';
+import { Camera as CapCamera, CameraResultType, CameraSource } from '@capacitor/camera';
 
 const Settings = () => {
   const { patient, setPatient, family, setFamily, currentUser, deleteAccountAndFamily } = useContext(GlobalContext);
@@ -23,12 +24,21 @@ const Settings = () => {
     alert('Saved successfully!');
   };
 
-  const handlePhotoUpload = async (e, type, memberId = null) => {
-    const file = e.target.files[0];
-    if (!file) return;
-
-    setIsUploading(true);
+  const handlePhotoUpload = async (type, memberId = null) => {
     try {
+      const image = await CapCamera.getPhoto({
+        quality: 60,
+        allowEditing: false,
+        resultType: CameraResultType.Uri,
+        source: CameraSource.Prompt
+      });
+
+      if (!image.webPath) return;
+
+      setIsUploading(true);
+      
+      const response = await fetch(image.webPath);
+      const blob = await response.blob();
       let storagePath = '';
       let docRef = null;
 
@@ -41,14 +51,16 @@ const Settings = () => {
       }
 
       const fileRef = ref(storage, storagePath);
-      await uploadBytes(fileRef, file);
+      await uploadBytes(fileRef, blob);
       const downloadURL = await getDownloadURL(fileRef);
 
       await updateDoc(docRef, { avatar: downloadURL });
       // Remove the alert, the UI will update automatically via snapshot
     } catch (err) {
-      console.error("Error uploading photo:", err);
-      alert('Error uploading photo. Please check your connection and try again.');
+      console.error("Error with camera or upload:", err);
+      if (err.message && err.message.indexOf('User cancelled') === -1) {
+        alert('Error uploading photo. Please check your connection and try again.');
+      }
     } finally {
       setIsUploading(false);
     }
@@ -110,10 +122,14 @@ const Settings = () => {
           <div className="flex-col gap-3">
             <div className="flex items-center gap-4 mb-4">
               <img src={patient?.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${patient?.name || 'Idoso'}`} alt="Avatar" className="avatar avatar-lg" style={{width: '60px', height: '60px', borderRadius: '20px', objectFit: 'cover', opacity: isUploading ? 0.5 : 1}} />
-              <label className="btn-secondary" style={{padding: '0.5rem 1rem', width: 'auto', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.5rem'}}>
+              <button 
+                className="btn-secondary" 
+                style={{padding: '0.5rem 1rem', width: 'auto', display: 'flex', alignItems: 'center', gap: '0.5rem'}}
+                onClick={() => handlePhotoUpload('patient')}
+                disabled={isUploading}
+              >
                 <Camera size={16} /> {isUploading ? 'Uploading...' : 'Change Photo'}
-                <input type="file" accept="image/*" capture="environment" style={{display: 'none'}} onChange={(e) => handlePhotoUpload(e, 'patient')} disabled={isUploading} />
-              </label>
+              </button>
             </div>
             <label style={{fontSize: '0.85rem', fontWeight: 'bold', display: 'block', marginBottom: '0.5rem'}}>Full Name</label>
             <input 
@@ -187,10 +203,13 @@ const Settings = () => {
                 <div className="flex items-center gap-3">
                   <div style={{position: 'relative', opacity: isUploading ? 0.5 : 1}}>
                     <img src={f.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${f.name}`} alt={f.name} className="avatar" style={{width: '40px', height: '40px', borderRadius: '12px', objectFit: 'cover'}} />
-                    <label style={{position: 'absolute', bottom: -5, right: -5, background: 'var(--primary-color)', color: 'white', borderRadius: '50%', padding: '4px', cursor: 'pointer', display: 'flex'}}>
+                    <button 
+                      style={{position: 'absolute', bottom: -5, right: -5, background: 'var(--primary-color)', color: 'white', borderRadius: '50%', padding: '4px', border: 'none', cursor: 'pointer', display: 'flex'}}
+                      onClick={() => handlePhotoUpload('member', f.id)}
+                      disabled={isUploading}
+                    >
                       <Camera size={10} />
-                      <input type="file" accept="image/*" capture="environment" style={{display: 'none'}} onChange={(e) => handlePhotoUpload(e, 'member', f.id)} disabled={isUploading} />
-                    </label>
+                    </button>
                   </div>
                   <div>
                     <strong style={{display: 'block', fontSize: '0.95rem'}}>{f.name}</strong>
