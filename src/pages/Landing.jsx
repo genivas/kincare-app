@@ -390,7 +390,7 @@ const Landing = () => {
                 </p>
                 <div className="flex-row">
                   <div style={{width: '48px', height: '48px', borderRadius: '50%', background: '#cbd5e1', overflow: 'hidden'}}>
-                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Sarah" alt="Sarah" />
+                    <img src="/sarah_avatar.png" alt="Sarah" style={{width: '100%', height: '100%', objectFit: 'cover'}} />
                   </div>
                   <div>
                     <strong style={{display: 'block', color: '#0f172a'}}>Sarah T.</strong>
@@ -408,7 +408,7 @@ const Landing = () => {
                 </p>
                 <div className="flex-row">
                   <div style={{width: '48px', height: '48px', borderRadius: '50%', background: '#cbd5e1', overflow: 'hidden'}}>
-                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Michael" alt="Michael" />
+                    <img src="/michael_avatar.png" alt="Michael" style={{width: '100%', height: '100%', objectFit: 'cover'}} />
                   </div>
                   <div>
                     <strong style={{display: 'block', color: '#0f172a'}}>Michael R.</strong>
