@@ -21,12 +21,16 @@ const Landing = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const handleCheckout = (e) => {
+  const scrollToPricing = (e) => {
     e.preventDefault();
+    document.getElementById('pricing').scrollIntoView({ behavior: 'smooth' });
+  };
+
+  const openCheckout = (url) => {
     if (window.fbq) {
       window.fbq('track', 'InitiateCheckout');
     }
-    window.location.href = 'https://pay.hotmart.com/O106115546S?off=agpe42pl';
+    window.location.href = url;
   };
 
   const faqs = [
@@ -305,6 +309,38 @@ const Landing = () => {
           font-size: 1.1rem;
           margin-bottom: 1.5rem;
         }
+
+        /* Pricing Cards */
+        .pricing-section {
+          padding: 4rem 1.5rem;
+          background: #f8fafc;
+        }
+        .pricing-card {
+          background: white;
+          border-radius: 24px;
+          padding: 2.5rem;
+          box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+          border: 1px solid #e2e8f0;
+          display: flex;
+          flex-direction: column;
+          position: relative;
+        }
+        .pricing-card.popular {
+          border: 2px solid #0d9488;
+          transform: scale(1.02);
+        }
+        .popular-badge {
+          position: absolute;
+          top: -12px;
+          left: 50%;
+          transform: translateX(-50%);
+          background: #0d9488;
+          color: white;
+          padding: 4px 12px;
+          border-radius: 20px;
+          font-size: 0.8rem;
+          font-weight: bold;
+        }
       `}</style>
 
       {/* Fixed Header Wrapper */}
@@ -361,8 +397,8 @@ const Landing = () => {
             </div>
             
             <div style={{marginTop: '2rem'}}>
-              <button onClick={handleCheckout} className="buy-button">
-                Get KinCare Now <ArrowRight size={24} />
+              <button onClick={scrollToPricing} className="buy-button">
+                View Pricing Plans <ArrowRight size={24} />
               </button>
               
               <div className="flex-center" style={{gap: '1.5rem', color: '#64748b', fontSize: '0.85rem', fontWeight: '600', marginTop: '1rem'}}>
@@ -466,6 +502,55 @@ const Landing = () => {
           </div>
         </section>
 
+        {/* Pricing Section */}
+        <section id="pricing" className="pricing-section">
+          <h2 style={{textAlign: 'center', fontSize: '2.2rem', fontWeight: '800', marginBottom: '3rem', color: '#0f172a'}}>
+            Simple, Transparent Pricing
+          </h2>
+          <div className="section-container" style={{padding: 0}}>
+            <div className="grid-2" style={{maxWidth: '900px', margin: '0 auto'}}>
+              
+              {/* Family Plan */}
+              <div className="pricing-card">
+                <h3 style={{fontSize: '1.5rem', color: '#0f172a', margin: 0}}>KinCare Family</h3>
+                <p style={{color: '#64748b', marginBottom: '1.5rem'}}>Perfect for individual families.</p>
+                <div style={{fontSize: '3rem', fontWeight: '900', color: '#0f172a', marginBottom: '0.5rem'}}>
+                  $9.99<span style={{fontSize: '1rem', color: '#64748b', fontWeight: '500'}}>/mo</span>
+                </div>
+                <ul style={{listStyle: 'none', padding: 0, margin: '0 0 2rem 0', flex: 1}}>
+                  <li className="flex-row" style={{marginBottom: '0.75rem'}}><CheckCircle2 size={18} color="#0d9488"/> 1 Patient Profile</li>
+                  <li className="flex-row" style={{marginBottom: '0.75rem'}}><CheckCircle2 size={18} color="#0d9488"/> Up to 4 Family Members</li>
+                  <li className="flex-row" style={{marginBottom: '0.75rem'}}><CheckCircle2 size={18} color="#0d9488"/> Real-time Alerts</li>
+                  <li className="flex-row" style={{marginBottom: '0.75rem'}}><CheckCircle2 size={18} color="#0d9488"/> Complete History Log</li>
+                </ul>
+                <button onClick={() => openCheckout('https://pay.hotmart.com/O106115546S?off=agpe42pl')} className="buy-button" style={{width: '100%', fontSize: '1.1rem', padding: '1rem'}}>
+                  Start 14-Day Free Trial
+                </button>
+              </div>
+
+              {/* Pro Plan */}
+              <div className="pricing-card popular">
+                <div className="popular-badge">RECOMMENDED</div>
+                <h3 style={{fontSize: '1.5rem', color: '#0f172a', margin: 0}}>KinCare Pro</h3>
+                <p style={{color: '#64748b', marginBottom: '1.5rem'}}>For professional caregivers & large families.</p>
+                <div style={{fontSize: '3rem', fontWeight: '900', color: '#0f172a', marginBottom: '0.5rem'}}>
+                  $19.99<span style={{fontSize: '1rem', color: '#64748b', fontWeight: '500'}}>/mo</span>
+                </div>
+                <ul style={{listStyle: 'none', padding: 0, margin: '0 0 2rem 0', flex: 1}}>
+                  <li className="flex-row" style={{marginBottom: '0.75rem'}}><CheckCircle2 size={18} color="#0d9488"/> <b>Unlimited</b> Patients</li>
+                  <li className="flex-row" style={{marginBottom: '0.75rem'}}><CheckCircle2 size={18} color="#0d9488"/> <b>Unlimited</b> Members</li>
+                  <li className="flex-row" style={{marginBottom: '0.75rem'}}><CheckCircle2 size={18} color="#0d9488"/> Real-time Alerts</li>
+                  <li className="flex-row" style={{marginBottom: '0.75rem'}}><CheckCircle2 size={18} color="#0d9488"/> Export PDF for Doctors</li>
+                </ul>
+                <button onClick={() => openCheckout('https://pay.hotmart.com/O106115546S?off=6bl5f0mn')} className="buy-button" style={{width: '100%', fontSize: '1.1rem', padding: '1rem', background: '#0f172a'}}>
+                  Start 14-Day Free Trial
+                </button>
+              </div>
+
+            </div>
+          </div>
+        </section>
+
         {/* FAQ Section */}
         <section style={{maxWidth: '800px', margin: '0 auto', padding: '0 1.5rem'}}>
           <h2 style={{textAlign: 'center', fontSize: '2.2rem', fontWeight: '800', marginBottom: '3rem', color: '#0f172a'}}>
@@ -502,8 +587,8 @@ const Landing = () => {
             <strong style={{display: 'block', fontSize: '1.2rem', color: '#0f172a'}}>Ready for peace of mind?</strong>
             <span style={{color: '#64748b'}}>Secure your family's care today.</span>
           </div>
-          <button onClick={handleCheckout} className="buy-button" style={{margin: 0, padding: '1rem 2rem', maxWidth: '100%', flex: 1}}>
-            Get KinCare Now <ArrowRight size={20} />
+          <button onClick={scrollToPricing} className="buy-button" style={{margin: 0, padding: '1rem 2rem', maxWidth: '100%', flex: 1}}>
+            View Pricing Plans <ArrowRight size={20} />
           </button>
         </div>
       </div>
