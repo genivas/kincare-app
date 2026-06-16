@@ -28,6 +28,9 @@ export async function onRequestPost(context) {
 
     const buyerEmail = payload.data?.buyer?.email;
     const buyerName = payload.data?.buyer?.name || 'VIP User';
+    
+    // Captura o nome do plano (caso seja assinatura) ou o nome do produto
+    const planName = payload.data?.subscription?.plan?.name || payload.data?.product?.name || 'Plano Padrão';
 
     if (!buyerEmail) {
       return new Response("No email provided", { status: 400 });
@@ -46,6 +49,7 @@ export async function onRequestPost(context) {
       fields: {
         email: { stringValue: safeEmailId },
         name: { stringValue: buyerName },
+        plan: { stringValue: planName },
         status: { stringValue: 'approved' },
         createdAt: { timestampValue: new Date().toISOString() }
       }
