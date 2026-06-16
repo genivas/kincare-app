@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { auth, db } from '../firebase';
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile, sendPasswordResetEmail } from 'firebase/auth';
-import { doc, setDoc } from 'firebase/firestore';
+import { doc, setDoc, getDoc } from 'firebase/firestore';
 import { HeartPulse } from 'lucide-react';
 import { GlobalContext } from '../context/GlobalContext';
 
@@ -37,8 +37,14 @@ const Login = () => {
 
     try {
       if (isRegistering) {
-        if (!inviteId && accessCode.trim().toUpperCase() !== 'KINCARE-VIP-26') {
-          throw new Error('Invalid VIP Access Code. Please check the email you received after purchase.');
+        if (!inviteId) {
+          const safeEmailId = email.toLowerCase().trim();
+          const inviteRef = doc(db, 'vip_invites', safeEmailId);
+          const inviteSnap = await getDoc(inviteRef);
+
+          if (!inviteSnap.exists() || inviteSnap.data().status !== 'approved') {
+            throw new Error('Email not found in the approved VIP list. Please use the exact email from your Hotmart purchase.');
+          }
         }
 
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
@@ -126,19 +132,7 @@ const Login = () => {
             </div>
           )}
 
-          {isRegistering && !inviteId && (
-            <div>
-              <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.9rem', fontWeight: '500' }}>VIP Access Code</label>
-              <input 
-                type="text" 
-                value={accessCode}
-                onChange={(e) => setAccessCode(e.target.value)}
-                style={{ width: '100%', padding: '0.75rem', borderRadius: '8px', border: '1px solid #cbd5e1', fontFamily: 'inherit', textTransform: 'uppercase' }}
-                required={isRegistering && !inviteId}
-                placeholder="KINCARE-VIP-26"
-              />
-            </div>
-          )}
+          {/* Removed VIP Access Code field */}
 
           <div>
             <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.9rem', fontWeight: '500' }}>Email</label>
