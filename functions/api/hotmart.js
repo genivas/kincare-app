@@ -1,4 +1,4 @@
-export async function onRequestPost(context) {
+export async function onRequest(context) {
   try {
     // 1. Get the webhook secret from Cloudflare environment variables
     // In the Cloudflare dashboard, add HOTMART_WEBHOOK_SECRET
@@ -12,6 +12,10 @@ export async function onRequestPost(context) {
     const hottok = request.headers.get('x-hottok') || request.headers.get('hottok');
     if (hottok && hottok !== EXPECTED_SECRET && EXPECTED_SECRET !== 'MY_SECRET_KEY_123') {
        return new Response("Unauthorized Token", { status: 401 });
+    }
+
+    if (request.method !== 'POST') {
+      return new Response("Webhook API is active and waiting for POST requests from Hotmart.", { status: 200 });
     }
 
     const payload = await request.json();
