@@ -67,6 +67,12 @@ const Dashboard = () => {
           <button onClick={() => setShowStatusModal(true)} style={{background: urgencyConfig.bg, color: urgencyConfig.color, padding: '0.5rem 1rem', borderRadius: '100px', border: 'none', fontSize: '0.8rem', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '0.3rem'}}>
             {urgencyConfig.text} <ChevronRight size={14} />
           </button>
+          <button 
+            onClick={() => navigate('/app/settings')}
+            style={{background: 'white', color: 'var(--text-light)', width: '36px', height: '36px', borderRadius: '50%', border: '1px solid rgba(0,0,0,0.05)', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 4px 12px rgba(0,0,0,0.02)'}}
+          >
+            <SettingsIcon size={18} strokeWidth={1.5} />
+          </button>
         </div>
       </header>
 
