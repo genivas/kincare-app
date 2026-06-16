@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { GlobalContext } from '../context/GlobalContext';
-import { Plus, X, Trash2 } from 'lucide-react';
+import { Plus, X, Trash2, CheckCircle2, Circle } from 'lucide-react';
 
 const Tasks = () => {
   const { tasks, addTask, updateTask, currentUser, deleteTask } = useContext(GlobalContext);
@@ -13,6 +13,12 @@ const Tasks = () => {
     await updateTask(id, {
       status: 'in_progress',
       assignedTo: currentUser
+    });
+  };
+
+  const handleCompleteTask = async (id) => {
+    await updateTask(id, {
+      status: 'completed'
     });
   };
 
@@ -32,97 +38,107 @@ const Tasks = () => {
   };
 
   return (
-    <div className="page-content top-gradient-bg" style={{paddingBottom: '80px', paddingTop: '3rem'}}>
-      <header className="px-4 mb-6 flex justify-between items-center">
+    <div className="page-content" style={{paddingBottom: '90px', paddingTop: '3rem', background: 'var(--bg-color)', minHeight: '100vh'}}>
+      <header className="px-5 mb-8 flex justify-between items-center">
         <div>
-          <h1 style={{fontSize: '1.4rem', fontWeight: '700', margin: 0}}>Task Board</h1>
+          <h1 style={{fontSize: '1.4rem', fontWeight: '700', color: 'var(--text-color)', margin: 0, letterSpacing: '-0.3px'}}>Task Board</h1>
           <p style={{fontSize: '0.85rem', color: 'var(--text-light)', margin: 0}}>Share the responsibilities</p>
         </div>
       </header>
 
-      {/* Floating Action Button for Adding Tasks */}
-      <button className="fab-button" onClick={() => setShowAddForm(true)}>
+      <button className="fab-button" onClick={() => setShowAddForm(true)} style={{bottom: '90px', right: '20px'}}>
         <Plus size={24} />
       </button>
 
-      <main className="px-4">
+      <main className="px-5">
         {showAddForm && (
-          <div className="glass-card mb-4" style={{border: '2px solid var(--primary-color)'}}>
-            <div className="flex justify-between items-center mb-3">
-              <h3 style={{margin: 0}}>New Task</h3>
-              <button style={{background: 'transparent', padding: 0, border: 'none'}} onClick={() => setShowAddForm(false)}>
-                <X size={20} color="var(--text-light)"/>
+          <div style={{background: '#ffffff', borderRadius: '32px', padding: '1.5rem', border: '1px solid rgba(0,0,0,0.05)', boxShadow: '0 20px 40px rgba(0,0,0,0.04)', marginBottom: '2rem'}}>
+            <div className="flex justify-between items-center mb-5">
+              <h3 style={{margin: 0, fontSize: '1.2rem', color: 'var(--text-color)'}}>New Task</h3>
+              <button style={{background: 'var(--bg-color)', color: 'var(--text-light)', padding: '0.5rem', borderRadius: '50%', border: 'none', display: 'flex'}} onClick={() => setShowAddForm(false)}>
+                <X size={18} />
               </button>
             </div>
-            <form onSubmit={handleAddTask} className="flex-col gap-3 flex">
+            <form onSubmit={handleAddTask} className="flex-col gap-4 flex">
               <input 
                 type="text" 
                 placeholder="What needs to be done?" 
                 value={newTaskTitle}
                 onChange={e => setNewTaskTitle(e.target.value)}
-                style={{padding: '0.85rem', borderRadius: '10px', border: '1px solid #e2e8f0', width: '100%', fontFamily: 'inherit', background: '#f8fafc'}}
+                style={{padding: '1rem', borderRadius: '16px', border: '1px solid rgba(0,0,0,0.1)', width: '100%', background: '#ffffff', fontSize: '1rem'}}
                 required
               />
               <select 
                 value={newTaskPriority} 
                 onChange={e => setNewTaskPriority(e.target.value)}
-                style={{padding: '0.85rem', borderRadius: '10px', border: '1px solid #e2e8f0', width: '100%', fontFamily: 'inherit', background: '#f8fafc'}}
+                style={{padding: '1rem', borderRadius: '16px', border: '1px solid rgba(0,0,0,0.1)', width: '100%', background: '#ffffff', fontSize: '1rem'}}
               >
                 <option value="low">Priority: Low</option>
                 <option value="medium">Priority: Normal</option>
                 <option value="high">Priority: High</option>
               </select>
-              <button type="submit" className="btn-primary mt-2" style={{padding: '0.85rem', borderRadius: '10px'}}>Add Task</button>
+              <button type="submit" style={{padding: '1.1rem', borderRadius: '100px', fontSize: '1rem', fontWeight: '600', background: 'var(--primary-color)', color: 'white', border: 'none', marginTop: '1rem'}}>
+                Add Task
+              </button>
             </form>
           </div>
         )}
 
-        {tasks.map(task => (
-          <div key={task.id} className="glass-card mb-4">
-            <div className="flex justify-between items-start mb-3">
-              <strong style={{fontSize: '1.05rem', lineHeight: '1.4', flex: 1, paddingRight: '1rem'}}>{task.title}</strong>
-              <div className="flex items-center gap-2">
-                {task.priority === 'high' && <span className="badge badge-danger">High</span>}
-                {task.priority === 'medium' && <span className="badge badge-warning">Normal</span>}
-                {task.priority === 'low' && <span className="badge badge-success">Low</span>}
-                <button 
-                  onClick={() => {
-                    if(window.confirm('Are you sure you want to delete this task?')) {
-                      deleteTask(task.id);
-                    }
-                  }}
-                  style={{background: 'transparent', border: 'none', color: '#cbd5e1', cursor: 'pointer', padding: '0.25rem'}}
-                  title="Delete Task"
-                >
-                  <Trash2 size={16} />
-                </button>
-              </div>
-            </div>
+        {tasks.filter(t => t.status !== 'completed').map(task => {
+          
+          let priorityColor = 'var(--primary-color)';
+          let priorityBg = 'var(--primary-light)';
+          let priorityLabel = 'Normal';
+          
+          if(task.priority === 'high') { priorityColor = 'var(--danger-color)'; priorityBg = 'var(--danger-light)'; priorityLabel = 'High'; }
+          if(task.priority === 'low') { priorityColor = 'var(--success-color)'; priorityBg = 'var(--success-light)'; priorityLabel = 'Low'; }
 
-            {task.status === 'open' ? (
-              <div className="mt-4">
-                <p className="mb-3" style={{fontSize: '0.85rem', color: 'var(--text-light)'}}>No one is assigned yet.</p>
-                <button 
-                  className="btn-secondary" 
-                  style={{width: '100%', padding: '0.75rem', borderRadius: '10px', background: 'transparent', border: '1px solid var(--primary-color)', color: 'var(--primary-color)', fontWeight: '600'}}
-                  onClick={() => handleAssignTask(task.id)}
-                >
-                  I'll do this
+          return (
+            <div key={task.id} style={{background: '#ffffff', borderRadius: '24px', padding: '1.25rem', marginBottom: '1rem', border: '1px solid rgba(0,0,0,0.03)', boxShadow: '0 4px 12px rgba(0,0,0,0.02)', display: 'flex', flexDirection: 'column'}}>
+              <div className="flex justify-between items-start mb-2">
+                <div className="flex gap-3 items-start flex-1">
+                  <button onClick={() => handleCompleteTask(task.id)} style={{background: 'transparent', border: 'none', padding: 0, marginTop: '0.2rem', color: 'var(--text-light)'}}>
+                    <Circle size={24} strokeWidth={1.5} />
+                  </button>
+                  <div>
+                    <p style={{fontSize: '1.05rem', color: 'var(--text-color)', fontWeight: '500', margin: '0 0 0.5rem 0', lineHeight: '1.4'}}>{task.title}</p>
+                    <div style={{display: 'inline-block', background: priorityBg, color: priorityColor, padding: '0.2rem 0.6rem', borderRadius: '100px', fontSize: '0.7rem', fontWeight: '600', textTransform: 'uppercase'}}>
+                      {priorityLabel}
+                    </div>
+                  </div>
+                </div>
+                <button onClick={() => { if(window.confirm('Delete task?')) deleteTask(task.id) }} style={{background: 'transparent', border: 'none', color: '#cbd5e1', cursor: 'pointer', padding: '0.2rem'}}>
+                  <Trash2 size={18} strokeWidth={1.5} />
                 </button>
               </div>
-            ) : (
-              <div className="flex items-center gap-2 mt-4" style={{background: 'var(--primary-light)', padding: '0.75rem', borderRadius: '12px'}}>
-                <img src={task.assignedTo?.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${task.assignedTo?.name || 'User'}`} alt={task.assignedTo?.name} className="avatar" style={{width: '28px', height: '28px', borderColor: 'var(--primary-color)'}} />
-                <span style={{fontSize: '0.85rem', color: 'var(--primary-color)', fontWeight: '600'}}>
-                  {task.assignedTo?.name || 'Someone'} is on it
-                </span>
-              </div>
-            )}
-          </div>
-        ))}
-        {tasks.length === 0 && !showAddForm && (
-          <div className="text-center p-8 text-gray-500">
-            No tasks yet. Click the + button to create one.
+
+              {task.status === 'open' ? (
+                <div className="mt-4 pt-4" style={{borderTop: '1px solid rgba(0,0,0,0.03)'}}>
+                  <button 
+                    style={{width: '100%', padding: '0.85rem', borderRadius: '100px', background: 'transparent', border: '1px solid var(--primary-color)', color: 'var(--primary-color)', fontWeight: '600', fontSize: '0.9rem'}}
+                    onClick={() => handleAssignTask(task.id)}
+                  >
+                    I'll do this
+                  </button>
+                </div>
+              ) : (
+                <div className="flex items-center gap-2 mt-4 pt-4" style={{borderTop: '1px solid rgba(0,0,0,0.03)'}}>
+                  <img src={task.assignedTo?.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${task.assignedTo?.name || 'User'}`} alt={task.assignedTo?.name} style={{width: '24px', height: '24px', borderRadius: '50%'}} />
+                  <span style={{fontSize: '0.85rem', color: 'var(--text-light)', fontWeight: '500'}}>
+                    <strong style={{color: 'var(--text-color)'}}>{task.assignedTo?.name || 'Someone'}</strong> is on it
+                  </span>
+                </div>
+              )}
+            </div>
+          );
+        })}
+
+        {tasks.filter(t => t.status !== 'completed').length === 0 && !showAddForm && (
+          <div className="text-center p-8 text-gray-500" style={{marginTop: '2rem'}}>
+            <div style={{background: '#ffffff', width: '80px', height: '80px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 1rem', boxShadow: '0 4px 12px rgba(0,0,0,0.03)'}}>
+              <CheckCircle2 color="var(--success-color)" size={32} strokeWidth={1.5} />
+            </div>
+            <p>All tasks completed!</p>
           </div>
         )}
       </main>
