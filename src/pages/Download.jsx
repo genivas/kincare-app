@@ -1,6 +1,6 @@
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Download, Globe, Smartphone, HeartPulse } from 'lucide-react';
+import { Download, Globe, Smartphone, HeartPulse, BookOpen } from 'lucide-react';
 
 const DownloadPage = () => {
   const location = useLocation();
@@ -50,6 +50,17 @@ const DownloadPage = () => {
             <span style={{ fontSize: '0.8rem', color: '#64748b', fontWeight: 'normal' }}>
               Requires Android 8.0+
             </span>
+          </a>
+
+          <a 
+            href="/manual_en.html" 
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center justify-center gap-2"
+            style={{ marginTop: '0.5rem', color: '#2563eb', fontWeight: 'bold', fontSize: '0.95rem', textDecoration: 'none', padding: '0.5rem' }}
+          >
+            <BookOpen size={18} />
+            Read Official User Manual
           </a>
         </div>
 
