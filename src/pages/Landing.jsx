@@ -53,7 +53,7 @@ const Landing = () => {
   ];
 
   return (
-    <div style={{minHeight: '100vh', background: '#f8fafc', overflowX: 'hidden', fontFamily: "'Nunito', sans-serif"}}>
+    <div style={{minHeight: '100vh', background: 'var(--bg-color)', overflowX: 'hidden', fontFamily: "'Nunito', sans-serif"}}>
       <style>{`
         /* Core Layout & Spacing */
         .page-wrapper {
@@ -104,8 +104,8 @@ const Landing = () => {
 
         /* Header Elements */
         .trust-banner {
-          background: #e0f2fe;
-          color: #0369a1;
+          background: var(--primary-light);
+          color: var(--primary-color);
           text-align: center;
           padding: 0.75rem 1rem;
           font-size: 0.9rem;
@@ -133,8 +133,8 @@ const Landing = () => {
 
         .vsl-headline {
           font-size: clamp(2rem, 5vw, 3.5rem);
-          font-weight: 900;
-          color: #0f172a;
+          font-weight: 700;
+          color: var(--text-color);
           line-height: 1.1;
           letter-spacing: -1.5px;
         }
@@ -155,21 +155,21 @@ const Landing = () => {
           overflow: hidden;
           background: #1e293b;
           border-radius: 12px;
-          box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.2);
+          box-shadow: 0 10px 40px rgba(0, 0, 0, 0.04);
           margin: 2.5rem 0;
           border: 4px solid #fff;
         }
 
         /* Trust-focused Buttons */
         .buy-button {
-          background: #0d9488;
-          color: white;
+          background: var(--primary-color);
+          color: #1a3630;
           border: none;
           padding: 1.5rem 2rem;
           font-size: 1.25rem;
-          font-weight: 800;
+          font-weight: 600;
           border-radius: 100px;
-          box-shadow: 0 4px 6px -1px rgba(13, 148, 136, 0.3);
+          box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
           width: 100%;
           max-width: 450px;
           cursor: pointer;
@@ -182,24 +182,24 @@ const Landing = () => {
         }
 
         .buy-button:hover {
-          background: #0f766e;
+          background: #1a3630;
           transform: translateY(-2px);
         }
 
         .sign-in-btn {
-          background: #0f172a;
-          border: 1px solid #0f172a;
-          color: white;
-          font-weight: 700;
+          background: var(--bg-color);
+          border: 1px solid var(--primary-color);
+          color: var(--text-color);
+          font-weight: 600;
           font-size: 0.95rem;
           cursor: pointer;
           padding: 0.5rem 1.25rem;
           border-radius: 100px;
-          box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+          box-shadow: 0 4px 12px rgba(0,0,0,0.02);
           transition: background 0.2s, transform 0.2s;
         }
         .sign-in-btn:hover {
-          background: #1e293b;
+          background: var(--primary-light);
           transform: translateY(-1px);
         }
 
@@ -211,7 +211,7 @@ const Landing = () => {
           width: 100%;
           background: rgba(255,255,255,0.98);
           padding: 1rem;
-          box-shadow: 0 -10px 30px rgba(0,0,0,0.08);
+          box-shadow: 0 -10px 30px rgba(0,0,0,0.02);
           z-index: 100;
           transform: translateY(100%);
           transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -247,7 +247,7 @@ const Landing = () => {
         /* Risk Reversal / Guarantee Box */
         .guarantee-box {
           background: #f0fdf4;
-          border: 2px dashed #86efac;
+          border: 2px dashed var(--success-light);
           border-radius: 24px;
           padding: 2.5rem 1.5rem;
           text-align: center;
@@ -257,7 +257,7 @@ const Landing = () => {
 
         /* FAQ Accessible */
         .faq-item {
-          background: white;
+          background: var(--card-bg);
           border-radius: 16px;
           margin-bottom: 1rem;
           box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
@@ -272,7 +272,7 @@ const Landing = () => {
           display: flex;
           justify-content: space-between;
           align-items: center;
-          color: #0f172a;
+          color: var(--text-color);
           background: none;
           border: none;
           text-align: left;
@@ -286,7 +286,7 @@ const Landing = () => {
 
         /* Review Cards */
         .review-card {
-          background: #f8fafc;
+          background: var(--bg-color);
           padding: 2rem;
           border-radius: 24px;
           border: 1px solid #e2e8f0;
@@ -294,8 +294,8 @@ const Landing = () => {
         
         /* Features Section */
         .features-section {
-          background: #0f172a;
-          color: white;
+          background: var(--primary-light); /* Fundo clarinho */
+          color: var(--text-color);
           padding: 4rem 1.5rem;
           margin: 2rem auto;
           max-width: 1000px;
@@ -313,20 +313,20 @@ const Landing = () => {
         /* Pricing Cards */
         .pricing-section {
           padding: 4rem 1.5rem;
-          background: #f8fafc;
+          background: var(--bg-color);
         }
         .pricing-card {
-          background: white;
+          background: var(--card-bg);
           border-radius: 24px;
           padding: 2.5rem;
-          box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+          box-shadow: 0 4px 24px rgba(0,0,0,0.03);
           border: 1px solid #e2e8f0;
           display: flex;
           flex-direction: column;
           position: relative;
         }
         .pricing-card.popular {
-          border: 2px solid #0d9488;
+          border: 2px solid var(--primary-color);
           transform: scale(1.02);
         }
         .popular-badge {
@@ -334,8 +334,8 @@ const Landing = () => {
           top: -12px;
           left: 50%;
           transform: translateX(-50%);
-          background: #0d9488;
-          color: white;
+          background: var(--primary-color);
+          color: #1a3630;
           padding: 4px 12px;
           border-radius: 20px;
           font-size: 0.8rem;
@@ -353,9 +353,9 @@ const Landing = () => {
         {/* Navigation Bar */}
         <nav className="glass-nav flex-between">
           <div className="flex-row">
-            <HeartPulse color="#0d9488" size={28} />
-            <span style={{fontSize: '1.25rem', fontWeight: '800', letterSpacing: '-0.5px'}}>
-              <span style={{color: '#0d9488'}}>Kin</span><span style={{color: '#0f172a'}}>Care</span>
+            <HeartPulse color="var(--primary-color)" size={28} />
+            <span style={{fontSize: '1.25rem', fontWeight: '600', letterSpacing: '-0.5px'}}>
+              <span style={{color: 'var(--primary-color)'}}>Kin</span><span style={{color: 'var(--text-color)'}}>Care</span>
             </span>
           </div>
           <div>
@@ -373,7 +373,7 @@ const Landing = () => {
           <div className="vsl-container">
             
             <h1 className="vsl-headline">
-              <span style={{color: '#0d9488'}}>Stop The WhatsApp Chaos.</span><br/>
+              <span style={{color: 'var(--primary-color)'}}>Stop The WhatsApp Chaos.</span><br/>
               Know Exactly Who Handled Mom’s Medication.
             </h1>
             
@@ -402,17 +402,17 @@ const Landing = () => {
               </button>
               
               <div className="flex-center" style={{gap: '1.5rem', color: '#64748b', fontSize: '0.85rem', fontWeight: '600', marginTop: '1rem'}}>
-                <div className="flex-row"><Shield size={16} color="#0d9488"/> 14-Day Money-Back Guarantee</div>
-                <div className="flex-row"><Lock size={16} color="#0d9488"/> Secure Checkout</div>
+                <div className="flex-row"><Shield size={16} color="var(--primary-color)"/> 14-Day Money-Back Guarantee</div>
+                <div className="flex-row"><Lock size={16} color="var(--primary-color)"/> Secure Checkout</div>
               </div>
             </div>
           </div>
         </section>
 
         {/* Social Proof / Testimonials */}
-        <section style={{background: '#ffffff', padding: '4rem 1.5rem'}}>
+        <section style={{background: 'var(--card-bg)', padding: '4rem 1.5rem'}}>
           <div className="section-container" style={{padding: 0}}>
-            <h2 style={{textAlign: 'center', fontSize: '2.2rem', fontWeight: '800', marginBottom: '3rem', color: '#0f172a'}}>
+            <h2 style={{textAlign: 'center', fontSize: '2.2rem', fontWeight: '600', marginBottom: '3rem', color: 'var(--text-color)'}}>
               Families Sleep Better With KinCare.
             </h2>
             
@@ -429,7 +429,7 @@ const Landing = () => {
                     <img src="/sarah_avatar.png" alt="Sarah" style={{width: '100%', height: '100%', objectFit: 'cover'}} />
                   </div>
                   <div>
-                    <strong style={{display: 'block', color: '#0f172a'}}>Sarah T.</strong>
+                    <strong style={{display: 'block', color: 'var(--text-color)'}}>Sarah T.</strong>
                     <span style={{fontSize: '0.85rem', color: '#64748b'}}>Cares for her father</span>
                   </div>
                 </div>
@@ -447,7 +447,7 @@ const Landing = () => {
                     <img src="/michael_avatar.png" alt="Michael" style={{width: '100%', height: '100%', objectFit: 'cover'}} />
                   </div>
                   <div>
-                    <strong style={{display: 'block', color: '#0f172a'}}>Michael R.</strong>
+                    <strong style={{display: 'block', color: 'var(--text-color)'}}>Michael R.</strong>
                     <span style={{fontSize: '0.85rem', color: '#64748b'}}>Cares for his mother</span>
                   </div>
                 </div>
@@ -459,7 +459,7 @@ const Landing = () => {
         {/* What You Get Section */}
         <section className="features-section">
           <div style={{textAlign: 'center', marginBottom: '3rem'}}>
-            <h2 style={{fontSize: '2rem', fontWeight: '800', marginBottom: '1rem', letterSpacing: '-1px'}}>
+            <h2 style={{fontSize: '2rem', fontWeight: '600', marginBottom: '1rem', letterSpacing: '-1px'}}>
               Everything you need for total peace of mind.
             </h2>
             <p style={{color: '#94a3b8', fontSize: '1.1rem'}}>Stop guessing. Start knowing.</p>
@@ -468,21 +468,21 @@ const Landing = () => {
           <div className="grid-2">
              <div className="flex-col">
                 <div className="feature-item">
-                  <CheckCircle2 size={24} color="#34d399" style={{flexShrink: 0, marginTop: '2px'}}/> 
+                  <CheckCircle2 size={24} color="var(--success-color)" style={{flexShrink: 0, marginTop: '2px'}}/> 
                   <div><b>Shared Medication Log:</b> Know exactly what was taken and when.</div>
                 </div>
                 <div className="feature-item">
-                  <CheckCircle2 size={24} color="#34d399" style={{flexShrink: 0, marginTop: '2px'}}/> 
+                  <CheckCircle2 size={24} color="var(--success-color)" style={{flexShrink: 0, marginTop: '2px'}}/> 
                   <div><b>Real-Time Sync:</b> Everyone in the family sees updates instantly.</div>
                 </div>
              </div>
              <div className="flex-col">
                 <div className="feature-item">
-                  <CheckCircle2 size={24} color="#34d399" style={{flexShrink: 0, marginTop: '2px'}}/> 
+                  <CheckCircle2 size={24} color="var(--success-color)" style={{flexShrink: 0, marginTop: '2px'}}/> 
                   <div><b>Family Care Schedule:</b> Assign shifts so no one is overwhelmed.</div>
                 </div>
                 <div className="feature-item">
-                  <CheckCircle2 size={24} color="#34d399" style={{flexShrink: 0, marginTop: '2px'}}/> 
+                  <CheckCircle2 size={24} color="var(--success-color)" style={{flexShrink: 0, marginTop: '2px'}}/> 
                   <div><b>Task Management:</b> Organize doctor visits, groceries, and pharmacy runs.</div>
                 </div>
              </div>
@@ -492,11 +492,11 @@ const Landing = () => {
         {/* Risk Reversal / Guarantee Box */}
         <section style={{padding: '0 1.5rem'}}>
           <div className="guarantee-box">
-            <Shield size={64} color="#0d9488" style={{margin: '0 auto 1.5rem'}} />
-            <h2 style={{fontSize: '2.2rem', fontWeight: '900', color: '#134e4a', marginBottom: '1rem'}}>
+            <Shield size={64} color="var(--primary-color)" style={{margin: '0 auto 1.5rem'}} />
+            <h2 style={{fontSize: '2.2rem', fontWeight: '700', color: 'var(--text-color)', marginBottom: '1rem'}}>
               100% Risk-Free 14-Day Guarantee
             </h2>
-            <p style={{fontSize: '1.15rem', color: '#0f766e', maxWidth: '600px', margin: '0 auto', lineHeight: '1.6'}}>
+            <p style={{fontSize: '1.15rem', color: '#1a3630', maxWidth: '600px', margin: '0 auto', lineHeight: '1.6'}}>
               Get KinCare for your family today. If you don't feel significantly more relaxed, organized, and confident in your loved one's care within 14 days, simply let us know and we'll refund you. <b>100% Risk-Free.</b>
             </p>
           </div>
@@ -504,7 +504,7 @@ const Landing = () => {
 
         {/* Pricing Section */}
         <section id="pricing" className="pricing-section">
-          <h2 style={{textAlign: 'center', fontSize: '2.2rem', fontWeight: '800', marginBottom: '3rem', color: '#0f172a'}}>
+          <h2 style={{textAlign: 'center', fontSize: '2.2rem', fontWeight: '600', marginBottom: '3rem', color: 'var(--text-color)'}}>
             Simple, Transparent Pricing
           </h2>
           <div className="section-container" style={{padding: 0}}>
@@ -512,16 +512,16 @@ const Landing = () => {
               
               {/* Family Plan */}
               <div className="pricing-card">
-                <h3 style={{fontSize: '1.5rem', color: '#0f172a', margin: 0}}>KinCare Family</h3>
+                <h3 style={{fontSize: '1.5rem', color: 'var(--text-color)', margin: 0}}>KinCare Family</h3>
                 <p style={{color: '#64748b', marginBottom: '1.5rem'}}>Perfect for individual families.</p>
-                <div style={{fontSize: '3rem', fontWeight: '900', color: '#0f172a', marginBottom: '0.5rem'}}>
+                <div style={{fontSize: '3rem', fontWeight: '700', color: 'var(--text-color)', marginBottom: '0.5rem'}}>
                   $9.99<span style={{fontSize: '1rem', color: '#64748b', fontWeight: '500'}}>/mo</span>
                 </div>
                 <ul style={{listStyle: 'none', padding: 0, margin: '0 0 2rem 0', flex: 1}}>
-                  <li className="flex-row" style={{marginBottom: '0.75rem'}}><CheckCircle2 size={18} color="#0d9488"/> 1 Patient Profile</li>
-                  <li className="flex-row" style={{marginBottom: '0.75rem'}}><CheckCircle2 size={18} color="#0d9488"/> Up to 4 Family Members</li>
-                  <li className="flex-row" style={{marginBottom: '0.75rem'}}><CheckCircle2 size={18} color="#0d9488"/> Real-time Alerts</li>
-                  <li className="flex-row" style={{marginBottom: '0.75rem'}}><CheckCircle2 size={18} color="#0d9488"/> Complete History Log</li>
+                  <li className="flex-row" style={{marginBottom: '0.75rem'}}><CheckCircle2 size={18} color="var(--primary-color)"/> 1 Patient Profile</li>
+                  <li className="flex-row" style={{marginBottom: '0.75rem'}}><CheckCircle2 size={18} color="var(--primary-color)"/> Up to 4 Family Members</li>
+                  <li className="flex-row" style={{marginBottom: '0.75rem'}}><CheckCircle2 size={18} color="var(--primary-color)"/> Real-time Alerts</li>
+                  <li className="flex-row" style={{marginBottom: '0.75rem'}}><CheckCircle2 size={18} color="var(--primary-color)"/> Complete History Log</li>
                 </ul>
                 <button onClick={() => openCheckout('https://pay.hotmart.com/O106115546S?off=agpe42pl')} className="buy-button" style={{width: '100%', fontSize: '1.1rem', padding: '1rem'}}>
                   Start 14-Day Free Trial
@@ -531,18 +531,18 @@ const Landing = () => {
               {/* Pro Plan */}
               <div className="pricing-card popular">
                 <div className="popular-badge">RECOMMENDED</div>
-                <h3 style={{fontSize: '1.5rem', color: '#0f172a', margin: 0}}>KinCare Pro</h3>
+                <h3 style={{fontSize: '1.5rem', color: 'var(--text-color)', margin: 0}}>KinCare Pro</h3>
                 <p style={{color: '#64748b', marginBottom: '1.5rem'}}>For professional caregivers & large families.</p>
-                <div style={{fontSize: '3rem', fontWeight: '900', color: '#0f172a', marginBottom: '0.5rem'}}>
+                <div style={{fontSize: '3rem', fontWeight: '700', color: 'var(--text-color)', marginBottom: '0.5rem'}}>
                   $19.99<span style={{fontSize: '1rem', color: '#64748b', fontWeight: '500'}}>/mo</span>
                 </div>
                 <ul style={{listStyle: 'none', padding: 0, margin: '0 0 2rem 0', flex: 1}}>
-                  <li className="flex-row" style={{marginBottom: '0.75rem'}}><CheckCircle2 size={18} color="#0d9488"/> <b>Unlimited</b> Patients</li>
-                  <li className="flex-row" style={{marginBottom: '0.75rem'}}><CheckCircle2 size={18} color="#0d9488"/> <b>Unlimited</b> Members</li>
-                  <li className="flex-row" style={{marginBottom: '0.75rem'}}><CheckCircle2 size={18} color="#0d9488"/> Real-time Alerts</li>
-                  <li className="flex-row" style={{marginBottom: '0.75rem'}}><CheckCircle2 size={18} color="#0d9488"/> Export PDF for Doctors</li>
+                  <li className="flex-row" style={{marginBottom: '0.75rem'}}><CheckCircle2 size={18} color="var(--primary-color)"/> <b>Unlimited</b> Patients</li>
+                  <li className="flex-row" style={{marginBottom: '0.75rem'}}><CheckCircle2 size={18} color="var(--primary-color)"/> <b>Unlimited</b> Members</li>
+                  <li className="flex-row" style={{marginBottom: '0.75rem'}}><CheckCircle2 size={18} color="var(--primary-color)"/> Real-time Alerts</li>
+                  <li className="flex-row" style={{marginBottom: '0.75rem'}}><CheckCircle2 size={18} color="var(--primary-color)"/> Export PDF for Doctors</li>
                 </ul>
-                <button onClick={() => openCheckout('https://pay.hotmart.com/O106115546S?off=6bl5f0mn')} className="buy-button" style={{width: '100%', fontSize: '1.1rem', padding: '1rem', background: '#0f172a'}}>
+                <button onClick={() => openCheckout('https://pay.hotmart.com/O106115546S?off=6bl5f0mn')} className="buy-button" style={{width: '100%', fontSize: '1.1rem', padding: '1rem', background: 'var(--text-color)'}}>
                   Start 14-Day Free Trial
                 </button>
               </div>
@@ -553,7 +553,7 @@ const Landing = () => {
 
         {/* FAQ Section */}
         <section style={{maxWidth: '800px', margin: '0 auto', padding: '0 1.5rem'}}>
-          <h2 style={{textAlign: 'center', fontSize: '2.2rem', fontWeight: '800', marginBottom: '3rem', color: '#0f172a'}}>
+          <h2 style={{textAlign: 'center', fontSize: '2.2rem', fontWeight: '600', marginBottom: '3rem', color: 'var(--text-color)'}}>
             Frequently Asked Questions
           </h2>
           <div>
@@ -566,7 +566,7 @@ const Landing = () => {
                   aria-controls={`faq-answer-${index}`}
                 >
                   <span>{faq.q}</span>
-                  {openFaq === index ? <Minus size={20} color="#0d9488" /> : <Plus size={20} color="#0d9488" />}
+                  {openFaq === index ? <Minus size={20} color="var(--primary-color)" /> : <Plus size={20} color="var(--primary-color)" />}
                 </button>
                 {openFaq === index && (
                   <div id={`faq-answer-${index}`} className="faq-answer" role="region">
@@ -584,7 +584,7 @@ const Landing = () => {
       <div className={`sticky-cta ${showSticky ? 'visible' : ''}`} aria-hidden={!showSticky}>
         <div className="sticky-content">
           <div className="sticky-text">
-            <strong style={{display: 'block', fontSize: '1.2rem', color: '#0f172a'}}>Ready for peace of mind?</strong>
+            <strong style={{display: 'block', fontSize: '1.2rem', color: 'var(--text-color)'}}>Ready for peace of mind?</strong>
             <span style={{color: '#64748b'}}>Secure your family's care today.</span>
           </div>
           <button onClick={scrollToPricing} className="buy-button" style={{margin: 0, padding: '1rem 2rem', maxWidth: '100%', flex: 1}}>
@@ -594,11 +594,11 @@ const Landing = () => {
       </div>
 
       {/* Footer */}
-      <footer style={{background: '#020617', color: '#64748b', textAlign: 'center', padding: '3rem 1.5rem'}}>
+      <footer style={{background: 'var(--bg-color)', color: '#64748b', textAlign: 'center', padding: '3rem 1.5rem'}}>
         <div className="flex-center" style={{gap: '0.5rem', marginBottom: '1rem'}}>
-          <HeartPulse color="#0d9488" size={24} />
-          <span style={{fontSize: '1.4rem', fontWeight: '800', letterSpacing: '-0.5px'}}>
-            <span style={{color: '#0d9488'}}>Kin</span><span style={{color: '#f8fafc'}}>Care</span>
+          <HeartPulse color="var(--primary-color)" size={24} />
+          <span style={{fontSize: '1.4rem', fontWeight: '600', letterSpacing: '-0.5px'}}>
+            <span style={{color: 'var(--primary-color)'}}>Kin</span><span style={{color: 'var(--bg-color)'}}>Care</span>
           </span>
         </div>
         <p style={{fontSize: '0.9rem', marginBottom: '1.5rem'}}>&copy; 2026 KinCare Tech. Built for real families.</p>

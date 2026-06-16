@@ -118,18 +118,18 @@ const Dashboard = () => {
         <section className="mb-6">
           <h2 style={{fontSize: '1.1rem', fontWeight: '600', marginBottom: '0.75rem', color: 'var(--text-color)'}}>Priority</h2>
           {nextMed ? (
-            <div className="glass-card" style={{background: 'var(--primary-color)', color: 'white', padding: '1.5rem', border: 'none', boxShadow: '0 10px 30px rgba(37, 99, 235, 0.2)'}}>
+            <div className="glass-card" style={{background: 'var(--primary-color)', color: '#1a3630', padding: '1.5rem', border: 'none', boxShadow: '0 4px 20px rgba(0, 0, 0, 0.02)'}}>
               <div className="flex justify-between items-start mb-4">
                 <div>
                   <span style={{fontSize: '0.85rem', opacity: 0.8, textTransform: 'uppercase', letterSpacing: '0.5px', fontWeight: '600'}}>Next Medication</span>
                   <h3 style={{fontSize: '2rem', fontWeight: '700', margin: '0.25rem 0'}}>{nextMed.time}</h3>
                   <p style={{fontSize: '1.1rem', fontWeight: '500'}}>{nextMed.name}</p>
                 </div>
-                <div style={{background: 'rgba(255,255,255,0.2)', padding: '0.75rem', borderRadius: '16px'}}>
-                  <BellRing size={24} color="white" />
+                <div style={{background: 'rgba(255,255,255,0.6)', padding: '0.75rem', borderRadius: '16px'}}>
+                  <BellRing size={24} color="#1a3630" />
                 </div>
               </div>
-              <button className="btn-primary" style={{background: 'white', color: 'var(--primary-color)', padding: '1rem', fontSize: '1rem', borderRadius: '12px', boxShadow: '0 4px 12px rgba(0,0,0,0.1)'}} onClick={() => navigate('/app/medications')}>
+              <button className="btn-primary" style={{background: 'white', color: 'var(--primary-color)', padding: '1rem', fontSize: '1rem', borderRadius: '9999px', boxShadow: '0 4px 12px rgba(0,0,0,0.02)'}} onClick={() => navigate('/app/medications')}>
                 Log Medication
               </button>
             </div>

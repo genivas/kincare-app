@@ -1,19 +1,19 @@
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap');
 
 :root {
-  --bg-color: #f8fafc; /* Slate 50 */
-  --text-color: #1e293b;
-  --text-light: #64748b;
-  --primary-color: #0d9488; /* Teal 600 */
-  --primary-light: #ccfbf1;
-  --success-color: #059669; /* Emerald 600 */
-  --success-light: #d1fae5;
-  --warning-color: #f59e0b;
-  --warning-light: #fffbeb;
-  --danger-color: #ef4444;
-  --danger-light: #fef2f2;
+  --bg-color: #fdfefd; /* Off-white super limpo e calmante */
+  --text-color: #2d3748;
+  --text-light: #718096;
+  --primary-color: oklch(0.85 0.08 165); /* Verde-água pastel super delicado */
+  --primary-light: oklch(0.96 0.02 165);
+  --success-color: oklch(0.80 0.1 145);
+  --success-light: oklch(0.96 0.03 145);
+  --warning-color: oklch(0.85 0.1 80);
+  --warning-light: oklch(0.98 0.03 80);
+  --danger-color: oklch(0.75 0.1 25);
+  --danger-light: oklch(0.96 0.03 25);
   --card-bg: #ffffff;
-  --border-radius: 24px; 
+  --border-radius: 16px; /* Curvatura suave e elegante */
 }
 
 * {
@@ -27,21 +27,26 @@ body {
   background-color: var(--bg-color);
   color: var(--text-color);
   -webkit-font-smoothing: antialiased;
+  font-weight: 400; /* Mais delicadeza na fonte base */
 }
 
-/* Glassmorphism Utilities */
+h1, h2, h3, p {
+  text-wrap: balance; /* Modern Web Guidance: equilíbrio inteligente de texto */
+}
+
+/* Premium Delicate Cards */
 .glass-card {
   background: var(--card-bg);
-  border: 1px solid rgba(13, 148, 136, 0.08);
+  border: 1px solid rgba(0, 0, 0, 0.02); /* Borda quase invisível */
   border-radius: var(--border-radius);
-  padding: 1.25rem;
-  box-shadow: 0 10px 30px rgba(13, 148, 136, 0.05);
-  margin-bottom: 1rem;
-  transition: box-shadow 0.2s ease, transform 0.2s ease;
+  padding: 1.5rem; /* Mais respiro/whitespace */
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.02); /* Sombra super difusa (luz) */
+  margin-bottom: 1.5rem;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
 }
 
 .glass-card:hover {
-  box-shadow: 0 12px 40px rgba(13, 148, 136, 0.08);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.04);
   transform: translateY(-2px);
 }
 
@@ -55,7 +60,7 @@ body {
 }
 
 .top-gradient-bg {
-  background: linear-gradient(180deg, #ccfbf1 0%, var(--bg-color) 35%);
+  background: linear-gradient(180deg, var(--primary-light) 0%, var(--bg-color) 35%);
   min-height: 100vh;
 }
 
@@ -90,7 +95,6 @@ button {
   cursor: pointer;
   border: none;
   font-family: inherit;
-  border-radius: 6px;
   font-weight: 600;
   transition: all 0.2s ease;
   font-size: 0.95rem;
@@ -102,14 +106,15 @@ button {
 
 .btn-primary {
   background-color: var(--primary-color);
-  color: white;
-  padding: 0.75rem 1.25rem;
+  color: #1a3630; /* Contraste para o fundo pastel */
+  padding: 1rem 1.5rem; /* Botão mais gordinho e confortável */
   width: 100%;
-  border-radius: 99px; /* Pill shape */
+  border-radius: 9999px; /* Pill shape total */
+  box-shadow: 0 4px 12px rgba(0,0,0,0.02);
 }
 
 .btn-primary:hover {
-  background-color: #0f766e;
+  background-color: color-mix(in oklch, var(--primary-color), white 10%); /* Efeito Modern CSS */
 }
 
 .btn-success {
@@ -257,5 +262,26 @@ button {
 
 .fab-button:hover {
   transform: scale(1.05);
-  background-color: #0f766e;
+  background-color: color-mix(in oklch, var(--primary-color), white 10%);
+}
+
+/* --- View Transitions API (Modern Web Guidance) --- */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.3s;
+  animation-timing-function: ease-in-out;
+}
+::view-transition-old(root) {
+  animation-name: fade-out;
+}
+::view-transition-new(root) {
+  animation-name: fade-in;
+}
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fade-out {
+  from { opacity: 1; transform: translateY(0); }
+  to { opacity: 0; transform: translateY(-5px); }
 }
