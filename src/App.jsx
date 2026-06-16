@@ -13,6 +13,7 @@ import Alarm from './components/Alarm'
 import { GlobalProvider, GlobalContext } from './context/GlobalContext'
 import Login from './pages/Login'
 import Welcome from './pages/Welcome'
+import DownloadPage from './pages/Download'
 
 import Onboarding from './pages/Onboarding'
 
@@ -33,8 +34,9 @@ function AppRoutes() {
   const isLoginPage = location.pathname === '/login';
   const isOnboardingPage = location.pathname === '/onboarding';
   const isWelcomePage = location.pathname === '/welcome';
+  const isDownloadPage = location.pathname === '/download';
 
-  const hideNav = isLandingPage || isLoginPage || isOnboardingPage || isWelcomePage;
+  const hideNav = isLandingPage || isLoginPage || isOnboardingPage || isWelcomePage || isDownloadPage;
   const isNative = Capacitor.isNativePlatform();
 
   // If the user has seen the welcome flow before, skip it.
@@ -45,6 +47,7 @@ function AppRoutes() {
       <Routes>
         <Route path="/" element={isNative ? (hasSeenWelcome ? <Navigate to="/app" replace /> : <Navigate to="/welcome" replace />) : <Landing />} />
         <Route path="/welcome" element={currentUser ? <Navigate to="/app" /> : <Welcome />} />
+        <Route path="/download" element={<DownloadPage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/onboarding" element={currentUser ? (currentUser.familyId ? <Navigate to="/app" /> : <Onboarding />) : <Navigate to="/login" />} />
         

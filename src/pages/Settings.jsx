@@ -62,7 +62,7 @@ const Settings = () => {
     e.preventDefault();
     if(newMemberName && newMemberRelation) {
       const patientName = patient?.name ? patient.name.split(' ')[0] : 'our family member';
-      const msg = `Hi ${newMemberName}! I'm inviting you to the *KinCare* app to help care for ${patientName}.\n\nTo access the routine and medications, simply click the link below and create your free account:\n👉 https://kincare-app.pages.dev/login?invite=${currentUser?.familyId}\n\nDone! We are now connected.`;
+      const msg = `Hi ${newMemberName}! I'm inviting you to the *KinCare* app to help care for ${patientName}.\n\nTo access the routine and medications, simply click the link below to download the app or use the Web version:\n👉 https://kincare-app.pages.dev/download?invite=${currentUser?.familyId}\n\nDone! We are now connected.`;
       window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
       setShowAddForm(false);
       setNewMemberName('');
