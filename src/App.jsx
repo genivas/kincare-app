@@ -12,6 +12,7 @@ import BottomNav from './components/BottomNav'
 import Alarm from './components/Alarm'
 import { GlobalProvider, GlobalContext } from './context/GlobalContext'
 import Login from './pages/Login'
+import Welcome from './pages/Welcome'
 
 import Onboarding from './pages/Onboarding'
 
@@ -31,14 +32,19 @@ function AppRoutes() {
   const isLandingPage = location.pathname === '/';
   const isLoginPage = location.pathname === '/login';
   const isOnboardingPage = location.pathname === '/onboarding';
+  const isWelcomePage = location.pathname === '/welcome';
 
-  const hideNav = isLandingPage || isLoginPage || isOnboardingPage;
+  const hideNav = isLandingPage || isLoginPage || isOnboardingPage || isWelcomePage;
   const isNative = Capacitor.isNativePlatform();
+
+  // If the user has seen the welcome flow before, skip it.
+  const hasSeenWelcome = localStorage.getItem('hasSeenWelcome') === 'true';
 
   return (
     <div className="app-container" style={{background: isLandingPage ? 'var(--bg-color)' : ''}}>
       <Routes>
-        <Route path="/" element={isNative ? <Navigate to="/app" replace /> : <Landing />} />
+        <Route path="/" element={isNative ? (hasSeenWelcome ? <Navigate to="/app" replace /> : <Navigate to="/welcome" replace />) : <Landing />} />
+        <Route path="/welcome" element={currentUser ? <Navigate to="/app" /> : <Welcome />} />
         <Route path="/login" element={<Login />} />
         <Route path="/onboarding" element={currentUser ? (currentUser.familyId ? <Navigate to="/app" /> : <Onboarding />) : <Navigate to="/login" />} />
         
