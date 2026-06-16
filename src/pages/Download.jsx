@@ -31,27 +31,6 @@ const DownloadPage = () => {
             Use Web App (No Install)
           </button>
           
-          <div style={{ display: 'flex', alignItems: 'center', margin: '0.5rem 0' }}>
-            <div style={{ flex: 1, height: '1px', background: '#e2e8f0' }}></div>
-            <span style={{ padding: '0 10px', color: '#94a3b8', fontSize: '0.9rem', fontWeight: '500' }}>OR</span>
-            <div style={{ flex: 1, height: '1px', background: '#e2e8f0' }}></div>
-          </div>
-
-          <a 
-            href="/kincare-android.apk" 
-            download
-            className="btn-secondary flex flex-col items-center justify-center gap-2" 
-            style={{ padding: '1.2rem', fontSize: '1.05rem', borderRadius: '12px', background: '#f8fafc', border: '2px solid #e2e8f0', color: '#334155', textDecoration: 'none', transition: 'all 0.2s' }}
-          >
-            <div className="flex items-center gap-2 font-bold" style={{color: '#2563eb'}}>
-              <Download size={22} color="#2563eb" />
-              Download Android App
-            </div>
-            <span style={{ fontSize: '0.8rem', color: '#64748b', fontWeight: 'normal' }}>
-              Requires Android 8.0+
-            </span>
-          </a>
-
           <a 
             href="/manual_en.html" 
             target="_blank"
@@ -62,18 +41,6 @@ const DownloadPage = () => {
             <BookOpen size={18} />
             Read Official User Manual
           </a>
-        </div>
-
-        <div style={{ marginTop: '2rem', padding: '1.2rem', background: '#eff6ff', borderRadius: '12px', textAlign: 'left' }}>
-          <h4 style={{ color: '#1e40af', fontSize: '0.95rem', marginBottom: '0.5rem', display: 'flex', alignItems: 'center', gap: '6px' }}>
-            <Smartphone size={16} /> How to install on Android
-          </h4>
-          <ol style={{ margin: 0, paddingLeft: '1.2rem', color: '#3b82f6', fontSize: '0.85rem', lineHeight: '1.6' }}>
-            <li>Tap the Download button above</li>
-            <li>Open the downloaded <b>kincare-android.apk</b> file</li>
-            <li>If prompted, allow <b>"Install from unknown sources"</b></li>
-            <li>Open the app and {inviteId ? 'create your free account' : 'log in'}</li>
-          </ol>
         </div>
       </div>
     </div>
