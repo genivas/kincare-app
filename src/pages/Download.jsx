@@ -22,9 +22,20 @@ const DownloadPage = () => {
         </div>
 
         <div className="flex flex-col gap-4 mt-6">
-          <button 
-            className="btn-primary flex items-center justify-center gap-3" 
+          <a 
+            href="https://drive.google.com/drive/folders/1Ds1q8Dj94LK9qcct9Hpeh9oXHUrl5uAB" 
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-primary flex items-center justify-center gap-3"
             style={{ padding: '1.2rem', fontSize: '1.05rem', borderRadius: '12px', fontWeight: 'bold' }}
+          >
+            <Smartphone size={22} />
+            Download Android App (APK)
+          </a>
+
+          <button 
+            className="flex items-center justify-center gap-3" 
+            style={{ padding: '1.2rem', fontSize: '1.05rem', borderRadius: '12px', fontWeight: 'bold', background: '#f1f5f9', color: '#0f172a', border: '1px solid #cbd5e1', cursor: 'pointer' }}
             onClick={() => navigate(inviteId ? `/login?invite=${inviteId}` : '/login')}
           >
             <Globe size={22} />
