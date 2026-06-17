@@ -63,14 +63,14 @@ const DownloadPage = () => {
             <li>Click the green <b>Download Android App</b> button above.</li>
             <li>Open the downloaded file (APK) to install it. <i>(Note: Your phone might ask for permission to "Install unknown apps". Please allow it, as this is your private family app).</i></li>
             <li>Open KinCare, click on <b>Sign Up</b>.</li>
-            <li>During registration, enter your VIP Access Code: <b>KINCARE-VIP-26</b></li>
+            <li><span style={{ color: '#dc2626', fontWeight: 'bold' }}>Important:</span> You MUST use the <b>exact same email</b> you used to purchase on Hotmart to create your account. Our system will automatically unlock your access!</li>
           </ul>
 
           <h3 style={{ fontWeight: 'bold', color: '#2563eb', marginTop: '1rem' }}>🍏 If you use iPhone (iOS) or PC:</h3>
           <ul style={{ listStyleType: 'disc', paddingLeft: '1.5rem', marginBottom: '1rem' }}>
             <li>Click the white <b>Use Web App</b> button above.</li>
             <li><b>Create Shortcut:</b> In Safari, tap the Share icon (square with up arrow) at the bottom and select <b>"Add to Home Screen"</b>. This creates an app icon on your iPhone!</li>
-            <li>Open it, click <b>Sign Up</b> and use the VIP Code: <b>KINCARE-VIP-26</b></li>
+            <li>Open it, click <b>Sign Up</b> and use the <span style={{ color: '#dc2626', fontWeight: 'bold' }}>exact same email</span> from your Hotmart purchase to unlock your account automatically.</li>
           </ul>
         </div>
       </div>
