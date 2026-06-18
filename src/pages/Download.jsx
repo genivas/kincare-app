@@ -14,10 +14,10 @@ const DownloadPage = () => {
         <div className="flex flex-col items-center justify-center mb-6">
           <HeartPulse color="#2563eb" size={56} className="mb-3" />
           <h1 style={{ fontSize: '1.8rem', fontWeight: '800', color: '#0f172a', letterSpacing: '-0.5px', marginBottom: '0.5rem' }}>
-            KinCare
+            MedsDone
           </h1>
           <p style={{ color: 'var(--text-light)', fontSize: '1rem', lineHeight: '1.5' }}>
-            You've been invited to join a family care group! Choose how you want to access KinCare:
+            You've been invited to join a family care group! Choose how you want to access MedsDone:
           </p>
         </div>
 
@@ -55,14 +55,14 @@ const DownloadPage = () => {
         </div>
 
         <div style={{ marginTop: '2rem', textAlign: 'left', background: '#f8fafc', padding: '1.5rem', borderRadius: '12px', fontSize: '0.95rem', color: '#334155', lineHeight: '1.6' }}>
-          <h2 style={{ fontSize: '1.2rem', color: '#0f172a', marginBottom: '1rem', fontWeight: 'bold' }}>Welcome to the KinCare Family! 💙</h2>
+          <h2 style={{ fontSize: '1.2rem', color: '#0f172a', marginBottom: '1rem', fontWeight: 'bold' }}>Welcome to the MedsDone Family! 💙</h2>
           <p style={{ marginBottom: '1rem' }}>We are thrilled to have you with us. To start organizing your family's care, please follow the steps below depending on your device:</p>
           
           <h3 style={{ fontWeight: 'bold', color: '#2563eb', marginTop: '1rem' }}>📱 If you use Android:</h3>
           <ul style={{ listStyleType: 'disc', paddingLeft: '1.5rem', marginBottom: '1rem' }}>
             <li>Click the green <b>Download Android App</b> button above.</li>
             <li>Open the downloaded file (APK) to install it. <i>(Note: Your phone might ask for permission to "Install unknown apps". Please allow it, as this is your private family app).</i></li>
-            <li>Open KinCare, click on <b>Sign Up</b>.</li>
+            <li>Open MedsDone, click on <b>Sign Up</b>.</li>
             <li><span style={{ color: '#dc2626', fontWeight: 'bold' }}>Important:</span> You MUST use the <b>exact same email</b> you used to purchase on Hotmart to create your account. Our system will automatically unlock your access!</li>
           </ul>
 

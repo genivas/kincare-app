@@ -36,7 +36,7 @@ const Landing = () => {
   const faqs = [
     {
       q: "Does my elderly parent need to use the app?",
-      a: "No! KinCare is designed for you and your family members (the caregivers). Your parents don't need to do anything or own a smartphone. You use it to coordinate their care among yourselves."
+      a: "No! MedsDone is designed for you and your family members (the caregivers). Your parents don't need to do anything or own a smartphone. You use it to coordinate their care among yourselves."
     },
     {
       q: "Do I have to pay for each family member?",
@@ -378,7 +378,7 @@ const Landing = () => {
             </h1>
             
             <p className="vsl-subheadline">
-              Make sure your loved ones are safe with a single source of truth for the entire family. <b>Watch the short video below to see how.</b>
+              We are not a complicated hospital software. Stop filling out endless medical forms. MedsDone is the simplest way to replace your chaotic family WhatsApp group. <b>Watch the short video below to see how.</b>
             </p>
             
             {/* VSL Video Player with Poster */}
@@ -388,7 +388,7 @@ const Landing = () => {
                 poster={appMockup}
                 controls 
                 playsInline
-                aria-label="KinCare App Demonstration Video"
+                aria-label="MedsDone App Demonstration Video"
                 style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover' }}
               >
                 <track kind="captions" srcLang="en" label="English" />
@@ -413,7 +413,7 @@ const Landing = () => {
         <section style={{background: 'var(--card-bg)', padding: '4rem 1.5rem'}}>
           <div className="section-container" style={{padding: 0}}>
             <h2 style={{textAlign: 'center', fontSize: '2.2rem', fontWeight: '600', marginBottom: '3rem', color: 'var(--text-color)'}}>
-              Families Sleep Better With KinCare.
+              Families Sleep Better With MedsDone.
             </h2>
             
             <div className="grid-2">
@@ -422,7 +422,7 @@ const Landing = () => {
                   {[1,2,3,4,5].map(i => <Star key={i} size={20} color="#f59e0b" fill="#f59e0b" />)}
                 </div>
                 <p style={{fontSize: '1.1rem', color: '#334155', fontStyle: 'italic', marginBottom: '1.5rem'}}>
-                  "My brother and I almost gave my dad a double dose of insulin because a WhatsApp message got lost in the chat. KinCare literally saved us from a hospital visit."
+                  "My brother and I almost gave my dad a double dose of insulin because a WhatsApp message got lost in the chat. MedsDone literally saved us from a hospital visit."
                 </p>
                 <div className="flex-row">
                   <div style={{width: '48px', height: '48px', borderRadius: '50%', background: '#cbd5e1', overflow: 'hidden'}}>
@@ -497,7 +497,7 @@ const Landing = () => {
               100% Risk-Free 14-Day Guarantee
             </h2>
             <p style={{fontSize: '1.15rem', color: '#1a3630', maxWidth: '600px', margin: '0 auto', lineHeight: '1.6'}}>
-              Get KinCare for your family today. If you don't feel significantly more relaxed, organized, and confident in your loved one's care within 14 days, simply let us know and we'll refund you. <b>100% Risk-Free.</b>
+              Get MedsDone for your family today. If you don't feel significantly more relaxed, organized, and confident in your loved one's care within 14 days, simply let us know and we'll refund you. <b>100% Risk-Free.</b>
             </p>
           </div>
         </section>
@@ -512,7 +512,7 @@ const Landing = () => {
               
               {/* Family Plan */}
               <div className="pricing-card">
-                <h3 style={{fontSize: '1.5rem', color: 'var(--text-color)', margin: 0}}>KinCare Family</h3>
+                <h3 style={{fontSize: '1.5rem', color: 'var(--text-color)', margin: 0}}>MedsDone Family</h3>
                 <p style={{color: '#64748b', marginBottom: '1.5rem'}}>Perfect for individual families.</p>
                 <div style={{fontSize: '3rem', fontWeight: '700', color: 'var(--text-color)', marginBottom: '0.5rem'}}>
                   $9.99<span style={{fontSize: '1rem', color: '#64748b', fontWeight: '500'}}>/mo</span>
@@ -531,7 +531,7 @@ const Landing = () => {
               {/* Pro Plan */}
               <div className="pricing-card popular">
                 <div className="popular-badge">RECOMMENDED</div>
-                <h3 style={{fontSize: '1.5rem', color: 'var(--text-color)', margin: 0}}>KinCare Pro</h3>
+                <h3 style={{fontSize: '1.5rem', color: 'var(--text-color)', margin: 0}}>MedsDone Pro</h3>
                 <p style={{color: '#64748b', marginBottom: '1.5rem'}}>For professional caregivers & large families.</p>
                 <div style={{fontSize: '3rem', fontWeight: '700', color: 'var(--text-color)', marginBottom: '0.5rem'}}>
                   $19.99<span style={{fontSize: '1rem', color: '#64748b', fontWeight: '500'}}>/mo</span>
@@ -601,7 +601,7 @@ const Landing = () => {
             <span style={{color: 'var(--primary-color)'}}>Kin</span><span style={{color: 'var(--bg-color)'}}>Care</span>
           </span>
         </div>
-        <p style={{fontSize: '0.9rem', marginBottom: '1.5rem'}}>&copy; 2026 KinCare Tech. Built for real families.</p>
+        <p style={{fontSize: '0.9rem', marginBottom: '1.5rem'}}>&copy; 2026 MedsDone Tech. Built for real families.</p>
         <div className="flex-center" style={{gap: '1.5rem', fontSize: '0.9rem', fontWeight: '500'}}>
           <a href="/login" style={{color: '#94a3b8', textDecoration: 'none'}}>Terms of Service</a>
           <a href="/login" style={{color: '#94a3b8', textDecoration: 'none'}}>Privacy Policy</a>

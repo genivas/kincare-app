@@ -121,7 +121,7 @@ export const GlobalProvider = ({ children }) => {
               }
               
               return {
-                title: 'KinCare Medication Alert',
+                title: 'MedsDone Medication Alert',
                 body: `It's time to give ${m.name} (${m.dosage}) to ${patient?.name || 'your loved one'}.`,
                 id: index + 1,
                 schedule: { at: scheduleDate, allowWhileIdle: true },

@@ -92,7 +92,7 @@ const Login = () => {
         <div className="flex flex-col items-center justify-center mb-6">
           <HeartPulse color="#2563eb" size={48} className="mb-2" />
           <h1 style={{ fontSize: '1.8rem', fontWeight: '800', color: '#0f172a', letterSpacing: '-0.5px' }}>
-            KinCare
+            MedsDone
           </h1>
           <p style={{ color: 'var(--text-light)', fontSize: '0.9rem' }}>
             {isRegistering ? "Create your account to start" : "Welcome back"}
@@ -101,7 +101,7 @@ const Login = () => {
 
         {isCheckoutSuccess && (
           <div style={{ background: '#10b981', color: 'white', padding: '1rem', borderRadius: '8px', marginBottom: '1.5rem', fontSize: '0.95rem', fontWeight: '600', textAlign: 'center', boxShadow: '0 4px 6px -1px rgba(16, 185, 129, 0.2)' }}>
-            🎉 Payment Approved! Create your account below to access KinCare.
+            🎉 Payment Approved! Create your account below to access MedsDone.
           </div>
         )}
 
