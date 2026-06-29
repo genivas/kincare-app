@@ -1,0 +1,46 @@
+{
+  "translation": {
+    "nav": {
+      "signIn": "Se connecter"
+    },
+    "trustBanner": {
+      "text": "Un seul plan pour toute la famille. Suivi privé. Annulez à tout moment."
+    },
+    "hero": {
+      "headlineBlue": "Arrêtez le Chaos de WhatsApp.",
+      "headlineMain": "Sachez Exactement Qui a Donné les Médicaments à Maman.",
+      "subheadline": "Nous ne sommes pas un logiciel d'hôpital compliqué. Arrêtez de remplir des formulaires médicaux interminables. MedsDone est le moyen le plus simple de remplacer votre groupe WhatsApp familial chaotique.",
+      "btnPricing": "Voir les Tarifs",
+      "guarantee": "Garantie Satisfait ou Remboursé de 14 Jours",
+      "secure": "Paiement Sécurisé"
+    },
+    "social": {
+      "title": "Les Familias Dorment Mieux Avec MedsDone."
+    },
+    "features": {
+      "title": "Tout ce dont vous avez besoin pour une tranquillité totale.",
+      "subtitle": "Arrêtez de deviner. Commencez à savoir.",
+      "sharedLog": {
+        "title": "Journal de Médication Partagé :",
+        "desc": "Sachez exactement ce qui a été pris et quand."
+      },
+      "realTime": {
+        "title": "Synchronisation en Temps Réel :",
+        "desc": "Toute la famille voit les mises à jour instantanément."
+      },
+      "familySchedule": {
+        "title": "Planning Familial :",
+        "desc": "Attribuez des gardes pour que personne ne soit submergé."
+      },
+      "taskManagement": {
+        "title": "Gestion des Tâches :",
+        "desc": "Organisez les visites médicales, les courses et la pharmacie."
+      }
+    },
+    "stickyCta": {
+      "title": "Prêt pour la tranquillité d'esprit ?",
+      "subtitle": "Sécurisez les soins de votre famille aujourd'hui.",
+      "btn": "Voir les Tarifs"
+    }
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "translation": {
+    "nav": {
+      "signIn": "Sign in"
+    },
+    "trustBanner": {
+      "text": "One plan covers your entire family. Private care log. Cancel anytime."
+    },
+    "hero": {
+      "headlineBlue": "Stop The WhatsApp Chaos.",
+      "headlineMain": "Know Exactly Who Handled Mom’s Medication.",
+      "subheadline": "We are not a complicated hospital software. Stop filling out endless medical forms. MedsDone is the simplest way to replace your chaotic family WhatsApp group.",
+      "btnPricing": "View Pricing Plans",
+      "guarantee": "14-Day Money-Back Guarantee",
+      "secure": "Secure Checkout"
+    },
+    "social": {
+      "title": "Families Sleep Better With MedsDone."
+    },
+    "features": {
+      "title": "Everything you need for total peace of mind.",
+      "subtitle": "Stop guessing. Start knowing.",
+      "sharedLog": {
+        "title": "Shared Medication Log:",
+        "desc": "Know exactly what was taken and when."
+      },
+      "realTime": {
+        "title": "Real-Time Sync:",
+        "desc": "Everyone in the family sees updates instantly."
+      },
+      "familySchedule": {
+        "title": "Family Care Schedule:",
+        "desc": "Assign shifts so no one is overwhelmed."
+      },
+      "taskManagement": {
+        "title": "Task Management:",
+        "desc": "Organize doctor visits, groceries, and pharmacy runs."
+      }
+    },
+    "stickyCta": {
+      "title": "Ready for peace of mind?",
+      "subtitle": "Secure your family's care today.",
+      "btn": "View Pricing Plans"
+    }
+  }
+}

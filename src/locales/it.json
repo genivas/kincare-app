@@ -1,0 +1,46 @@
+{
+  "translation": {
+    "nav": {
+      "signIn": "Accedi"
+    },
+    "trustBanner": {
+      "text": "Un solo piano copre tutta la famiglia. Registro privato. Cancella quando vuoi."
+    },
+    "hero": {
+      "headlineBlue": "Ferma il Caos di WhatsApp.",
+      "headlineMain": "Sappi Esattamente Chi ha Dato le Medicine alla Mamma.",
+      "subheadline": "Non siamo un complicato software ospedaliero. Smetti di compilare moduli infiniti. MedsDone è il modo più semplice per sostituire il tuo caotico gruppo WhatsApp familiare.",
+      "btnPricing": "Vedi i Piani",
+      "guarantee": "Garanzia di Rimborso di 14 Giorni",
+      "secure": "Pagamento Sicuro"
+    },
+    "social": {
+      "title": "Le Famiglie Dormono Meglio Con MedsDone."
+    },
+    "features": {
+      "title": "Tutto ciò di cui hai bisogno per la massima tranquillità.",
+      "subtitle": "Smetti di indovinare. Inizia a sapere.",
+      "sharedLog": {
+        "title": "Registro Farmaci Condiviso:",
+        "desc": "Sappi esattamente cosa è stato preso e quando."
+      },
+      "realTime": {
+        "title": "Sincronizzazione in Tempo Reale:",
+        "desc": "Tutta la famiglia vede gli aggiornamenti all'istante."
+      },
+      "familySchedule": {
+        "title": "Programma di Cura Familiare:",
+        "desc": "Assegna i turni in modo che nessuno sia sopraffatto."
+      },
+      "taskManagement": {
+        "title": "Gestione delle Attività:",
+        "desc": "Organizza visite mediche, spesa e farmacia."
+      }
+    },
+    "stickyCta": {
+      "title": "Pronto per la tranquillità?",
+      "subtitle": "Assicura la cura della tua famiglia oggi.",
+      "btn": "Vedi i Piani"
+    }
+  }
+}

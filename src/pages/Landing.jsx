@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { HeartPulse, ArrowRight, Shield, CheckCircle2, Star, Lock, Clock, Plus, Minus } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import appMockup from '../assets/app_mockup.png';
 
 const Landing = () => {
   const navigate = useNavigate();
+  const { t, i18n } = useTranslation();
   const [showSticky, setShowSticky] = useState(false);
   const [openFaq, setOpenFaq] = useState(null);
 
@@ -347,7 +349,7 @@ const Landing = () => {
       <header style={{position: 'fixed', top: 0, width: '100%', zIndex: 60}}>
         {/* Trust Banner instead of Urgency Banner */}
         <div className="trust-banner">
-          <Shield size={16} /> <span>One plan covers your entire family. Private care log. Cancel anytime.</span>
+          <Shield size={16} /> <span>{t('trustBanner.text')}</span>
         </div>
 
         {/* Navigation Bar */}
@@ -358,9 +360,20 @@ const Landing = () => {
               <span style={{color: 'var(--primary-color)'}}>Kin</span><span style={{color: 'var(--text-color)'}}>Care</span>
             </span>
           </div>
-          <div>
+          <div className="flex-row" style={{gap: '1rem'}}>
+            <select 
+              onChange={(e) => i18n.changeLanguage(e.target.value)} 
+              value={i18n.language || 'en'}
+              style={{padding: '0.4rem', borderRadius: '100px', border: '1px solid #e2e8f0', background: 'transparent', cursor: 'pointer', fontSize: '0.9rem', outline: 'none'}}
+            >
+              <option value="en">🇺🇸 EN</option>
+              <option value="es">🇪🇸 ES</option>
+              <option value="fr">🇫🇷 FR</option>
+              <option value="it">🇮🇹 IT</option>
+              <option value="de">🇩🇪 DE</option>
+            </select>
             <button className="sign-in-btn" onClick={() => navigate('/login')}>
-              Sign in
+              {t('nav.signIn')}
             </button>
           </div>
         </nav>
@@ -373,12 +386,12 @@ const Landing = () => {
           <div className="vsl-container">
             
             <h1 className="vsl-headline">
-              <span style={{color: 'var(--primary-color)'}}>Stop The WhatsApp Chaos.</span><br/>
-              Know Exactly Who Handled Mom’s Medication.
+              <span style={{color: 'var(--primary-color)'}}>{t('hero.headlineBlue')}</span><br/>
+              {t('hero.headlineMain')}
             </h1>
             
             <p className="vsl-subheadline">
-              We are not a complicated hospital software. Stop filling out endless medical forms. MedsDone is the simplest way to replace your chaotic family WhatsApp group. <b>Watch the short video below to see how.</b>
+              {t('hero.subheadline')}
             </p>
             
             {/* VSL Video Player with Poster */}
@@ -398,12 +411,12 @@ const Landing = () => {
             
             <div style={{marginTop: '2rem'}}>
               <button onClick={scrollToPricing} className="buy-button">
-                View Pricing Plans <ArrowRight size={24} />
+                {t('hero.btnPricing')} <ArrowRight size={24} />
               </button>
               
               <div className="flex-center" style={{gap: '1.5rem', color: '#64748b', fontSize: '0.85rem', fontWeight: '600', marginTop: '1rem'}}>
-                <div className="flex-row"><Shield size={16} color="var(--primary-color)"/> 14-Day Money-Back Guarantee</div>
-                <div className="flex-row"><Lock size={16} color="var(--primary-color)"/> Secure Checkout</div>
+                <div className="flex-row"><Shield size={16} color="var(--primary-color)"/> {t('hero.guarantee')}</div>
+                <div className="flex-row"><Lock size={16} color="var(--primary-color)"/> {t('hero.secure')}</div>
               </div>
             </div>
           </div>
@@ -413,7 +426,7 @@ const Landing = () => {
         <section style={{background: 'var(--card-bg)', padding: '4rem 1.5rem'}}>
           <div className="section-container" style={{padding: 0}}>
             <h2 style={{textAlign: 'center', fontSize: '2.2rem', fontWeight: '600', marginBottom: '3rem', color: 'var(--text-color)'}}>
-              Families Sleep Better With MedsDone.
+              {t('social.title')}
             </h2>
             
             <div className="grid-2">
@@ -460,30 +473,30 @@ const Landing = () => {
         <section className="features-section">
           <div style={{textAlign: 'center', marginBottom: '3rem'}}>
             <h2 style={{fontSize: '2rem', fontWeight: '600', marginBottom: '1rem', letterSpacing: '-1px'}}>
-              Everything you need for total peace of mind.
+              {t('features.title')}
             </h2>
-            <p style={{color: '#94a3b8', fontSize: '1.1rem'}}>Stop guessing. Start knowing.</p>
+            <p style={{color: '#94a3b8', fontSize: '1.1rem'}}>{t('features.subtitle')}</p>
           </div>
 
           <div className="grid-2">
              <div className="flex-col">
                 <div className="feature-item">
                   <CheckCircle2 size={24} color="var(--success-color)" style={{flexShrink: 0, marginTop: '2px'}}/> 
-                  <div><b>Shared Medication Log:</b> Know exactly what was taken and when.</div>
+                  <div><b>{t('features.sharedLog.title')}</b> {t('features.sharedLog.desc')}</div>
                 </div>
                 <div className="feature-item">
                   <CheckCircle2 size={24} color="var(--success-color)" style={{flexShrink: 0, marginTop: '2px'}}/> 
-                  <div><b>Real-Time Sync:</b> Everyone in the family sees updates instantly.</div>
+                  <div><b>{t('features.realTime.title')}</b> {t('features.realTime.desc')}</div>
                 </div>
              </div>
              <div className="flex-col">
                 <div className="feature-item">
                   <CheckCircle2 size={24} color="var(--success-color)" style={{flexShrink: 0, marginTop: '2px'}}/> 
-                  <div><b>Family Care Schedule:</b> Assign shifts so no one is overwhelmed.</div>
+                  <div><b>{t('features.familySchedule.title')}</b> {t('features.familySchedule.desc')}</div>
                 </div>
                 <div className="feature-item">
                   <CheckCircle2 size={24} color="var(--success-color)" style={{flexShrink: 0, marginTop: '2px'}}/> 
-                  <div><b>Task Management:</b> Organize doctor visits, groceries, and pharmacy runs.</div>
+                  <div><b>{t('features.taskManagement.title')}</b> {t('features.taskManagement.desc')}</div>
                 </div>
              </div>
           </div>
@@ -584,11 +597,11 @@ const Landing = () => {
       <div className={`sticky-cta ${showSticky ? 'visible' : ''}`} aria-hidden={!showSticky}>
         <div className="sticky-content">
           <div className="sticky-text">
-            <strong style={{display: 'block', fontSize: '1.2rem', color: 'var(--text-color)'}}>Ready for peace of mind?</strong>
-            <span style={{color: '#64748b'}}>Secure your family's care today.</span>
+            <strong style={{display: 'block', fontSize: '1.2rem', color: 'var(--text-color)'}}>{t('stickyCta.title')}</strong>
+            <span style={{color: '#64748b'}}>{t('stickyCta.subtitle')}</span>
           </div>
           <button onClick={scrollToPricing} className="buy-button" style={{margin: 0, padding: '1rem 2rem', maxWidth: '100%', flex: 1}}>
-            View Pricing Plans <ArrowRight size={20} />
+            {t('stickyCta.btn')} <ArrowRight size={20} />
           </button>
         </div>
       </div>

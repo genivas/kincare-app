@@ -1,0 +1,46 @@
+{
+  "translation": {
+    "nav": {
+      "signIn": "Anmelden"
+    },
+    "trustBanner": {
+      "text": "Ein Plan für die ganze Familie. Privates Pflegetagebuch. Jederzeit kündbar."
+    },
+    "hero": {
+      "headlineBlue": "Stoppen Sie das WhatsApp-Chaos.",
+      "headlineMain": "Wissen Sie genau, wer Mama ihre Medikamente gegeben hat.",
+      "subheadline": "Wir sind keine komplizierte Krankenhaus-Software. Hören Sie auf, endlose Formulare auszufüllen. MedsDone ist der einfachste Weg, Ihre chaotische Familien-WhatsApp-Gruppe zu ersetzen.",
+      "btnPricing": "Preise ansehen",
+      "guarantee": "14-Tage-Geld-zurück-Garantie",
+      "secure": "Sichere Bezahlung"
+    },
+    "social": {
+      "title": "Familien schlafen besser mit MedsDone."
+    },
+    "features": {
+      "title": "Alles, was Sie für absolute innere Ruhe brauchen.",
+      "subtitle": "Hören Sie auf zu raten. Fangen Sie an zu wissen.",
+      "sharedLog": {
+        "title": "Geteiltes Medikamentenprotokoll:",
+        "desc": "Wissen Sie genau, was wann eingenommen wurde."
+      },
+      "realTime": {
+        "title": "Echtzeit-Synchronisation:",
+        "desc": "Jeder in der Familie sieht Updates sofort."
+      },
+      "familySchedule": {
+        "title": "Familienpflegeplan:",
+        "desc": "Weisen Sie Schichten zu, damit niemand überlastet wird."
+      },
+      "taskManagement": {
+        "title": "Aufgabenverwaltung:",
+        "desc": "Organisieren Sie Arztbesuche, Einkäufe und Apotheken."
+      }
+    },
+    "stickyCta": {
+      "title": "Bereit für innere Ruhe?",
+      "subtitle": "Sichern Sie noch heute die Pflege Ihrer Familie.",
+      "btn": "Preise ansehen"
+    }
+  }
+}
