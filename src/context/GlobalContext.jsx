@@ -275,6 +275,35 @@ export const GlobalProvider = ({ children }) => {
     }
   };
 
+  const sendKudos = async (toUserId, message) => {
+    if(!currentUser?.familyId) return;
+    const timeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    const toUser = family.find(f => f.id === toUserId);
+    await addDoc(collection(db, "history"), {
+      type: 'kudos',
+      title: `${currentUser.name} enviou Kudos para ${toUser?.name || 'um membro'}: "${message}"`,
+      user: currentUser,
+      time: `Hoje, ${timeStr}`,
+      color: 'success',
+      familyId: currentUser.familyId,
+      timestamp: Date.now()
+    });
+  };
+
+  const logDailySync = async (stressLevel, patientMood) => {
+    if(!currentUser?.familyId) return;
+    const timeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    await addDoc(collection(db, "history"), {
+      type: 'daily_sync',
+      title: `Daily Sync Concluído por ${currentUser.name} (Humor: ${patientMood}, Estresse: ${stressLevel})`,
+      user: currentUser,
+      time: `Hoje, ${timeStr}`,
+      color: 'success',
+      familyId: currentUser.familyId,
+      timestamp: Date.now()
+    });
+  };
+
   return (
     <GlobalContext.Provider value={{
       patient, setPatient,
@@ -285,7 +314,8 @@ export const GlobalProvider = ({ children }) => {
       schedule, setSchedule, updateSchedule,
       getTodayCaregiver, getNextCaregiver,
       currentUser, loading,
-      createFamily, joinFamily, deleteAccountAndFamily
+      createFamily, joinFamily, deleteAccountAndFamily,
+      sendKudos, logDailySync
     }}>
       {children}
     </GlobalContext.Provider>

@@ -1,12 +1,51 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { GlobalContext } from '../context/GlobalContext';
-import { Activity, Droplets, AlertTriangle, BellRing, Settings as SettingsIcon, Check, ChevronRight } from 'lucide-react';
+import { Activity, Droplets, AlertTriangle, BellRing, Settings as SettingsIcon, Check, ChevronRight, Heart, Smile, Frown, Meh, Sparkles, ThumbsUp } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import confetti from 'canvas-confetti';
 
 const Dashboard = () => {
-  const { patient, setPatient, medications, getTodayCaregiver, history, tasks, currentUser } = useContext(GlobalContext);
+  const { patient, setPatient, medications, getTodayCaregiver, history, tasks, currentUser, logDailySync, sendKudos } = useContext(GlobalContext);
   const [showStatusModal, setShowStatusModal] = useState(false);
+  const [showDailySync, setShowDailySync] = useState(false);
+  const [dailyStep, setDailyStep] = useState(1);
+  const [selectedMood, setSelectedMood] = useState(null);
+  const [selectedStress, setSelectedStress] = useState(null);
   const navigate = useNavigate();
+
+  // Check if daily sync was done today
+  useEffect(() => {
+    const today = new Date().toLocaleDateString();
+    const hasSynced = localStorage.getItem(`dailySync_${today}_${currentUser?.id}`);
+    if (!hasSynced && currentUser?.familyId) {
+      setShowDailySync(true);
+    }
+  }, [currentUser]);
+
+  const handleSyncComplete = () => {
+    logDailySync(selectedStress || 'Neutral', selectedMood || 'Neutral');
+    const today = new Date().toLocaleDateString();
+    localStorage.setItem(`dailySync_${today}_${currentUser?.id}`, 'true');
+    setShowDailySync(false);
+    
+    // GAMIFICATION: Confetti burst!
+    confetti({
+      particleCount: 150,
+      spread: 70,
+      origin: { y: 0.6 },
+      colors: ['#10b981', '#3b82f6', '#f59e0b', '#ec4899']
+    });
+  };
+
+  const handleSendKudos = (userId) => {
+    sendKudos(userId, "You're doing a great job!");
+    confetti({
+      particleCount: 50,
+      spread: 40,
+      origin: { y: 0.8 },
+      colors: ['#ec4899', '#f43f5e']
+    });
+  };
   
   const myTasks = tasks ? tasks.filter(t => t.assignedTo?.name === currentUser?.name && t.status !== 'completed') : [];
 
@@ -34,6 +73,52 @@ const Dashboard = () => {
   return (
     <div className="page-content" style={{paddingBottom: '90px', paddingTop: '3rem', background: 'var(--bg-color)', minHeight: '100vh'}}>
       
+      {/* GAMIFICATION: Daily Sync Routine Modal */}
+      {showDailySync && (
+        <div style={{position: 'fixed', top:0, left:0, right:0, bottom:0, background: 'rgba(15, 23, 42, 0.8)', backdropFilter: 'blur(12px)', zIndex: 1000, display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+          <div style={{background: '#fff', borderRadius: '32px', width: '90%', maxWidth: '360px', padding: '2.5rem 2rem', boxShadow: '0 25px 50px rgba(0,0,0,0.15)', textAlign: 'center'}}>
+            
+            {dailyStep === 1 ? (
+              <>
+                <h2 style={{fontSize: '1.5rem', fontWeight: '700', color: 'var(--text-color)', marginBottom: '0.5rem'}}>Daily Check-in</h2>
+                <p style={{color: 'var(--text-light)', marginBottom: '2rem'}}>How is {patient?.name || 'your loved one'} feeling today?</p>
+                
+                <div className="flex justify-center gap-4 mb-8">
+                  <button onClick={() => setSelectedMood('Bad')} style={{background: selectedMood === 'Bad' ? 'var(--danger-light)' : '#f1f5f9', border: selectedMood === 'Bad' ? '2px solid var(--danger-color)' : '2px solid transparent', padding: '1rem', borderRadius: '20px', transition: 'all 0.2s'}}><Frown size={32} color={selectedMood === 'Bad' ? 'var(--danger-color)' : '#94a3b8'} /></button>
+                  <button onClick={() => setSelectedMood('Okay')} style={{background: selectedMood === 'Okay' ? 'var(--warning-light)' : '#f1f5f9', border: selectedMood === 'Okay' ? '2px solid var(--warning-color)' : '2px solid transparent', padding: '1rem', borderRadius: '20px', transition: 'all 0.2s'}}><Meh size={32} color={selectedMood === 'Okay' ? 'var(--warning-color)' : '#94a3b8'} /></button>
+                  <button onClick={() => setSelectedMood('Good')} style={{background: selectedMood === 'Good' ? 'var(--success-light)' : '#f1f5f9', border: selectedMood === 'Good' ? '2px solid var(--success-color)' : '2px solid transparent', padding: '1rem', borderRadius: '20px', transition: 'all 0.2s'}}><Smile size={32} color={selectedMood === 'Good' ? 'var(--success-color)' : '#94a3b8'} /></button>
+                </div>
+                <button 
+                  disabled={!selectedMood}
+                  onClick={() => setDailyStep(2)}
+                  style={{width: '100%', padding: '1rem', background: selectedMood ? 'var(--primary-color)' : '#cbd5e1', color: '#fff', borderRadius: '100px', fontWeight: '600', border: 'none', transition: 'all 0.2s'}}
+                >
+                  Next Step <ChevronRight size={18} style={{display: 'inline', verticalAlign: 'text-bottom'}}/>
+                </button>
+              </>
+            ) : (
+              <>
+                <h2 style={{fontSize: '1.5rem', fontWeight: '700', color: 'var(--text-color)', marginBottom: '0.5rem'}}>Your Well-being</h2>
+                <p style={{color: 'var(--text-light)', marginBottom: '2rem'}}>How is your stress level today?</p>
+                
+                <div className="flex justify-center gap-4 mb-8">
+                  <button onClick={() => setSelectedStress('High')} style={{background: selectedStress === 'High' ? 'var(--danger-light)' : '#f1f5f9', border: selectedStress === 'High' ? '2px solid var(--danger-color)' : '2px solid transparent', padding: '1rem', borderRadius: '20px', transition: 'all 0.2s', fontSize: '1.5rem'}}>🤯</button>
+                  <button onClick={() => setSelectedStress('Medium')} style={{background: selectedStress === 'Medium' ? 'var(--warning-light)' : '#f1f5f9', border: selectedStress === 'Medium' ? '2px solid var(--warning-color)' : '2px solid transparent', padding: '1rem', borderRadius: '20px', transition: 'all 0.2s', fontSize: '1.5rem'}}>😮‍💨</button>
+                  <button onClick={() => setSelectedStress('Low')} style={{background: selectedStress === 'Low' ? 'var(--success-light)' : '#f1f5f9', border: selectedStress === 'Low' ? '2px solid var(--success-color)' : '2px solid transparent', padding: '1rem', borderRadius: '20px', transition: 'all 0.2s', fontSize: '1.5rem'}}>😌</button>
+                </div>
+                <button 
+                  disabled={!selectedStress}
+                  onClick={handleSyncComplete}
+                  style={{width: '100%', padding: '1rem', background: selectedStress ? 'var(--primary-color)' : '#cbd5e1', color: '#fff', borderRadius: '100px', fontWeight: '600', border: 'none', transition: 'all 0.2s', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '0.5rem'}}
+                >
+                  <Sparkles size={18} /> Complete Sync
+                </button>
+              </>
+            )}
+          </div>
+        </div>
+      )}
+
       {showStatusModal && (
         <div style={{position: 'fixed', top:0, left:0, right:0, bottom:0, background: 'rgba(255,255,255,0.7)', backdropFilter: 'blur(10px)', zIndex: 999, display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
           <div style={{background: '#fff', border: '1px solid rgba(0,0,0,0.05)', borderRadius: '32px', width: '90%', maxWidth: '320px', padding: '2rem', boxShadow: '0 20px 40px rgba(0,0,0,0.04)'}}>
@@ -113,14 +198,29 @@ const Dashboard = () => {
 
         {/* Shift & Vitals (Pill shaped cards) */}
         <section className="flex gap-4 mb-8">
-          <div style={{flex: 1, background: '#ffffff', borderRadius: '24px', padding: '1.25rem', border: '1px solid rgba(0,0,0,0.03)', boxShadow: '0 4px 12px rgba(0,0,0,0.02)'}}>
+          <div style={{flex: 1, background: '#ffffff', borderRadius: '24px', padding: '1.25rem', border: '1px solid rgba(0,0,0,0.03)', boxShadow: '0 4px 12px rgba(0,0,0,0.02)', display: 'flex', flexDirection: 'column'}}>
             <span style={{fontSize: '0.75rem', color: 'var(--text-light)', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.5px'}}>On Duty</span>
-            <div className="flex items-center gap-3 mt-3">
+            <div className="flex items-center gap-3 mt-3 mb-auto">
               <img src={todayCaregiver?.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=Family`} style={{width: '40px', height: '40px', borderRadius: '100px'}}/>
               <div>
                 <strong style={{fontSize: '0.95rem', display: 'block', color: 'var(--text-color)', fontWeight: '600'}}>{todayCaregiver?.name || 'Family'}</strong>
               </div>
             </div>
+            
+            {/* GAMIFICATION: Send Kudos Button */}
+            {todayCaregiver && todayCaregiver.id !== currentUser?.id && (
+              <button 
+                onClick={() => handleSendKudos(todayCaregiver.id)}
+                style={{marginTop: '1rem', width: '100%', background: '#fdf2f8', color: '#db2777', border: '1px solid #fbcfe8', padding: '0.6rem', borderRadius: '100px', fontSize: '0.8rem', fontWeight: '600', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '0.4rem', transition: 'all 0.2s'}}
+              >
+                <Heart size={14} fill="#db2777" /> Send Kudos
+              </button>
+            )}
+            {todayCaregiver && todayCaregiver.id === currentUser?.id && (
+              <div style={{marginTop: '1rem', width: '100%', background: 'var(--primary-light)', color: 'var(--primary-color)', padding: '0.6rem', borderRadius: '100px', fontSize: '0.8rem', fontWeight: '600', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '0.4rem'}}>
+                <ThumbsUp size={14} /> You're on duty!
+              </div>
+            )}
           </div>
 
           <div style={{flex: 1, display: 'flex', flexDirection: 'column', gap: '0.75rem'}}>
