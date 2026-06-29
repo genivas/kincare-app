@@ -37,13 +37,14 @@ function AppRoutes() {
   const isDownloadPage = location.pathname === '/download';
 
   const hideNav = isLandingPage || isLoginPage || isOnboardingPage || isWelcomePage || isDownloadPage;
+  const isMarketingPage = isLandingPage || isDownloadPage;
   const isNative = Capacitor.isNativePlatform();
 
   // If the user has seen the welcome flow before, skip it.
   const hasSeenWelcome = localStorage.getItem('hasSeenWelcome') === 'true';
 
   return (
-    <div className="app-container" style={{background: isLandingPage ? 'var(--bg-color)' : ''}}>
+    <div className={isMarketingPage ? "" : "app-container"} style={{background: isLandingPage ? 'var(--bg-color)' : '', minHeight: '100vh', position: 'relative'}}>
       <Routes>
         <Route path="/" element={isNative ? (hasSeenWelcome ? <Navigate to="/app" replace /> : <Navigate to="/welcome" replace />) : <Landing />} />
         <Route path="/welcome" element={currentUser ? <Navigate to="/app" /> : <Welcome />} />
