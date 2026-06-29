@@ -92,11 +92,11 @@ async function run() {
               page_id: PAGE_ID,
               link_data: {
                 image_hash: item.hash,
-                link: "https://kincare-app.pages.dev/", 
+                link: "https://medsdone-app.pages.dev/", 
                 message: item.copy,
                 call_to_action: {
                   type: "LEARN_MORE",
-                  value: { link: "https://kincare-app.pages.dev/" }
+                  value: { link: "https://medsdone-app.pages.dev/" }
                 }
               }
             }),

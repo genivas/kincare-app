@@ -7,7 +7,7 @@ const API_VERSION = "v19.0";
 const BASE_URL = `https://graph.facebook.com/${API_VERSION}`;
 
 // Configuração do Post que vamos publicar
-const imageUrl = "https://kincare-app.pages.dev/relaxed_caregiver_1781057431720.png"; // O Meta precisa de uma URL pública da imagem
+const imageUrl = "https://medsdone-app.pages.dev/relaxed_caregiver_1781057431720.png"; // O Meta precisa de uma URL pública da imagem
 const message = "Caregiver burnout is real. It's time to lighten the mental load and stop the guessing games.\n\nWith the KinCare app, your entire family stays on the same page. When someone gives the medication or finishes a doctor's appointment, everyone gets notified instantly.\n\n🔗 Click the link in our bio to start your 14-Day Free Trial and finally get some peace of mind.\n\n#caregiver #elderlycare #agingparents #caregiversupport #alzheimersawareness #kincare";
 
 async function run() {
