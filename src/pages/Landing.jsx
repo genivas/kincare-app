@@ -357,7 +357,7 @@ const Landing = () => {
           <div className="flex-row">
             <HeartPulse color="var(--primary-color)" size={28} />
             <span style={{fontSize: '1.25rem', fontWeight: '600', letterSpacing: '-0.5px'}}>
-              <span style={{color: 'var(--primary-color)'}}>Kin</span><span style={{color: 'var(--text-color)'}}>Care</span>
+              <span style={{color: 'var(--primary-color)'}}>Meds</span><span style={{color: 'var(--text-color)'}}>Done</span>
             </span>
           </div>
           <div className="flex-row" style={{gap: '1rem'}}>
@@ -607,7 +607,7 @@ const Landing = () => {
         <div className="flex-center" style={{gap: '0.5rem', marginBottom: '1rem'}}>
           <HeartPulse color="var(--primary-color)" size={24} />
           <span style={{fontSize: '1.4rem', fontWeight: '600', letterSpacing: '-0.5px'}}>
-            <span style={{color: 'var(--primary-color)'}}>Kin</span><span style={{color: 'var(--bg-color)'}}>Care</span>
+            <span style={{color: 'var(--primary-color)'}}>Meds</span><span style={{color: 'var(--bg-color)'}}>Done</span>
           </span>
         </div>
         <p style={{fontSize: '0.9rem', marginBottom: '1.5rem'}}>{t('landing.footerRights')}</p>
