@@ -146,7 +146,14 @@ const Dashboard = () => {
           </div>
           <div>
             <p style={{fontSize: '0.85rem', color: 'var(--text-light)', marginBottom: '0', fontWeight: '500'}}>{t('dashboard.header.caringFor')}</p>
-            <h1 style={{fontSize: '1.3rem', fontWeight: '700', color: 'var(--text-color)', margin: 0, letterSpacing: '-0.3px'}}>{patient?.name || 'Loved One'}</h1>
+            <div className="flex items-center gap-2">
+               <h1 style={{fontSize: '1.3rem', fontWeight: '700', color: 'var(--text-color)', margin: 0, letterSpacing: '-0.3px'}}>{patient?.name || 'Loved One'}</h1>
+               {patient?.careStreak > 0 && (
+                 <span style={{background: '#ffedd5', color: '#ea580c', padding: '0.2rem 0.6rem', borderRadius: '100px', fontSize: '0.75rem', fontWeight: '700', display: 'flex', alignItems: 'center', gap: '4px'}}>
+                   🔥 {patient.careStreak}
+                 </span>
+               )}
+            </div>
           </div>
         </div>
         

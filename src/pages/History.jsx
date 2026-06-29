@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { GlobalContext } from '../context/GlobalContext';
-import { Activity, XCircle, AlertCircle, CheckCircle2, Clock, Check } from 'lucide-react';
+import { Activity, XCircle, AlertCircle, CheckCircle2, Clock, Check, Download } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 const History = () => {
@@ -20,6 +20,23 @@ const History = () => {
     return 'var(--success-light)';
   }
 
+  const downloadReport = () => {
+    let content = `MedsDone - Care History Report\n`;
+    content += `Generated on: ${new Date().toLocaleDateString()}\n`;
+    content += `-------------------------------------------------\n\n`;
+    history.forEach(item => {
+      content += `[${item.time}] ${item.user.name}: ${item.title}\n`;
+    });
+    
+    const blob = new Blob([content], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `MedsDone_Report_${new Date().toISOString().split('T')[0]}.txt`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
   return (
     <div className="page-content" style={{paddingBottom: '90px', paddingTop: '3rem', background: 'var(--bg-color)', minHeight: '100vh'}}>
       <header className="px-5 mb-8 flex justify-between items-center">
@@ -27,6 +44,9 @@ const History = () => {
           <h1 style={{fontSize: '1.4rem', fontWeight: '700', color: 'var(--text-color)', margin: 0, letterSpacing: '-0.3px'}}>{t('pages.history.title')}</h1>
           <p style={{fontSize: '0.85rem', color: 'var(--text-light)', margin: 0}}>{t('pages.history.subtitle')}</p>
         </div>
+        <button onClick={downloadReport} style={{background: 'var(--primary-light)', color: 'var(--primary-color)', padding: '0.5rem 1rem', borderRadius: '100px', border: 'none', fontSize: '0.8rem', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '0.4rem', cursor: 'pointer'}}>
+          <Download size={16} strokeWidth={2.5} /> Report
+        </button>
       </header>
 
       <main className="px-5">

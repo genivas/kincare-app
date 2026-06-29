@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">KinCare</string>
-    <string name="title_activity_main">KinCare</string>
+    <string name="app_name">MedsDone</string>
+    <string name="title_activity_main">MedsDone</string>
     <string name="package_name">com.kincare.app</string>
     <string name="custom_url_scheme">com.kincare.app</string>
 </resources>

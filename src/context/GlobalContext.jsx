@@ -293,6 +293,25 @@ export const GlobalProvider = ({ children }) => {
   const logDailySync = async (stressLevel, patientMood) => {
     if(!currentUser?.familyId) return;
     const timeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    const todayStr = new Date().toLocaleDateString();
+
+    let newStreak = patient.careStreak || 0;
+    if (patient.lastStreakUpdate !== todayStr) {
+       const yesterday = new Date();
+       yesterday.setDate(yesterday.getDate() - 1);
+       if (patient.lastStreakUpdate === yesterday.toLocaleDateString()) {
+           newStreak += 1;
+       } else {
+           newStreak = 1; // reset or start
+       }
+       
+       await updateDoc(doc(db, "families", currentUser.familyId), { 
+           careStreak: newStreak,
+           lastStreakUpdate: todayStr
+       });
+       setPatient(prev => ({...prev, careStreak: newStreak, lastStreakUpdate: todayStr}));
+    }
+
     await addDoc(collection(db, "history"), {
       type: 'daily_sync',
       title: `Daily Sync Concluído por ${currentUser.name} (Humor: ${patientMood}, Estresse: ${stressLevel})`,
