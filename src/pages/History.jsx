@@ -1,9 +1,11 @@
 import React, { useContext } from 'react';
 import { GlobalContext } from '../context/GlobalContext';
 import { Activity, XCircle, AlertCircle, CheckCircle2, Clock, Check } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 const History = () => {
   const { history } = useContext(GlobalContext);
+  const { t } = useTranslation();
 
   const getIcon = (type, color) => {
     if(type === 'vitals') return <Activity size={18} color={`var(--${color}-color)`} />;
@@ -22,8 +24,8 @@ const History = () => {
     <div className="page-content" style={{paddingBottom: '90px', paddingTop: '3rem', background: 'var(--bg-color)', minHeight: '100vh'}}>
       <header className="px-5 mb-8 flex justify-between items-center">
         <div>
-          <h1 style={{fontSize: '1.4rem', fontWeight: '700', color: 'var(--text-color)', margin: 0, letterSpacing: '-0.3px'}}>Timeline</h1>
-          <p style={{fontSize: '0.85rem', color: 'var(--text-light)', margin: 0}}>Medical records & history</p>
+          <h1 style={{fontSize: '1.4rem', fontWeight: '700', color: 'var(--text-color)', margin: 0, letterSpacing: '-0.3px'}}>{t('pages.history.title')}</h1>
+          <p style={{fontSize: '0.85rem', color: 'var(--text-light)', margin: 0}}>{t('pages.history.subtitle')}</p>
         </div>
       </header>
 
@@ -31,7 +33,7 @@ const History = () => {
         <div style={{background: '#ffffff', borderRadius: '32px', padding: '2rem 1.5rem', boxShadow: '0 10px 40px rgba(0,0,0,0.02)', border: '1px solid rgba(0,0,0,0.03)'}}>
           <div className="flex-col gap-4">
             {history.length === 0 && (
-              <p className="text-center" style={{color: 'var(--text-light)'}}>No history recorded yet.</p>
+              <p className="text-center" style={{color: 'var(--text-light)'}}>{t('pages.history.empty')}</p>
             )}
             {history.map((item, index) => (
               <div key={item.id} className="flex gap-4 relative" style={{borderLeft: index !== history.length -1 ? '1px solid rgba(0,0,0,0.06)' : '1px solid transparent', paddingBottom: '2rem', marginLeft: '14px'}}>

@@ -1,7 +1,12 @@
 {
   "translation": {
     "nav": {
-      "signIn": "Accedi"
+      "signIn": "Accedi",
+      "home": "Home",
+      "history": "Cronologia",
+      "meds": "Meds",
+      "schedule": "Orario",
+      "tasks": "Attività"
     },
     "trustBanner": {
       "text": "Un solo piano copre tutta la famiglia. Registro privato. Cancella quando vuoi."
@@ -41,6 +46,98 @@
       "title": "Pronto per la tranquillità?",
       "subtitle": "Assicura la cura della tua famiglia oggi.",
       "btn": "Vedi i Piani"
+    },
+    "dashboard": {
+      "dailySync": {
+        "title": "Check-in Giornaliero",
+        "moodQ": "Come si sente {{name}} oggi?",
+        "stressQ": "Qual è il tuo livello di stress oggi?",
+        "stressTitle": "Il Tuo Benessere",
+        "btnNext": "Prossimo Passo",
+        "btnComplete": "Completa Sync"
+      },
+      "status": {
+        "title": "Aggiorna Stato",
+        "stable": "Stabile",
+        "observation": "Osservazione",
+        "emergency": "Emergenza",
+        "cancel": "Annulla",
+        "healthStable": "Salute Stabile",
+        "attentionNeeded": "Attenzione Necessaria"
+      },
+      "header": {
+        "caringFor": "Prendersi cura di"
+      },
+      "meds": {
+        "upcoming": "Prossima Priorità",
+        "medication": "Farmaco",
+        "openLog": "Apri Registro Medico",
+        "caughtUp": "Tutto aggiornato!",
+        "noPending": "Nessun farmaco in sospeso."
+      },
+      "duty": {
+        "title": "In Turno",
+        "kudos": "Invia Kudos",
+        "youDuty": "Sei di turno!",
+        "family": "Famiglia"
+      },
+      "tasks": {
+        "title": "Le Tue Attività Attive"
+      }
+    },
+    "pages": {
+      "history": {
+        "title": "Cronologia",
+        "subtitle": "Cartelle cliniche e storia",
+        "empty": "Nessuna cronologia registrata ancora."
+      },
+      "medications": {
+        "title": "Farmaci",
+        "subtitle": "Programma giornaliero",
+        "addTitle": "Nuova Prescrizione",
+        "tapPhoto": "Tocca per fotografare la scatola",
+        "medName": "Nome del Farmaco",
+        "medNamePlaceholder": "es., Tylenol 500mg",
+        "firstDose": "Prima Dose",
+        "frequency": "Frequenza",
+        "freq24": "Una volta al giorno",
+        "freq12": "Ogni 12 ore",
+        "freq8": "Ogni 8 ore",
+        "freq6": "Ogni 6 ore",
+        "btnSave": "Salva Farmaco",
+        "btnSaving": "Salvataggio...",
+        "empty": "Nessun farmaco programmato.",
+        "badgeTaken": "Preso",
+        "badgeRefused": "Rifiutato",
+        "badgeSkipped": "Saltato",
+        "badgePending": "In attesa",
+        "confirmTaken": "Conferma Preso",
+        "btnRefused": "Rifiutato",
+        "btnSkipped": "Saltato",
+        "btnCancel": "Annulla",
+        "logAdmin": "Registra Somministrazione"
+      },
+      "schedule": {
+        "title": "Programma di Cura",
+        "subtitle": "Assegna un caregiver per ogni giorno",
+        "select": "Seleziona..."
+      },
+      "tasks": {
+        "title": "Bacheca Attività",
+        "subtitle": "Condividi le responsabilità",
+        "addTitle": "Nuova Attività",
+        "inputPlaceholder": "Cosa c'è da fare?",
+        "prioLow": "Priorità: Bassa",
+        "prioNormal": "Priorità: Normale",
+        "prioHigh": "Priorità: Alta",
+        "btnAdd": "Aggiungi Attività",
+        "labelHigh": "Alta",
+        "labelNormal": "Normale",
+        "labelLow": "Bassa",
+        "btnDoIt": "Lo faccio io",
+        "isOnIt": "se ne occupa",
+        "empty": "Tutte le attività completate!"
+      }
     }
   }
 }

@@ -1,7 +1,12 @@
 {
   "translation": {
     "nav": {
-      "signIn": "Iniciar sesión"
+      "signIn": "Iniciar sesión",
+      "home": "Inicio",
+      "history": "Historial",
+      "meds": "Meds",
+      "schedule": "Horario",
+      "tasks": "Tareas"
     },
     "trustBanner": {
       "text": "Un plan cubre a toda tu familia. Registro privado de cuidado. Cancela cuando quieras."
@@ -41,6 +46,98 @@
       "title": "¿Listo para tener tranquilidad?",
       "subtitle": "Asegura el cuidado de tu familia hoy.",
       "btn": "Ver Planes y Precios"
+    },
+    "dashboard": {
+      "dailySync": {
+        "title": "Check-in Diario",
+        "moodQ": "¿Cómo se siente {{name}} hoy?",
+        "stressQ": "¿Cómo está tu nivel de estrés hoy?",
+        "stressTitle": "Tu Bienestar",
+        "btnNext": "Siguiente Paso",
+        "btnComplete": "Completar Sync"
+      },
+      "status": {
+        "title": "Actualizar Estado",
+        "stable": "Estable",
+        "observation": "Observación",
+        "emergency": "Emergencia",
+        "cancel": "Cancelar",
+        "healthStable": "Salud Estable",
+        "attentionNeeded": "Necesita Atención"
+      },
+      "header": {
+        "caringFor": "Cuidando de"
+      },
+      "meds": {
+        "upcoming": "Próxima Prioridad",
+        "medication": "Medicación",
+        "openLog": "Abrir Registro Médico",
+        "caughtUp": "¡Todo al día!",
+        "noPending": "No hay medicamentos pendientes."
+      },
+      "duty": {
+        "title": "De Turno",
+        "kudos": "Enviar Kudos",
+        "youDuty": "¡Estás de turno!",
+        "family": "Familia"
+      },
+      "tasks": {
+        "title": "Tus Tareas Activas"
+      }
+    },
+    "pages": {
+      "history": {
+        "title": "Línea de Tiempo",
+        "subtitle": "Registros médicos e historial",
+        "empty": "No hay historial registrado aún."
+      },
+      "medications": {
+        "title": "Medicaciones",
+        "subtitle": "Horario diario",
+        "addTitle": "Nueva Prescripción",
+        "tapPhoto": "Toca para fotografiar la caja",
+        "medName": "Nombre del Medicamento",
+        "medNamePlaceholder": "ej., Tylenol 500mg",
+        "firstDose": "Primera Dosis",
+        "frequency": "Frecuencia",
+        "freq24": "Una vez al día",
+        "freq12": "Cada 12 horas",
+        "freq8": "Cada 8 horas",
+        "freq6": "Cada 6 horas",
+        "btnSave": "Guardar Medicamento",
+        "btnSaving": "Guardando...",
+        "empty": "No hay medicamentos programados.",
+        "badgeTaken": "Tomado",
+        "badgeRefused": "Rechazado",
+        "badgeSkipped": "Omitido",
+        "badgePending": "Pendiente",
+        "confirmTaken": "Confirmar Toma",
+        "btnRefused": "Rechazado",
+        "btnSkipped": "Omitido",
+        "btnCancel": "Cancelar",
+        "logAdmin": "Registrar Administración"
+      },
+      "schedule": {
+        "title": "Horario de Cuidado",
+        "subtitle": "Asignar un cuidador para cada día",
+        "select": "Seleccionar..."
+      },
+      "tasks": {
+        "title": "Tablero de Tareas",
+        "subtitle": "Comparte las responsabilidades",
+        "addTitle": "Nueva Tarea",
+        "inputPlaceholder": "¿Qué hay que hacer?",
+        "prioLow": "Prioridad: Baja",
+        "prioNormal": "Prioridad: Normal",
+        "prioHigh": "Prioridad: Alta",
+        "btnAdd": "Añadir Tarea",
+        "labelHigh": "Alta",
+        "labelNormal": "Normal",
+        "labelLow": "Baja",
+        "btnDoIt": "Yo lo haré",
+        "isOnIt": "se encarga",
+        "empty": "¡Todas las tareas completadas!"
+      }
     }
   }
 }

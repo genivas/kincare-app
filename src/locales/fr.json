@@ -1,7 +1,12 @@
 {
   "translation": {
     "nav": {
-      "signIn": "Se connecter"
+      "signIn": "Se connecter",
+      "home": "Accueil",
+      "history": "Historique",
+      "meds": "Meds",
+      "schedule": "Planning",
+      "tasks": "Tâches"
     },
     "trustBanner": {
       "text": "Un seul plan pour toute la famille. Suivi privé. Annulez à tout moment."
@@ -41,6 +46,98 @@
       "title": "Prêt pour la tranquillité d'esprit ?",
       "subtitle": "Sécurisez les soins de votre famille aujourd'hui.",
       "btn": "Voir les Tarifs"
+    },
+    "dashboard": {
+      "dailySync": {
+        "title": "Check-in Quotidien",
+        "moodQ": "Comment se sent {{name}} aujourd'hui ?",
+        "stressQ": "Quel est votre niveau de stress aujourd'hui ?",
+        "stressTitle": "Votre Bien-être",
+        "btnNext": "Étape Suivante",
+        "btnComplete": "Terminer Sync"
+      },
+      "status": {
+        "title": "Mettre à jour l'état",
+        "stable": "Stable",
+        "observation": "Observation",
+        "emergency": "Urgence",
+        "cancel": "Annuler",
+        "healthStable": "Santé Stable",
+        "attentionNeeded": "Attention Requise"
+      },
+      "header": {
+        "caringFor": "S'occupe de"
+      },
+      "meds": {
+        "upcoming": "Prochaine Priorité",
+        "medication": "Médication",
+        "openLog": "Ouvrir le Journal",
+        "caughtUp": "Tout est à jour !",
+        "noPending": "Aucun médicament en attente."
+      },
+      "duty": {
+        "title": "De Garde",
+        "kudos": "Envoyer Kudos",
+        "youDuty": "Vous êtes de garde !",
+        "family": "Famille"
+      },
+      "tasks": {
+        "title": "Vos Tâches Actives"
+      }
+    },
+    "pages": {
+      "history": {
+        "title": "Chronologie",
+        "subtitle": "Dossiers médicaux et historique",
+        "empty": "Aucun historique enregistré pour le moment."
+      },
+      "medications": {
+        "title": "Médicaments",
+        "subtitle": "Programme quotidien",
+        "addTitle": "Nouvelle Ordonnance",
+        "tapPhoto": "Appuyez pour photographier la boîte",
+        "medName": "Nom du Médicament",
+        "medNamePlaceholder": "ex., Tylenol 500mg",
+        "firstDose": "Première Dose",
+        "frequency": "Fréquence",
+        "freq24": "Une fois par jour",
+        "freq12": "Toutes les 12 heures",
+        "freq8": "Toutes les 8 heures",
+        "freq6": "Toutes les 6 heures",
+        "btnSave": "Enregistrer le Médicament",
+        "btnSaving": "Enregistrement...",
+        "empty": "Aucun médicament programmé.",
+        "badgeTaken": "Pris",
+        "badgeRefused": "Refusé",
+        "badgeSkipped": "Sauté",
+        "badgePending": "En attente",
+        "confirmTaken": "Confirmer la Prise",
+        "btnRefused": "Refusé",
+        "btnSkipped": "Sauté",
+        "btnCancel": "Annuler",
+        "logAdmin": "Enregistrer l'Administration"
+      },
+      "schedule": {
+        "title": "Planning des Soins",
+        "subtitle": "Assigner un soignant pour chaque jour",
+        "select": "Sélectionner..."
+      },
+      "tasks": {
+        "title": "Tableau des Tâches",
+        "subtitle": "Partagez les responsabilités",
+        "addTitle": "Nouvelle Tâche",
+        "inputPlaceholder": "Que faut-il faire ?",
+        "prioLow": "Priorité : Basse",
+        "prioNormal": "Priorité : Normale",
+        "prioHigh": "Priorité : Haute",
+        "btnAdd": "Ajouter Tâche",
+        "labelHigh": "Haute",
+        "labelNormal": "Normale",
+        "labelLow": "Basse",
+        "btnDoIt": "Je m'en occupe",
+        "isOnIt": "s'en occupe",
+        "empty": "Toutes les tâches terminées !"
+      }
     }
   }
 }

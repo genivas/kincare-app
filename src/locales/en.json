@@ -1,7 +1,12 @@
 {
   "translation": {
     "nav": {
-      "signIn": "Sign in"
+      "signIn": "Sign in",
+      "home": "Home",
+      "history": "History",
+      "meds": "Meds",
+      "schedule": "Schedule",
+      "tasks": "Tasks"
     },
     "trustBanner": {
       "text": "One plan covers your entire family. Private care log. Cancel anytime."
@@ -41,6 +46,98 @@
       "title": "Ready for peace of mind?",
       "subtitle": "Secure your family's care today.",
       "btn": "View Pricing Plans"
+    },
+    "dashboard": {
+      "dailySync": {
+        "title": "Daily Check-in",
+        "moodQ": "How is {{name}} feeling today?",
+        "stressQ": "How is your stress level today?",
+        "stressTitle": "Your Well-being",
+        "btnNext": "Next Step",
+        "btnComplete": "Complete Sync"
+      },
+      "status": {
+        "title": "Update Status",
+        "stable": "Stable",
+        "observation": "Observation",
+        "emergency": "Emergency",
+        "cancel": "Cancel",
+        "healthStable": "Health Stable",
+        "attentionNeeded": "Attention Needed"
+      },
+      "header": {
+        "caringFor": "Caring for"
+      },
+      "meds": {
+        "upcoming": "Upcoming Priority",
+        "medication": "Medication",
+        "openLog": "Open Medical Log",
+        "caughtUp": "All caught up!",
+        "noPending": "No pending medications."
+      },
+      "duty": {
+        "title": "On Duty",
+        "kudos": "Send Kudos",
+        "youDuty": "You're on duty!",
+        "family": "Family"
+      },
+      "tasks": {
+        "title": "Your Active Tasks"
+      }
+    },
+    "pages": {
+      "history": {
+        "title": "Timeline",
+        "subtitle": "Medical records & history",
+        "empty": "No history recorded yet."
+      },
+      "medications": {
+        "title": "Medications",
+        "subtitle": "Daily schedule",
+        "addTitle": "New Prescription",
+        "tapPhoto": "Tap to photograph box",
+        "medName": "Medication Name",
+        "medNamePlaceholder": "e.g., Tylenol 500mg",
+        "firstDose": "First Dose",
+        "frequency": "Frequency",
+        "freq24": "Once a day",
+        "freq12": "Every 12 hours",
+        "freq8": "Every 8 hours",
+        "freq6": "Every 6 hours",
+        "btnSave": "Save Medication",
+        "btnSaving": "Saving...",
+        "empty": "No medications scheduled.",
+        "badgeTaken": "Taken",
+        "badgeRefused": "Refused",
+        "badgeSkipped": "Skipped",
+        "badgePending": "Pending",
+        "confirmTaken": "Confirm Taken",
+        "btnRefused": "Refused",
+        "btnSkipped": "Skipped",
+        "btnCancel": "Cancel",
+        "logAdmin": "Log Administration"
+      },
+      "schedule": {
+        "title": "Care Schedule",
+        "subtitle": "Assign a caregiver for each day",
+        "select": "Select..."
+      },
+      "tasks": {
+        "title": "Task Board",
+        "subtitle": "Share the responsibilities",
+        "addTitle": "New Task",
+        "inputPlaceholder": "What needs to be done?",
+        "prioLow": "Priority: Low",
+        "prioNormal": "Priority: Normal",
+        "prioHigh": "Priority: High",
+        "btnAdd": "Add Task",
+        "labelHigh": "High",
+        "labelNormal": "Normal",
+        "labelLow": "Low",
+        "btnDoIt": "I'll do this",
+        "isOnIt": "is on it",
+        "empty": "All tasks completed!"
+      }
     }
   }
 }

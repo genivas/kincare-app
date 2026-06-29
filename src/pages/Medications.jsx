@@ -2,9 +2,11 @@ import React, { useContext, useState, useRef } from 'react';
 import { GlobalContext } from '../context/GlobalContext';
 import { Check, Clock, Plus, X, AlertCircle, Camera, Trash2, ChevronRight } from 'lucide-react';
 import { Camera as CapCamera, CameraResultType, CameraSource } from '@capacitor/camera';
+import { useTranslation } from 'react-i18next';
 
 const Medications = () => {
   const { medications, markMedicationStatus, addMedication, deleteMedication } = useContext(GlobalContext);
+  const { t } = useTranslation();
   const [showAddForm, setShowAddForm] = useState(false);
   const [activeActionMed, setActiveActionMed] = useState(null); 
   const [isUploading, setIsUploading] = useState(false);
@@ -51,8 +53,8 @@ const Medications = () => {
     <div className="page-content" style={{paddingBottom: '90px', paddingTop: '3rem', background: 'var(--bg-color)', minHeight: '100vh'}}>
       <header className="px-5 mb-8 flex justify-between items-center">
         <div>
-          <h1 style={{fontSize: '1.4rem', fontWeight: '700', color: 'var(--text-color)', margin: 0, letterSpacing: '-0.3px'}}>Medications</h1>
-          <p style={{fontSize: '0.85rem', color: 'var(--text-light)', margin: 0}}>Daily schedule</p>
+          <h1 style={{fontSize: '1.4rem', fontWeight: '700', color: 'var(--text-color)', margin: 0, letterSpacing: '-0.3px'}}>{t('pages.medications.title')}</h1>
+          <p style={{fontSize: '0.85rem', color: 'var(--text-light)', margin: 0}}>{t('pages.medications.subtitle')}</p>
         </div>
       </header>
 
@@ -64,7 +66,7 @@ const Medications = () => {
         {showAddForm && (
           <div style={{background: '#ffffff', borderRadius: '32px', padding: '1.5rem', border: '1px solid rgba(0,0,0,0.05)', boxShadow: '0 20px 40px rgba(0,0,0,0.04)', marginBottom: '2rem'}}>
             <div className="flex justify-between items-center mb-5">
-              <h3 style={{margin: 0, fontSize: '1.2rem', color: 'var(--text-color)'}}>New Presciption</h3>
+              <h3 style={{margin: 0, fontSize: '1.2rem', color: 'var(--text-color)'}}>{t('pages.medications.addTitle')}</h3>
               <button style={{background: 'var(--bg-color)', color: 'var(--text-light)', padding: '0.5rem', borderRadius: '50%', border: 'none', display: 'flex'}} onClick={() => setShowAddForm(false)}>
                 <X size={18} />
               </button>
@@ -79,34 +81,34 @@ const Medications = () => {
                     <div style={{background: '#ffffff', padding: '1rem', borderRadius: '50%', marginBottom: '1rem', boxShadow: '0 4px 12px rgba(0,0,0,0.03)'}}>
                       <Camera size={28} color="var(--primary-color)" strokeWidth={1.5} />
                     </div>
-                    <span style={{fontSize: '0.9rem', color: 'var(--text-light)', fontWeight: '500'}}>Tap to photograph box</span>
+                    <span style={{fontSize: '0.9rem', color: 'var(--text-light)', fontWeight: '500'}}>{t('pages.medications.tapPhoto')}</span>
                   </>
                 )}
               </div>
 
               <div>
-                <label style={{fontSize: '0.85rem', fontWeight: '600', display: 'block', marginBottom: '0.5rem', color: 'var(--text-color)'}}>Medication Name</label>
-                <input type="text" placeholder="e.g., Tylenol 500mg" value={newMedName} onChange={e => setNewMedName(e.target.value)} style={{padding: '1rem', borderRadius: '16px', border: '1px solid rgba(0,0,0,0.1)', width: '100%', background: '#ffffff', fontSize: '1rem'}} required />
+                <label style={{fontSize: '0.85rem', fontWeight: '600', display: 'block', marginBottom: '0.5rem', color: 'var(--text-color)'}}>{t('pages.medications.medName')}</label>
+                <input type="text" placeholder={t('pages.medications.medNamePlaceholder')} value={newMedName} onChange={e => setNewMedName(e.target.value)} style={{padding: '1rem', borderRadius: '16px', border: '1px solid rgba(0,0,0,0.1)', width: '100%', background: '#ffffff', fontSize: '1rem'}} required />
               </div>
 
               <div className="flex gap-4">
                 <div style={{flex: 1}}>
-                  <label style={{fontSize: '0.85rem', fontWeight: '600', display: 'block', marginBottom: '0.5rem', color: 'var(--text-color)'}}>First Dose</label>
+                  <label style={{fontSize: '0.85rem', fontWeight: '600', display: 'block', marginBottom: '0.5rem', color: 'var(--text-color)'}}>{t('pages.medications.firstDose')}</label>
                   <input type="time" value={newMedTime} onChange={e => setNewMedTime(e.target.value)} style={{padding: '1rem', borderRadius: '16px', border: '1px solid rgba(0,0,0,0.1)', width: '100%', background: '#ffffff', fontSize: '1rem'}} required />
                 </div>
                 <div style={{flex: 1}}>
-                  <label style={{fontSize: '0.85rem', fontWeight: '600', display: 'block', marginBottom: '0.5rem', color: 'var(--text-color)'}}>Frequency</label>
+                  <label style={{fontSize: '0.85rem', fontWeight: '600', display: 'block', marginBottom: '0.5rem', color: 'var(--text-color)'}}>{t('pages.medications.frequency')}</label>
                   <select value={newMedFrequency} onChange={e => setNewMedFrequency(e.target.value)} style={{padding: '1rem', borderRadius: '16px', border: '1px solid rgba(0,0,0,0.1)', width: '100%', background: '#ffffff', fontSize: '1rem'}}>
-                    <option value="24">Once a day</option>
-                    <option value="12">Every 12 hours</option>
-                    <option value="8">Every 8 hours</option>
-                    <option value="6">Every 6 hours</option>
+                    <option value="24">{t('pages.medications.freq24')}</option>
+                    <option value="12">{t('pages.medications.freq12')}</option>
+                    <option value="8">{t('pages.medications.freq8')}</option>
+                    <option value="6">{t('pages.medications.freq6')}</option>
                   </select>
                 </div>
               </div>
 
               <button type="submit" style={{padding: '1.1rem', borderRadius: '100px', fontSize: '1rem', fontWeight: '600', background: 'var(--primary-color)', color: 'white', border: 'none', marginTop: '1rem'}} disabled={isUploading}>
-                {isUploading ? 'Saving...' : 'Save Medication'}
+                {isUploading ? t('pages.medications.btnSaving') : t('pages.medications.btnSave')}
               </button>
             </form>
           </div>
@@ -117,7 +119,7 @@ const Medications = () => {
             <div style={{background: '#ffffff', width: '80px', height: '80px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 1rem', boxShadow: '0 4px 12px rgba(0,0,0,0.03)'}}>
               <Plus color="var(--primary-color)" size={32} />
             </div>
-            <p>No medications scheduled.</p>
+            <p>{t('pages.medications.empty')}</p>
           </div>
         )}
 
@@ -126,14 +128,14 @@ const Medications = () => {
           let cardOpacity = 1;
           
           if(med.status === 'taken') {
-            statusBadge = <div style={{background: 'var(--success-light)', color: 'var(--success-color)', padding: '0.4rem 0.8rem', borderRadius: '100px', fontSize: '0.75rem', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '0.35rem'}}><Check size={14}/> Taken</div>;
+            statusBadge = <div style={{background: 'var(--success-light)', color: 'var(--success-color)', padding: '0.4rem 0.8rem', borderRadius: '100px', fontSize: '0.75rem', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '0.35rem'}}><Check size={14}/> {t('pages.medications.badgeTaken')}</div>;
             cardOpacity = 0.6;
           } else if(med.status === 'missed') {
-            statusBadge = <div style={{background: 'var(--danger-light)', color: 'var(--danger-color)', padding: '0.4rem 0.8rem', borderRadius: '100px', fontSize: '0.75rem', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '0.35rem'}}><AlertCircle size={14}/> Refused</div>;
+            statusBadge = <div style={{background: 'var(--danger-light)', color: 'var(--danger-color)', padding: '0.4rem 0.8rem', borderRadius: '100px', fontSize: '0.75rem', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '0.35rem'}}><AlertCircle size={14}/> {t('pages.medications.badgeRefused')}</div>;
           } else if(med.status === 'skipped') {
-            statusBadge = <div style={{background: 'var(--warning-light)', color: 'var(--warning-color)', padding: '0.4rem 0.8rem', borderRadius: '100px', fontSize: '0.75rem', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '0.35rem'}}><AlertCircle size={14}/> Skipped</div>;
+            statusBadge = <div style={{background: 'var(--warning-light)', color: 'var(--warning-color)', padding: '0.4rem 0.8rem', borderRadius: '100px', fontSize: '0.75rem', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '0.35rem'}}><AlertCircle size={14}/> {t('pages.medications.badgeSkipped')}</div>;
           } else {
-             statusBadge = <div style={{background: 'var(--primary-light)', color: 'var(--primary-color)', padding: '0.4rem 0.8rem', borderRadius: '100px', fontSize: '0.75rem', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '0.35rem'}}><Clock size={14}/> Pending</div>;
+             statusBadge = <div style={{background: 'var(--primary-light)', color: 'var(--primary-color)', padding: '0.4rem 0.8rem', borderRadius: '100px', fontSize: '0.75rem', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '0.35rem'}}><Clock size={14}/> {t('pages.medications.badgePending')}</div>;
           }
 
           return (
@@ -167,24 +169,24 @@ const Medications = () => {
                   {activeActionMed === med.id ? (
                     <div className="flex flex-col gap-2">
                       <button style={{background: 'var(--success-color)', color: 'white', border: 'none', padding: '0.85rem', borderRadius: '100px', fontWeight: '600', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem'}} onClick={() => handleStatusAction(med.id, 'taken')}>
-                        <Check size={18} /> Confirm Taken
+                        <Check size={18} /> {t('pages.medications.confirmTaken')}
                       </button>
                       <div className="flex gap-2 mt-2">
                         <button style={{flex: 1, background: 'var(--danger-light)', color: 'var(--danger-color)', border: 'none', padding: '0.85rem', borderRadius: '100px', fontWeight: '600'}} onClick={() => handleStatusAction(med.id, 'missed')}>
-                          Refused
+                          {t('pages.medications.btnRefused')}
                         </button>
                         <button style={{flex: 1, background: 'var(--warning-light)', color: 'var(--warning-color)', border: 'none', padding: '0.85rem', borderRadius: '100px', fontWeight: '600'}} onClick={() => handleStatusAction(med.id, 'skipped')}>
-                          Skipped
+                          {t('pages.medications.btnSkipped')}
                         </button>
                       </div>
-                      <button style={{background: 'transparent', color: 'var(--text-light)', border: 'none', padding: '0.5rem', fontWeight: '600', marginTop: '0.5rem'}} onClick={() => setActiveActionMed(null)}>Cancel</button>
+                      <button style={{background: 'transparent', color: 'var(--text-light)', border: 'none', padding: '0.5rem', fontWeight: '600', marginTop: '0.5rem'}} onClick={() => setActiveActionMed(null)}>{t('pages.medications.btnCancel')}</button>
                     </div>
                   ) : (
                     <button 
                       style={{width: '100%', padding: '1rem', borderRadius: '100px', fontSize: '0.9rem', fontWeight: '600', background: 'var(--primary-light)', color: 'var(--primary-color)', border: 'none'}}
                       onClick={() => setActiveActionMed(med.id)}
                     >
-                      Log Administration
+                      {t('pages.medications.logAdmin')}
                     </button>
                   )}
                 </div>

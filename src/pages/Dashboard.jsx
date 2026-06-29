@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect } from 'react';
 import { GlobalContext } from '../context/GlobalContext';
 import { Activity, Droplets, AlertTriangle, BellRing, Settings as SettingsIcon, Check, ChevronRight, Heart, Smile, Frown, Meh, Sparkles, ThumbsUp } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import confetti from 'canvas-confetti';
 
 const Dashboard = () => {
@@ -12,6 +13,7 @@ const Dashboard = () => {
   const [selectedMood, setSelectedMood] = useState(null);
   const [selectedStress, setSelectedStress] = useState(null);
   const navigate = useNavigate();
+  const { t, i18n } = useTranslation();
 
   // Check if daily sync was done today
   useEffect(() => {
@@ -57,9 +59,9 @@ const Dashboard = () => {
 
   const getUrgencyConfig = (level) => {
     switch(level) {
-      case 'danger': return { text: 'Attention Needed', color: 'var(--danger-color)', bg: 'var(--danger-light)' };
-      case 'warning': return { text: 'Observation', color: 'var(--warning-color)', bg: 'var(--warning-light)' };
-      default: return { text: 'Health Stable', color: 'var(--success-color)', bg: 'var(--success-light)' };
+      case 'danger': return { text: t('dashboard.status.attentionNeeded'), color: 'var(--danger-color)', bg: 'var(--danger-light)' };
+      case 'warning': return { text: t('dashboard.status.observation'), color: 'var(--warning-color)', bg: 'var(--warning-light)' };
+      default: return { text: t('dashboard.status.healthStable'), color: 'var(--success-color)', bg: 'var(--success-light)' };
     }
   };
 
@@ -75,13 +77,13 @@ const Dashboard = () => {
       
       {/* GAMIFICATION: Daily Sync Routine Modal */}
       {showDailySync && (
-        <div style={{position: 'fixed', top:0, left:0, right:0, bottom:0, background: 'rgba(15, 23, 42, 0.8)', backdropFilter: 'blur(12px)', zIndex: 1000, display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-          <div style={{background: '#fff', borderRadius: '32px', width: '90%', maxWidth: '360px', padding: '2.5rem 2rem', boxShadow: '0 25px 50px rgba(0,0,0,0.15)', textAlign: 'center'}}>
+        <div style={{position: 'fixed', top:0, left:0, right:0, bottom:0, background: 'rgba(15, 23, 42, 0.6)', backdropFilter: 'blur(12px)', zIndex: 1000, display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+          <div className="glass-card" style={{width: '90%', maxWidth: '360px', padding: '2.5rem 2rem', textAlign: 'center'}}>
             
             {dailyStep === 1 ? (
               <>
-                <h2 style={{fontSize: '1.5rem', fontWeight: '700', color: 'var(--text-color)', marginBottom: '0.5rem'}}>Daily Check-in</h2>
-                <p style={{color: 'var(--text-light)', marginBottom: '2rem'}}>How is {patient?.name || 'your loved one'} feeling today?</p>
+                <h2 style={{fontSize: '1.5rem', fontWeight: '700', color: 'var(--text-color)', marginBottom: '0.5rem'}}>{t('dashboard.dailySync.title')}</h2>
+                <p style={{color: 'var(--text-light)', marginBottom: '2rem'}}>{t('dashboard.dailySync.moodQ', { name: patient?.name || 'your loved one' })}</p>
                 
                 <div className="flex justify-center gap-4 mb-8">
                   <button onClick={() => setSelectedMood('Bad')} style={{background: selectedMood === 'Bad' ? 'var(--danger-light)' : '#f1f5f9', border: selectedMood === 'Bad' ? '2px solid var(--danger-color)' : '2px solid transparent', padding: '1rem', borderRadius: '20px', transition: 'all 0.2s'}}><Frown size={32} color={selectedMood === 'Bad' ? 'var(--danger-color)' : '#94a3b8'} /></button>
@@ -93,13 +95,13 @@ const Dashboard = () => {
                   onClick={() => setDailyStep(2)}
                   style={{width: '100%', padding: '1rem', background: selectedMood ? 'var(--primary-color)' : '#cbd5e1', color: '#fff', borderRadius: '100px', fontWeight: '600', border: 'none', transition: 'all 0.2s'}}
                 >
-                  Next Step <ChevronRight size={18} style={{display: 'inline', verticalAlign: 'text-bottom'}}/>
+                  {t('dashboard.dailySync.btnNext')} <ChevronRight size={18} style={{display: 'inline', verticalAlign: 'text-bottom'}}/>
                 </button>
               </>
             ) : (
               <>
-                <h2 style={{fontSize: '1.5rem', fontWeight: '700', color: 'var(--text-color)', marginBottom: '0.5rem'}}>Your Well-being</h2>
-                <p style={{color: 'var(--text-light)', marginBottom: '2rem'}}>How is your stress level today?</p>
+                <h2 style={{fontSize: '1.5rem', fontWeight: '700', color: 'var(--text-color)', marginBottom: '0.5rem'}}>{t('dashboard.dailySync.stressTitle')}</h2>
+                <p style={{color: 'var(--text-light)', marginBottom: '2rem'}}>{t('dashboard.dailySync.stressQ')}</p>
                 
                 <div className="flex justify-center gap-4 mb-8">
                   <button onClick={() => setSelectedStress('High')} style={{background: selectedStress === 'High' ? 'var(--danger-light)' : '#f1f5f9', border: selectedStress === 'High' ? '2px solid var(--danger-color)' : '2px solid transparent', padding: '1rem', borderRadius: '20px', transition: 'all 0.2s', fontSize: '1.5rem'}}>🤯</button>
@@ -111,7 +113,7 @@ const Dashboard = () => {
                   onClick={handleSyncComplete}
                   style={{width: '100%', padding: '1rem', background: selectedStress ? 'var(--primary-color)' : '#cbd5e1', color: '#fff', borderRadius: '100px', fontWeight: '600', border: 'none', transition: 'all 0.2s', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '0.5rem'}}
                 >
-                  <Sparkles size={18} /> Complete Sync
+                  <Sparkles size={18} /> {t('dashboard.dailySync.btnComplete')}
                 </button>
               </>
             )}
@@ -120,14 +122,14 @@ const Dashboard = () => {
       )}
 
       {showStatusModal && (
-        <div style={{position: 'fixed', top:0, left:0, right:0, bottom:0, background: 'rgba(255,255,255,0.7)', backdropFilter: 'blur(10px)', zIndex: 999, display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-          <div style={{background: '#fff', border: '1px solid rgba(0,0,0,0.05)', borderRadius: '32px', width: '90%', maxWidth: '320px', padding: '2rem', boxShadow: '0 20px 40px rgba(0,0,0,0.04)'}}>
-            <h3 style={{marginBottom: '1.5rem', textAlign: 'center', fontSize: '1.2rem', fontWeight: '600', color: 'var(--text-color)'}}>Update Status</h3>
+        <div style={{position: 'fixed', top:0, left:0, right:0, bottom:0, background: 'rgba(255,255,255,0.4)', backdropFilter: 'blur(12px)', zIndex: 999, display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+          <div className="glass-card" style={{width: '90%', maxWidth: '320px', padding: '2rem'}}>
+            <h3 style={{marginBottom: '1.5rem', textAlign: 'center', fontSize: '1.2rem', fontWeight: '600', color: 'var(--text-color)'}}>{t('dashboard.status.title')}</h3>
             <div className="flex flex-col gap-3">
-              <button style={{color: 'var(--success-color)', border: 'none', background: 'var(--success-light)', padding: '1rem', borderRadius: '100px', fontWeight: '600'}} onClick={() => changeStatus('success')}>🟢 Stable</button>
-              <button style={{color: 'var(--warning-color)', border: 'none', background: 'var(--warning-light)', padding: '1rem', borderRadius: '100px', fontWeight: '600'}} onClick={() => changeStatus('warning')}>🟡 Observation</button>
-              <button style={{color: 'var(--danger-color)', border: 'none', background: 'var(--danger-light)', padding: '1rem', borderRadius: '100px', fontWeight: '600'}} onClick={() => changeStatus('danger')}>🔴 Emergency</button>
-              <button style={{border: 'none', background: 'transparent', color: 'var(--text-light)', marginTop: '0.5rem', fontWeight: '600'}} onClick={() => setShowStatusModal(false)}>Cancel</button>
+              <button style={{color: 'var(--success-color)', border: 'none', background: 'var(--success-light)', padding: '1rem', borderRadius: '100px', fontWeight: '600'}} onClick={() => changeStatus('success')}>🟢 {t('dashboard.status.stable')}</button>
+              <button style={{color: 'var(--warning-color)', border: 'none', background: 'var(--warning-light)', padding: '1rem', borderRadius: '100px', fontWeight: '600'}} onClick={() => changeStatus('warning')}>🟡 {t('dashboard.status.observation')}</button>
+              <button style={{color: 'var(--danger-color)', border: 'none', background: 'var(--danger-light)', padding: '1rem', borderRadius: '100px', fontWeight: '600'}} onClick={() => changeStatus('danger')}>🔴 {t('dashboard.status.emergency')}</button>
+              <button style={{border: 'none', background: 'transparent', color: 'var(--text-light)', marginTop: '0.5rem', fontWeight: '600'}} onClick={() => setShowStatusModal(false)}>{t('dashboard.status.cancel')}</button>
             </div>
           </div>
         </div>
@@ -143,12 +145,23 @@ const Dashboard = () => {
             </div>
           </div>
           <div>
-            <p style={{fontSize: '0.85rem', color: 'var(--text-light)', marginBottom: '0', fontWeight: '500'}}>Caring for</p>
+            <p style={{fontSize: '0.85rem', color: 'var(--text-light)', marginBottom: '0', fontWeight: '500'}}>{t('dashboard.header.caringFor')}</p>
             <h1 style={{fontSize: '1.3rem', fontWeight: '700', color: 'var(--text-color)', margin: 0, letterSpacing: '-0.3px'}}>{patient?.name || 'Loved One'}</h1>
           </div>
         </div>
         
         <div className="flex items-center gap-2">
+          <select 
+            onChange={(e) => i18n.changeLanguage(e.target.value)} 
+            value={i18n.language || 'en'}
+            style={{padding: '0.3rem', borderRadius: '100px', border: '1px solid rgba(0,0,0,0.05)', background: 'white', cursor: 'pointer', fontSize: '0.8rem', outline: 'none'}}
+          >
+            <option value="en">🇺🇸 EN</option>
+            <option value="es">🇪🇸 ES</option>
+            <option value="fr">🇫🇷 FR</option>
+            <option value="it">🇮🇹 IT</option>
+            <option value="de">🇩🇪 DE</option>
+          </select>
           <button onClick={() => setShowStatusModal(true)} style={{background: urgencyConfig.bg, color: urgencyConfig.color, padding: '0.5rem 1rem', borderRadius: '100px', border: 'none', fontSize: '0.8rem', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '0.3rem'}}>
             {urgencyConfig.text} <ChevronRight size={14} />
           </button>
@@ -165,22 +178,22 @@ const Dashboard = () => {
         
         {/* Next Medication (Delicate Hero Card) */}
         <section className="mb-8">
-          <h2 style={{fontSize: '1rem', fontWeight: '600', marginBottom: '1rem', color: 'var(--text-light)'}}>Upcoming Priority</h2>
+          <h2 style={{fontSize: '1rem', fontWeight: '600', marginBottom: '1rem', color: 'var(--text-light)'}}>{t('dashboard.meds.upcoming')}</h2>
           {nextMed ? (
-            <div style={{background: '#ffffff', borderRadius: '32px', padding: '1.5rem', border: '1px solid rgba(0,0,0,0.03)', boxShadow: '0 10px 30px rgba(0,0,0,0.02)', position: 'relative', overflow: 'hidden'}}>
-              <div style={{position: 'absolute', top: '-20px', right: '-20px', width: '100px', height: '100px', background: 'var(--primary-light)', borderRadius: '50%', opacity: 0.5}}></div>
+            <div className="glass-card" style={{background: 'var(--primary-gradient)', color: 'white', position: 'relative', overflow: 'hidden', padding: '1.75rem', border: 'none'}}>
+              <div style={{position: 'absolute', top: '-20px', right: '-20px', width: '120px', height: '120px', background: 'rgba(255,255,255,0.15)', borderRadius: '50%', filter: 'blur(10px)'}}></div>
               
               <div className="flex justify-between items-start mb-6 relative z-10">
                 <div>
-                  <div style={{display: 'inline-flex', alignItems: 'center', gap: '0.4rem', background: 'var(--primary-light)', color: 'var(--primary-color)', padding: '0.3rem 0.8rem', borderRadius: '100px', fontSize: '0.75rem', fontWeight: '600', marginBottom: '1rem'}}>
-                    <BellRing size={12} strokeWidth={2} /> <span>Medication</span>
+                  <div style={{display: 'inline-flex', alignItems: 'center', gap: '0.4rem', background: 'rgba(255,255,255,0.2)', color: 'white', padding: '0.3rem 0.8rem', borderRadius: '100px', fontSize: '0.75rem', fontWeight: '600', marginBottom: '1rem', backdropFilter: 'blur(5px)'}}>
+                    <BellRing size={12} strokeWidth={2} /> <span>{t('dashboard.meds.medication')}</span>
                   </div>
-                  <h3 style={{fontSize: '2.2rem', fontWeight: '300', margin: '0', color: 'var(--text-color)', letterSpacing: '-1px'}}>{nextMed.time}</h3>
-                  <p style={{fontSize: '1.1rem', fontWeight: '500', color: 'var(--text-color)', marginTop: '0.2rem'}}>{nextMed.name}</p>
+                  <h3 style={{fontSize: '2.5rem', fontWeight: '800', margin: '0', color: 'white', letterSpacing: '-1px'}}>{nextMed.time}</h3>
+                  <p style={{fontSize: '1.15rem', fontWeight: '500', color: 'rgba(255,255,255,0.9)', marginTop: '0.2rem'}}>{nextMed.name}</p>
                 </div>
               </div>
-              <button style={{width: '100%', background: 'var(--primary-color)', color: '#ffffff', padding: '1.1rem', fontSize: '0.95rem', borderRadius: '100px', border: 'none', fontWeight: '600', boxShadow: '0 8px 16px rgba(0,0,0,0.05)'}} onClick={() => navigate('/app/medications')}>
-                Open Medical Log
+              <button style={{width: '100%', background: 'rgba(255,255,255,0.2)', color: 'white', padding: '1.1rem', fontSize: '0.95rem', borderRadius: '100px', border: '1px solid rgba(255,255,255,0.3)', fontWeight: '600', backdropFilter: 'blur(10px)', transition: 'background 0.2s'}} onClick={() => navigate('/app/medications')}>
+                {t('dashboard.meds.openLog')}
               </button>
             </div>
           ) : (
@@ -189,21 +202,21 @@ const Dashboard = () => {
                 <Check size={20} strokeWidth={2.5} />
               </div>
               <div>
-                <strong style={{color: 'var(--success-color)', fontSize: '1rem', fontWeight: '600'}}>All caught up!</strong>
-                <p style={{color: 'var(--success-color)', fontSize: '0.85rem', opacity: 0.8, margin: 0}}>No pending medications.</p>
+                <strong style={{color: 'var(--success-color)', fontSize: '1rem', fontWeight: '600'}}>{t('dashboard.meds.caughtUp')}</strong>
+                <p style={{color: 'var(--success-color)', fontSize: '0.85rem', opacity: 0.8, margin: 0}}>{t('dashboard.meds.noPending')}</p>
               </div>
             </div>
           )}
         </section>
 
-        {/* Shift & Vitals (Pill shaped cards) */}
+        {/* Shift & Vitals (Glass Cards) */}
         <section className="flex gap-4 mb-8">
-          <div style={{flex: 1, background: '#ffffff', borderRadius: '24px', padding: '1.25rem', border: '1px solid rgba(0,0,0,0.03)', boxShadow: '0 4px 12px rgba(0,0,0,0.02)', display: 'flex', flexDirection: 'column'}}>
-            <span style={{fontSize: '0.75rem', color: 'var(--text-light)', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.5px'}}>On Duty</span>
+          <div className="glass-card" style={{flex: 1, display: 'flex', flexDirection: 'column', marginBottom: 0, padding: '1.25rem'}}>
+            <span style={{fontSize: '0.75rem', color: 'var(--text-light)', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.5px'}}>{t('dashboard.duty.title')}</span>
             <div className="flex items-center gap-3 mt-3 mb-auto">
               <img src={todayCaregiver?.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=Family`} style={{width: '40px', height: '40px', borderRadius: '100px'}}/>
               <div>
-                <strong style={{fontSize: '0.95rem', display: 'block', color: 'var(--text-color)', fontWeight: '600'}}>{todayCaregiver?.name || 'Family'}</strong>
+                <strong style={{fontSize: '0.95rem', display: 'block', color: 'var(--text-color)', fontWeight: '600'}}>{todayCaregiver?.name || t('dashboard.duty.family')}</strong>
               </div>
             </div>
             
@@ -213,24 +226,24 @@ const Dashboard = () => {
                 onClick={() => handleSendKudos(todayCaregiver.id)}
                 style={{marginTop: '1rem', width: '100%', background: '#fdf2f8', color: '#db2777', border: '1px solid #fbcfe8', padding: '0.6rem', borderRadius: '100px', fontSize: '0.8rem', fontWeight: '600', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '0.4rem', transition: 'all 0.2s'}}
               >
-                <Heart size={14} fill="#db2777" /> Send Kudos
+                <Heart size={14} fill="#db2777" /> {t('dashboard.duty.kudos')}
               </button>
             )}
             {todayCaregiver && todayCaregiver.id === currentUser?.id && (
               <div style={{marginTop: '1rem', width: '100%', background: 'var(--primary-light)', color: 'var(--primary-color)', padding: '0.6rem', borderRadius: '100px', fontSize: '0.8rem', fontWeight: '600', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '0.4rem'}}>
-                <ThumbsUp size={14} /> You're on duty!
+                <ThumbsUp size={14} /> {t('dashboard.duty.youDuty')}
               </div>
             )}
           </div>
 
           <div style={{flex: 1, display: 'flex', flexDirection: 'column', gap: '0.75rem'}}>
-            <div style={{background: '#ffffff', borderRadius: '100px', padding: '0.75rem 1.25rem', border: '1px solid rgba(0,0,0,0.03)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', boxShadow: '0 2px 8px rgba(0,0,0,0.02)'}}>
-               <span style={{fontSize: '0.85rem', color: 'var(--text-color)', fontWeight: '500'}}>120/80</span>
-               <Activity color="var(--primary-color)" size={16} />
+            <div className="glass-card" style={{padding: '1rem 1.25rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 0}}>
+               <span style={{fontSize: '0.9rem', color: 'var(--text-color)', fontWeight: '600'}}>120/80</span>
+               <Activity color="var(--primary-color)" size={18} />
             </div>
-            <div style={{background: '#ffffff', borderRadius: '100px', padding: '0.75rem 1.25rem', border: '1px solid rgba(0,0,0,0.03)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', boxShadow: '0 2px 8px rgba(0,0,0,0.02)'}}>
-               <span style={{fontSize: '0.85rem', color: 'var(--text-color)', fontWeight: '500'}}>3 💧</span>
-               <Droplets color="var(--primary-color)" size={16} />
+            <div className="glass-card" style={{padding: '1rem 1.25rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 0}}>
+               <span style={{fontSize: '0.9rem', color: 'var(--text-color)', fontWeight: '600'}}>3 💧</span>
+               <Droplets color="var(--primary-color)" size={18} />
             </div>
           </div>
         </section>
@@ -238,10 +251,10 @@ const Dashboard = () => {
         {/* Tasks Section */}
         {myTasks.length > 0 && (
           <section className="mb-8">
-            <h2 style={{fontSize: '1rem', fontWeight: '600', marginBottom: '1rem', color: 'var(--text-light)'}}>Your Active Tasks</h2>
+            <h2 style={{fontSize: '1rem', fontWeight: '600', marginBottom: '1rem', color: 'var(--text-light)'}}>{t('dashboard.tasks.title')}</h2>
             <div className="flex flex-col gap-3">
               {myTasks.map(task => (
-                <div key={task.id} style={{background: '#ffffff', borderRadius: '20px', padding: '1.25rem', border: '1px solid rgba(0,0,0,0.03)', display: 'flex', alignItems: 'center', gap: '1rem', boxShadow: '0 4px 12px rgba(0,0,0,0.02)'}}>
+                <div key={task.id} className="glass-card" style={{display: 'flex', alignItems: 'center', gap: '1rem', padding: '1.25rem', marginBottom: 0}}>
                    <div style={{width: '12px', height: '12px', borderRadius: '50%', border: `2px solid ${task.priority === 'high' ? 'var(--danger-color)' : 'var(--primary-color)'}`}}></div>
                    <div style={{flex: 1}}>
                      <p style={{fontSize: '0.95rem', color: 'var(--text-color)', fontWeight: '500', margin: 0}}>{task.title}</p>

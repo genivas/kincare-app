@@ -1,7 +1,12 @@
 {
   "translation": {
     "nav": {
-      "signIn": "Anmelden"
+      "signIn": "Anmelden",
+      "home": "Start",
+      "history": "Verlauf",
+      "meds": "Meds",
+      "schedule": "Zeitplan",
+      "tasks": "Aufgaben"
     },
     "trustBanner": {
       "text": "Ein Plan für die ganze Familie. Privates Pflegetagebuch. Jederzeit kündbar."
@@ -41,6 +46,98 @@
       "title": "Bereit für innere Ruhe?",
       "subtitle": "Sichern Sie noch heute die Pflege Ihrer Familie.",
       "btn": "Preise ansehen"
+    },
+    "dashboard": {
+      "dailySync": {
+        "title": "Täglicher Check-in",
+        "moodQ": "Wie fühlt sich {{name}} heute?",
+        "stressQ": "Wie ist Ihr Stresslevel heute?",
+        "stressTitle": "Ihr Wohlbefinden",
+        "btnNext": "Nächster Schritt",
+        "btnComplete": "Sync abschließen"
+      },
+      "status": {
+        "title": "Status aktualisieren",
+        "stable": "Stabil",
+        "observation": "Beobachtung",
+        "emergency": "Notfall",
+        "cancel": "Abbrechen",
+        "healthStable": "Gesundheit stabil",
+        "attentionNeeded": "Achtung erforderlich"
+      },
+      "header": {
+        "caringFor": "Sorgt für"
+      },
+      "meds": {
+        "upcoming": "Nächste Priorität",
+        "medication": "Medikation",
+        "openLog": "Medizinisches Protokoll öffnen",
+        "caughtUp": "Alles erledigt!",
+        "noPending": "Keine ausstehenden Medikamente."
+      },
+      "duty": {
+        "title": "Im Dienst",
+        "kudos": "Kudos senden",
+        "youDuty": "Sie haben Dienst!",
+        "family": "Familie"
+      },
+      "tasks": {
+        "title": "Ihre aktiven Aufgaben"
+      }
+    },
+    "pages": {
+      "history": {
+        "title": "Zeitleiste",
+        "subtitle": "Krankenakten & Verlauf",
+        "empty": "Noch kein Verlauf aufgezeichnet."
+      },
+      "medications": {
+        "title": "Medikamente",
+        "subtitle": "Tagesplan",
+        "addTitle": "Neues Rezept",
+        "tapPhoto": "Tippen Sie, um die Box zu fotografieren",
+        "medName": "Name des Medikaments",
+        "medNamePlaceholder": "z. B. Tylenol 500 mg",
+        "firstDose": "Erste Dosis",
+        "frequency": "Häufigkeit",
+        "freq24": "Einmal täglich",
+        "freq12": "Alle 12 Stunden",
+        "freq8": "Alle 8 Stunden",
+        "freq6": "Alle 6 Stunden",
+        "btnSave": "Medikament speichern",
+        "btnSaving": "Speichern...",
+        "empty": "Keine Medikamente geplant.",
+        "badgeTaken": "Eingenommen",
+        "badgeRefused": "Verweigert",
+        "badgeSkipped": "Übersprungen",
+        "badgePending": "Ausstehend",
+        "confirmTaken": "Einnahme bestätigen",
+        "btnRefused": "Verweigert",
+        "btnSkipped": "Übersprungen",
+        "btnCancel": "Abbrechen",
+        "logAdmin": "Verabreichung protokollieren"
+      },
+      "schedule": {
+        "title": "Pflegeplan",
+        "subtitle": "Weisen Sie für jeden Tag eine Pflegeperson zu",
+        "select": "Auswählen..."
+      },
+      "tasks": {
+        "title": "Aufgabenübersicht",
+        "subtitle": "Teilen Sie die Verantwortlichkeiten",
+        "addTitle": "Neue Aufgabe",
+        "inputPlaceholder": "Was muss getan werden?",
+        "prioLow": "Priorität: Niedrig",
+        "prioNormal": "Priorität: Normal",
+        "prioHigh": "Priorität: Hoch",
+        "btnAdd": "Aufgabe hinzufügen",
+        "labelHigh": "Hoch",
+        "labelNormal": "Normal",
+        "labelLow": "Niedrig",
+        "btnDoIt": "Ich mache das",
+        "isOnIt": "kümmert sich darum",
+        "empty": "Alle Aufgaben erledigt!"
+      }
     }
   }
 }

@@ -1,8 +1,10 @@
 import React, { useContext } from 'react';
 import { GlobalContext } from '../context/GlobalContext';
+import { useTranslation } from 'react-i18next';
 
 const Schedule = () => {
   const { schedule, updateSchedule, family } = useContext(GlobalContext);
+  const { t } = useTranslation();
 
   const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
@@ -14,8 +16,8 @@ const Schedule = () => {
     <div className="page-content top-gradient-bg" style={{paddingBottom: '80px', paddingTop: '3rem'}}>
       <header className="px-4 mb-6 flex justify-between items-center">
         <div>
-          <h1 style={{fontSize: '1.4rem', fontWeight: '700', margin: 0}}>Care Schedule</h1>
-          <p style={{fontSize: '0.85rem', color: 'var(--text-light)', margin: 0}}>Assign a caregiver for each day</p>
+          <h1 style={{fontSize: '1.4rem', fontWeight: '700', margin: 0}}>{t('pages.schedule.title')}</h1>
+          <p style={{fontSize: '0.85rem', color: 'var(--text-light)', margin: 0}}>{t('pages.schedule.subtitle')}</p>
         </div>
       </header>
 
@@ -29,7 +31,7 @@ const Schedule = () => {
                 onChange={(e) => handleAssign(day, e.target.value)}
                 style={{padding: '0.6rem 1rem', borderRadius: '12px', border: '1px solid #e2e8f0', background: '#f8fafc', fontWeight: '600', color: 'var(--primary-color)', fontFamily: 'inherit', outline: 'none'}}
               >
-                <option value="" disabled>Select...</option>
+                <option value="" disabled>{t('pages.schedule.select')}</option>
                 {family.map(f => (
                   <option key={f.id} value={f.id}>{f.name}</option>
                 ))}
