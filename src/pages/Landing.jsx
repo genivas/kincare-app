@@ -363,7 +363,7 @@ const Landing = () => {
           <div className="flex-row" style={{gap: '1rem'}}>
             <select 
               onChange={(e) => i18n.changeLanguage(e.target.value)} 
-              value={i18n.language || 'en'}
+              value={i18n.resolvedLanguage || i18n.language || 'en'}
               style={{padding: '0.4rem', borderRadius: '100px', border: '1px solid #e2e8f0', background: 'transparent', cursor: 'pointer', fontSize: '0.9rem', outline: 'none'}}
             >
               <option value="en">🇺🇸 EN</option>
@@ -435,15 +435,15 @@ const Landing = () => {
                   {[1,2,3,4,5].map(i => <Star key={i} size={20} color="#f59e0b" fill="#f59e0b" />)}
                 </div>
                 <p style={{fontSize: '1.1rem', color: '#334155', fontStyle: 'italic', marginBottom: '1.5rem'}}>
-                  "My brother and I almost gave my dad a double dose of insulin because a WhatsApp message got lost in the chat. MedsDone literally saved us from a hospital visit."
+                  {t('landing.review1')}
                 </p>
                 <div className="flex-row">
                   <div style={{width: '48px', height: '48px', borderRadius: '50%', background: '#cbd5e1', overflow: 'hidden'}}>
                     <img src="/sarah_avatar.png" alt="Sarah" style={{width: '100%', height: '100%', objectFit: 'cover'}} />
                   </div>
                   <div>
-                    <strong style={{display: 'block', color: 'var(--text-color)'}}>Sarah T.</strong>
-                    <span style={{fontSize: '0.85rem', color: '#64748b'}}>Cares for her father</span>
+                    <strong style={{display: 'block', color: 'var(--text-color)'}}>{t('landing.review1Author')}</strong>
+                    <span style={{fontSize: '0.85rem', color: '#64748b'}}>{t('landing.review1Role')}</span>
                   </div>
                 </div>
               </div>
@@ -453,15 +453,15 @@ const Landing = () => {
                   {[1,2,3,4,5].map(i => <Star key={i} size={20} color="#f59e0b" fill="#f59e0b" />)}
                 </div>
                 <p style={{fontSize: '1.1rem', color: '#334155', fontStyle: 'italic', marginBottom: '1.5rem'}}>
-                  "Finally, no more waking up at 2 AM wondering if mom took her heart pills. I just open the app and see the green checkmark. Total peace of mind."
+                  {t('landing.review2')}
                 </p>
                 <div className="flex-row">
                   <div style={{width: '48px', height: '48px', borderRadius: '50%', background: '#cbd5e1', overflow: 'hidden'}}>
                     <img src="/michael_avatar.png" alt="Michael" style={{width: '100%', height: '100%', objectFit: 'cover'}} />
                   </div>
                   <div>
-                    <strong style={{display: 'block', color: 'var(--text-color)'}}>Michael R.</strong>
-                    <span style={{fontSize: '0.85rem', color: '#64748b'}}>Cares for his mother</span>
+                    <strong style={{display: 'block', color: 'var(--text-color)'}}>{t('landing.review2Author')}</strong>
+                    <span style={{fontSize: '0.85rem', color: '#64748b'}}>{t('landing.review2Role')}</span>
                   </div>
                 </div>
               </div>
@@ -502,61 +502,59 @@ const Landing = () => {
           </div>
         </section>
 
-        {/* Risk Reversal / Guarantee Box */}
         <section style={{padding: '0 1.5rem'}}>
           <div className="guarantee-box">
             <Shield size={64} color="var(--primary-color)" style={{margin: '0 auto 1.5rem'}} />
             <h2 style={{fontSize: '2.2rem', fontWeight: '700', color: 'var(--text-color)', marginBottom: '1rem'}}>
-              100% Risk-Free 14-Day Guarantee
+              {t('landing.guaranteeTitle')}
             </h2>
             <p style={{fontSize: '1.15rem', color: '#1a3630', maxWidth: '600px', margin: '0 auto', lineHeight: '1.6'}}>
-              Get MedsDone for your family today. If you don't feel significantly more relaxed, organized, and confident in your loved one's care within 14 days, simply let us know and we'll refund you. <b>100% Risk-Free.</b>
+              {t('landing.guaranteeDesc')}
             </p>
           </div>
         </section>
 
-        {/* Pricing Section */}
         <section id="pricing" className="pricing-section">
           <h2 style={{textAlign: 'center', fontSize: '2.2rem', fontWeight: '600', marginBottom: '3rem', color: 'var(--text-color)'}}>
-            Simple, Transparent Pricing
+            {t('landing.pricingTitle')}
           </h2>
           <div className="section-container" style={{padding: 0}}>
             <div className="grid-2" style={{maxWidth: '900px', margin: '0 auto'}}>
               
               {/* Family Plan */}
               <div className="pricing-card">
-                <h3 style={{fontSize: '1.5rem', color: 'var(--text-color)', margin: 0}}>MedsDone Family</h3>
-                <p style={{color: '#64748b', marginBottom: '1.5rem'}}>Perfect for individual families.</p>
+                <h3 style={{fontSize: '1.5rem', color: 'var(--text-color)', margin: 0}}>{t('landing.plan1Name')}</h3>
+                <p style={{color: '#64748b', marginBottom: '1.5rem'}}>{t('landing.plan1Desc')}</p>
                 <div style={{fontSize: '3rem', fontWeight: '700', color: 'var(--text-color)', marginBottom: '0.5rem'}}>
-                  $9.99<span style={{fontSize: '1rem', color: '#64748b', fontWeight: '500'}}>/mo</span>
+                  {t('landing.plan1Price')}<span style={{fontSize: '1rem', color: '#64748b', fontWeight: '500'}}>{t('landing.plan1Period')}</span>
                 </div>
                 <ul style={{listStyle: 'none', padding: 0, margin: '0 0 2rem 0', flex: 1}}>
-                  <li className="flex-row" style={{marginBottom: '0.75rem'}}><CheckCircle2 size={18} color="var(--primary-color)"/> 1 Patient Profile</li>
-                  <li className="flex-row" style={{marginBottom: '0.75rem'}}><CheckCircle2 size={18} color="var(--primary-color)"/> Up to 4 Family Members</li>
-                  <li className="flex-row" style={{marginBottom: '0.75rem'}}><CheckCircle2 size={18} color="var(--primary-color)"/> Real-time Alerts</li>
-                  <li className="flex-row" style={{marginBottom: '0.75rem'}}><CheckCircle2 size={18} color="var(--primary-color)"/> Complete History Log</li>
+                  <li className="flex-row" style={{marginBottom: '0.75rem'}}><CheckCircle2 size={18} color="var(--primary-color)"/> {t('landing.plan1F1')}</li>
+                  <li className="flex-row" style={{marginBottom: '0.75rem'}}><CheckCircle2 size={18} color="var(--primary-color)"/> {t('landing.plan1F2')}</li>
+                  <li className="flex-row" style={{marginBottom: '0.75rem'}}><CheckCircle2 size={18} color="var(--primary-color)"/> {t('landing.plan1F3')}</li>
+                  <li className="flex-row" style={{marginBottom: '0.75rem'}}><CheckCircle2 size={18} color="var(--primary-color)"/> {t('landing.plan1F4')}</li>
                 </ul>
                 <button onClick={() => openCheckout('https://pay.hotmart.com/O106115546S?off=agpe42pl')} className="buy-button" style={{width: '100%', fontSize: '1.1rem', padding: '1rem'}}>
-                  Start 14-Day Free Trial
+                  {t('landing.plan1Btn')}
                 </button>
               </div>
 
               {/* Pro Plan */}
               <div className="pricing-card popular">
-                <div className="popular-badge">RECOMMENDED</div>
-                <h3 style={{fontSize: '1.5rem', color: 'var(--text-color)', margin: 0}}>MedsDone Pro</h3>
-                <p style={{color: '#64748b', marginBottom: '1.5rem'}}>For professional caregivers & large families.</p>
+                <div className="popular-badge">{t('landing.plan2Badge')}</div>
+                <h3 style={{fontSize: '1.5rem', color: 'var(--text-color)', margin: 0}}>{t('landing.plan2Name')}</h3>
+                <p style={{color: '#64748b', marginBottom: '1.5rem'}}>{t('landing.plan2Desc')}</p>
                 <div style={{fontSize: '3rem', fontWeight: '700', color: 'var(--text-color)', marginBottom: '0.5rem'}}>
-                  $19.99<span style={{fontSize: '1rem', color: '#64748b', fontWeight: '500'}}>/mo</span>
+                  {t('landing.plan2Price')}<span style={{fontSize: '1rem', color: '#64748b', fontWeight: '500'}}>{t('landing.plan2Period')}</span>
                 </div>
                 <ul style={{listStyle: 'none', padding: 0, margin: '0 0 2rem 0', flex: 1}}>
-                  <li className="flex-row" style={{marginBottom: '0.75rem'}}><CheckCircle2 size={18} color="var(--primary-color)"/> <b>Unlimited</b> Patients</li>
-                  <li className="flex-row" style={{marginBottom: '0.75rem'}}><CheckCircle2 size={18} color="var(--primary-color)"/> <b>Unlimited</b> Members</li>
-                  <li className="flex-row" style={{marginBottom: '0.75rem'}}><CheckCircle2 size={18} color="var(--primary-color)"/> Real-time Alerts</li>
-                  <li className="flex-row" style={{marginBottom: '0.75rem'}}><CheckCircle2 size={18} color="var(--primary-color)"/> Export PDF for Doctors</li>
+                  <li className="flex-row" style={{marginBottom: '0.75rem'}}><CheckCircle2 size={18} color="var(--primary-color)"/> <b>{t('landing.plan2F1')}</b></li>
+                  <li className="flex-row" style={{marginBottom: '0.75rem'}}><CheckCircle2 size={18} color="var(--primary-color)"/> <b>{t('landing.plan2F2')}</b></li>
+                  <li className="flex-row" style={{marginBottom: '0.75rem'}}><CheckCircle2 size={18} color="var(--primary-color)"/> {t('landing.plan2F3')}</li>
+                  <li className="flex-row" style={{marginBottom: '0.75rem'}}><CheckCircle2 size={18} color="var(--primary-color)"/> {t('landing.plan2F4')}</li>
                 </ul>
                 <button onClick={() => openCheckout('https://pay.hotmart.com/O106115546S?off=6bl5f0mn')} className="buy-button" style={{width: '100%', fontSize: '1.1rem', padding: '1rem', background: 'var(--text-color)'}}>
-                  Start 14-Day Free Trial
+                  {t('landing.plan2Btn')}
                 </button>
               </div>
 
@@ -564,26 +562,25 @@ const Landing = () => {
           </div>
         </section>
 
-        {/* FAQ Section */}
         <section style={{maxWidth: '800px', margin: '0 auto', padding: '0 1.5rem'}}>
           <h2 style={{textAlign: 'center', fontSize: '2.2rem', fontWeight: '600', marginBottom: '3rem', color: 'var(--text-color)'}}>
-            Frequently Asked Questions
+            {t('landing.faqTitle')}
           </h2>
           <div>
-            {faqs.map((faq, index) => (
-              <div key={index} className="faq-item">
+            {[1, 2, 3, 4].map((i) => (
+              <div key={i} className="faq-item">
                 <button 
                   className="faq-button" 
-                  onClick={() => setOpenFaq(openFaq === index ? null : index)}
-                  aria-expanded={openFaq === index}
-                  aria-controls={`faq-answer-${index}`}
+                  onClick={() => setOpenFaq(openFaq === i ? null : i)}
+                  aria-expanded={openFaq === i}
+                  aria-controls={`faq-answer-${i}`}
                 >
-                  <span>{faq.q}</span>
-                  {openFaq === index ? <Minus size={20} color="var(--primary-color)" /> : <Plus size={20} color="var(--primary-color)" />}
+                  <span>{t(`landing.faq${i}Q`)}</span>
+                  {openFaq === i ? <Minus size={20} color="var(--primary-color)" /> : <Plus size={20} color="var(--primary-color)" />}
                 </button>
-                {openFaq === index && (
-                  <div id={`faq-answer-${index}`} className="faq-answer" role="region">
-                    {faq.a}
+                {openFaq === i && (
+                  <div id={`faq-answer-${i}`} className="faq-answer" role="region">
+                    {t(`landing.faq${i}A`)}
                   </div>
                 )}
               </div>
@@ -606,7 +603,6 @@ const Landing = () => {
         </div>
       </div>
 
-      {/* Footer */}
       <footer style={{background: 'var(--bg-color)', color: '#64748b', textAlign: 'center', padding: '3rem 1.5rem'}}>
         <div className="flex-center" style={{gap: '0.5rem', marginBottom: '1rem'}}>
           <HeartPulse color="var(--primary-color)" size={24} />
@@ -614,11 +610,11 @@ const Landing = () => {
             <span style={{color: 'var(--primary-color)'}}>Kin</span><span style={{color: 'var(--bg-color)'}}>Care</span>
           </span>
         </div>
-        <p style={{fontSize: '0.9rem', marginBottom: '1.5rem'}}>&copy; 2026 MedsDone Tech. Built for real families.</p>
+        <p style={{fontSize: '0.9rem', marginBottom: '1.5rem'}}>{t('landing.footerRights')}</p>
         <div className="flex-center" style={{gap: '1.5rem', fontSize: '0.9rem', fontWeight: '500'}}>
-          <a href="/login" style={{color: '#94a3b8', textDecoration: 'none'}}>Terms of Service</a>
-          <a href="/login" style={{color: '#94a3b8', textDecoration: 'none'}}>Privacy Policy</a>
-          <a href="/login" style={{color: '#94a3b8', textDecoration: 'none'}}>Support</a>
+          <a href="/login" style={{color: '#94a3b8', textDecoration: 'none'}}>{t('landing.footerTerms')}</a>
+          <a href="/login" style={{color: '#94a3b8', textDecoration: 'none'}}>{t('landing.footerPrivacy')}</a>
+          <a href="/login" style={{color: '#94a3b8', textDecoration: 'none'}}>{t('landing.footerSupport')}</a>
         </div>
       </footer>
     </div>
