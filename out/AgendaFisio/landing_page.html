@@ -135,6 +135,47 @@
                 <span class="flex items-center gap-1.5"><i data-lucide="smartphone" class="w-4 h-4 text-teal-600"></i> Funciona no iPhone e Android</span>
                 <span class="flex items-center gap-1.5"><i data-lucide="wifi-off" class="w-4 h-4 text-teal-600"></i> Funciona 100% Offline</span>
             </div>
+
+            <!-- Mini App Visual Mockup (Rizz Upfront - Instantly stops bounce < 5s) -->
+            <div class="pt-6 max-w-sm mx-auto">
+                <div class="bg-white border-2 border-teal-500/30 rounded-3xl p-4 shadow-2xl shadow-teal-900/10 space-y-3 text-left transform transition hover:scale-[1.02] cursor-pointer" onclick="window.open('https://pay.cakto.com.br/v8ahpcd_1166266', '_blank')">
+                    <div class="flex items-center justify-between border-b border-slate-100 pb-2.5">
+                        <div class="flex items-center gap-2">
+                            <div class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></div>
+                            <span class="text-xs font-black text-slate-800">Hoje • Agenda Ativa</span>
+                        </div>
+                        <span class="text-[11px] font-bold text-teal-700 bg-teal-50 px-2 py-0.5 rounded-md">Caixa: R$ 420,00</span>
+                    </div>
+                    
+                    <!-- Card Paciente 1 -->
+                    <div class="bg-teal-50/80 border border-teal-200 rounded-2xl p-3 flex items-center justify-between gap-2">
+                        <div>
+                            <span class="text-[10px] font-extrabold text-teal-700 uppercase">14:00 • Pilates Solo</span>
+                            <h4 class="text-xs font-bold text-slate-900 leading-tight">Dra. Camila Fernandes</h4>
+                            <span class="text-[10px] text-slate-500">Sessão 4 de 10 • R$ 140,00</span>
+                        </div>
+                        <span class="bg-emerald-600 text-white font-extrabold text-[11px] px-3 py-2 rounded-xl shadow-sm flex items-center gap-1 shrink-0 animate-bounce">
+                            <i data-lucide="message-square" class="w-3.5 h-3.5"></i> Zap 1 Toque
+                        </span>
+                    </div>
+
+                    <!-- Card Paciente 2 -->
+                    <div class="bg-slate-50 border border-slate-200 rounded-2xl p-3 flex items-center justify-between gap-2 opacity-90">
+                        <div>
+                            <span class="text-[10px] font-extrabold text-slate-500 uppercase">15:30 • Fisio Ortopédica</span>
+                            <h4 class="text-xs font-bold text-slate-900 leading-tight">Sr. Ricardo Mendes</h4>
+                            <span class="text-[10px] text-slate-500">Particular • R$ 150,00</span>
+                        </div>
+                        <span class="bg-teal-600 text-white font-bold text-[11px] px-3 py-2 rounded-xl shadow-sm flex items-center gap-1 shrink-0">
+                            <i data-lucide="check" class="w-3.5 h-3.5"></i> Confirmado
+                        </span>
+                    </div>
+
+                    <div class="text-center pt-1 flex items-center justify-center gap-1.5 text-[11px] text-teal-700 font-extrabold">
+                        <span>⚡ Prévia da interface no seu celular • Clique para assinar por R$ 27/mês</span>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -160,13 +201,14 @@
                     </div>
                 </div>
 
-                <div class="bg-white border border-rose-200 rounded-2xl p-5 text-center space-y-2 shadow-sm">
-                    <span class="text-xs font-bold text-rose-600 uppercase tracking-wider">Seu Prejuízo Estimado</span>
+                <div class="bg-white border-2 border-rose-200 hover:border-rose-400 rounded-2xl p-5 text-center space-y-2 shadow-sm cursor-pointer group transition hover:scale-[1.01]" onclick="window.open('https://pay.cakto.com.br/v8ahpcd_1166266', '_blank')">
+                    <span class="text-xs font-bold text-rose-600 uppercase tracking-wider group-hover:underline">Seu Prejuízo Estimado (Clique para sanar) ➔</span>
                     <div class="flex items-center justify-center gap-2">
                         <span id="monthlyLossDisplay" class="text-3xl sm:text-4xl font-black text-rose-600">R$ 560,00</span>
                         <span class="text-xs text-slate-500 font-medium">/mês</span>
                     </div>
                     <p id="yearlyLossDisplay" class="text-xs font-bold text-slate-700">Isso representa R$ 6.720,00 perdidos por ano!</p>
+                    <span class="text-[11px] font-extrabold text-teal-800 bg-teal-100/80 px-3 py-1 rounded-full inline-block mt-1 group-hover:bg-teal-200 transition">👉 Clique para recuperar esse valor por R$ 27,00/mês</span>
                 </div>
 
                 <p class="text-xs text-center text-teal-800 font-bold bg-teal-100/60 py-2.5 px-4 rounded-xl">
@@ -192,22 +234,25 @@
             </div>
 
             <div class="grid sm:grid-cols-3 gap-8">
-                <div class="bg-white border border-teal-100 p-6 rounded-3xl space-y-4 shadow-sm relative">
-                    <div class="w-10 h-10 bg-teal-600 text-white font-black rounded-2xl flex items-center justify-center text-lg">1</div>
+                <div class="bg-white border border-teal-100 p-6 rounded-3xl space-y-4 shadow-sm relative cursor-pointer hover:border-teal-400 hover:shadow-md transition group" onclick="window.open('https://pay.cakto.com.br/v8ahpcd_1166266', '_blank')">
+                    <div class="w-10 h-10 bg-teal-600 text-white font-black rounded-2xl flex items-center justify-center text-lg group-hover:scale-110 transition-transform">1</div>
                     <h3 class="font-bold text-base text-slate-900">Cadastre a consulta em 10s</h3>
                     <p class="text-xs text-slate-600 leading-relaxed">Coloque o nome do paciente, horário e o valor da sessão (ou controle de pacote 3/10).</p>
+                    <span class="text-[10px] font-bold text-teal-600 block pt-2 group-hover:underline">Começar agora ➔</span>
                 </div>
 
-                <div class="bg-white border border-teal-100 p-6 rounded-3xl space-y-4 shadow-sm relative">
-                    <div class="w-10 h-10 bg-teal-600 text-white font-black rounded-2xl flex items-center justify-center text-lg">2</div>
+                <div class="bg-white border border-teal-100 p-6 rounded-3xl space-y-4 shadow-sm relative cursor-pointer hover:border-teal-400 hover:shadow-md transition group" onclick="window.open('https://pay.cakto.com.br/v8ahpcd_1166266', '_blank')">
+                    <div class="w-10 h-10 bg-teal-600 text-white font-black rounded-2xl flex items-center justify-center text-lg group-hover:scale-110 transition-transform">2</div>
                     <h3 class="font-bold text-base text-slate-900">1 Toque no "Lembrar Zap"</h3>
                     <p class="text-xs text-slate-600 leading-relaxed">No dia da consulta, toque no botão. Ele abre seu WhatsApp com a mensagem de confirmação pré-formatada pronta para envio.</p>
+                    <span class="text-[10px] font-bold text-teal-600 block pt-2 group-hover:underline">Testar 1 toque ➔</span>
                 </div>
 
-                <div class="bg-white border border-teal-100 p-6 rounded-3xl space-y-4 shadow-sm relative">
-                    <div class="w-10 h-10 bg-teal-600 text-white font-black rounded-2xl flex items-center justify-center text-lg">3</div>
+                <div class="bg-white border border-teal-100 p-6 rounded-3xl space-y-4 shadow-sm relative cursor-pointer hover:border-teal-400 hover:shadow-md transition group" onclick="window.open('https://pay.cakto.com.br/v8ahpcd_1166266', '_blank')">
+                    <div class="w-10 h-10 bg-teal-600 text-white font-black rounded-2xl flex items-center justify-center text-lg group-hover:scale-110 transition-transform">3</div>
                     <h3 class="font-bold text-base text-slate-900">Controle de caixa diário</h3>
                     <p class="text-xs text-slate-600 leading-relaxed">Veja instantaneamente quanto dinheiro entrou no dia, quanto está pendente de recebimento e o balanço do mês.</p>
+                    <span class="text-[10px] font-bold text-teal-600 block pt-2 group-hover:underline">Ver caixa no app ➔</span>
                 </div>
             </div>
         </div>
@@ -383,22 +428,25 @@
             </div>
 
             <div class="grid sm:grid-cols-3 gap-6">
-                <div class="bg-white border border-teal-100 p-6 rounded-3xl space-y-3 shadow-sm">
+                <div class="bg-white border border-teal-100 p-6 rounded-3xl space-y-3 shadow-sm cursor-pointer hover:border-teal-400 hover:shadow-md transition group" onclick="window.open('https://pay.cakto.com.br/v8ahpcd_1166266', '_blank')">
                     <span class="text-[10px] font-bold text-teal-700 bg-teal-50 px-2.5 py-1 rounded-md uppercase">Bônus #1</span>
                     <h3 class="font-bold text-sm text-slate-900">Scripts de Cobrança Sem Constrangimento</h3>
                     <p class="text-xs text-slate-600 leading-relaxed">5 modelos prontos de mensagens educadas para lembrar pagamentos pendentes pelo WhatsApp sem gerar mal-estar com o paciente.</p>
+                    <span class="text-[10px] font-bold text-teal-600 block group-hover:underline">Garantir com bônus ➔</span>
                 </div>
 
-                <div class="bg-white border border-teal-100 p-6 rounded-3xl space-y-3 shadow-sm">
+                <div class="bg-white border border-teal-100 p-6 rounded-3xl space-y-3 shadow-sm cursor-pointer hover:border-teal-400 hover:shadow-md transition group" onclick="window.open('https://pay.cakto.com.br/v8ahpcd_1166266', '_blank')">
                     <span class="text-[10px] font-bold text-teal-700 bg-teal-50 px-2.5 py-1 rounded-md uppercase">Bônus #2</span>
                     <h3 class="font-bold text-sm text-slate-900">Guia Prático de Carnê-Leão e Impostos</h3>
                     <p class="text-xs text-slate-600 leading-relaxed">Orientações de como registrar os recebimentos como autônomo. <em class="block text-[10px] text-slate-400 mt-1">*Conteúdo informativo (out/2026), não substitui orientação de contador.</em></p>
+                    <span class="text-[10px] font-bold text-teal-600 block group-hover:underline">Garantir com bônus ➔</span>
                 </div>
 
-                <div class="bg-white border border-teal-100 p-6 rounded-3xl space-y-3 shadow-sm">
+                <div class="bg-white border border-teal-100 p-6 rounded-3xl space-y-3 shadow-sm cursor-pointer hover:border-teal-400 hover:shadow-md transition group" onclick="window.open('https://pay.cakto.com.br/v8ahpcd_1166266', '_blank')">
                     <span class="text-[10px] font-bold text-teal-700 bg-teal-50 px-2.5 py-1 rounded-md uppercase">Bônus #3</span>
                     <h3 class="font-bold text-sm text-slate-900">Modelos de Contrato & Anamnese</h3>
                     <p class="text-xs text-slate-600 leading-relaxed">Modelos prontos de ficha de anamnese e contrato de prestação de serviços fisioterapêuticos para imprimir ou salvar em PDF.</p>
+                    <span class="text-[10px] font-bold text-teal-600 block group-hover:underline">Garantir com bônus ➔</span>
                 </div>
             </div>
         </div>
