@@ -5,10 +5,31 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
     <title>AgendaFisio - Sistema de Agendamento e Prontuário para Fisioterapeutas</title>
+    <meta name="google-site-verification" content="google20d26e61c8a6a671" />
     <meta name="description" content="O sistema mais simples e acessível de agendamento, prontuário eletrônico e controle financeiro para fisioterapeutas autônomos e estúdios de pilates. Lembretes no WhatsApp por apenas R$ 27/mês." />
     <meta name="keywords" content="sistema para fisioterapeutas, software para fisioterapia, prontuário eletrônico fisioterapia, agendamento fisioterapia whatsapp, aplicativo fisioterapia, sistema estúdio pilates, fisioterapia home care, controle financeiro fisioterapia" />
     <meta name="robots" content="index, follow" />
     <link rel="canonical" href="https://agendafisio-three.vercel.app" />
+
+    <!-- PWA Manifest & App Metadata -->
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <meta name="theme-color" content="#0d9488" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="AgendaFisio" />
+    <link rel="apple-touch-icon" href="/kincare_logo.png" />
+
+    <!-- Service Worker Registration -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+          navigator.serviceWorker.register('/sw.js')
+            .then(function(reg) { console.log('SW registered successfully:', reg.scope); })
+            .catch(function(err) { console.log('SW registration failed:', err); });
+        });
+      }
+    </script>
 
     <!-- Open Graph / Facebook / WhatsApp -->
     <meta property="og:type" content="website" />
