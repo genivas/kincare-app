@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0d9488">
+    <link rel="manifest" href="manifest.json">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="AgendaFisio">
+    <link rel="apple-touch-icon" href="logo.jpg">
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+          navigator.serviceWorker.register('sw.js')
+            .then(function(reg) { console.log('SW App registered:', reg.scope); })
+            .catch(function(err) { console.log('SW App reg failed:', err); });
+        });
+      }
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        medical: {
+                            50: '#f0fdfa',
+                            100: '#ccfbf1',
+                            500: '#14b8a6',
+                            600: '#0d9488',
+                            700: '#0f766e',
+                            800: '#115e59',
+                            900: '#134e4a',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-teal-50/60 via-slate-50 to-emerald-50/30 dark:bg-slate-950 text-slate-800 dark:text-slate-100 min-h-screen flex flex-col antialiased transition-colors duration-200">
+
+    <!-- Prototype Demo Banner (Visible when not paid) -->
+    <div id="demoBanner" class="hidden bg-gradient-to-r from-amber-600 via-amber-500 to-amber-600 text-white px-4 py-2 text-xs font-bold text-center flex flex-wrap items-center justify-between gap-2 shadow-md">
+        <div class="flex items-center justify-center gap-2 mx-auto">
+            <span class="bg-amber-800/60 px-2 py-0.5 rounded text-[10px] uppercase">Modo Protótipo</span>
+            <span>Você está na demonstração interativa.</span>
+            <button onclick="runAutoDemoSimulation()" class="bg-amber-900/60 hover:bg-amber-950 text-white font-extrabold px-2.5 py-1 rounded-lg border border-amber-300/40 text-[11px] flex items-center gap-1.5 transition shadow-sm">
+                ▶️ Simular Uso Automático (~30s)
+            </button>
+        </div>
+        <a href="https://pay.cakto.com.br/v8ahpcd_1166266" target="_blank" class="hidden sm:inline-flex bg-white text-amber-900 font-extrabold px-3 py-1 rounded-lg hover:bg-amber-50 transition text-[11px] uppercase shadow-sm">
+            Assinar por R$ 27,00
+        </a>
+    </div>
+
+    <!-- Top Global Header -->
+    <header class="bg-white/90 dark:bg-slate-900 border-b border-teal-100 dark:border-slate-800 sticky top-0 z-40 px-4 sm:px-8 py-3 shadow-sm backdrop-blur-md">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <img src="./logo.jpg" alt="AgendaFisio Logo" class="w-10 h-10 rounded-xl object-cover shadow-md shadow-teal-700/10 border border-teal-100">
+                <div>
+                    <h1 class="font-black text-xl leading-none text-slate-900 dark:text-white tracking-tight">AgendaFisio</h1>
+                    <p class="text-[10px] font-bold text-teal-600 dark:text-teal-400 tracking-wider uppercase mt-0.5">Gestão Clínica Autônoma</p>
+                </div>
+            </div>
+
+            <!-- Date Selector (Header Center) -->
+            <div class="hidden md:flex items-center bg-slate-50 dark:bg-slate-950 border border-teal-100 dark:border-slate-800 rounded-xl p-1.5 space-x-2">
+                <button onclick="changeDate(-1)" class="p-1.5 rounded-lg hover:bg-white dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400 transition">
+                    <i data-lucide="chevron-left" class="w-4 h-4"></i>
+                </button>
+                <div class="text-center px-3">
+                    <input type="date" id="datePickerDesktop" onchange="onDateSelectedDesktop()" class="bg-transparent text-slate-900 dark:text-white font-bold text-xs text-center focus:outline-none cursor-pointer">
+                    <p id="dayOfWeekLabelDesktop" class="text-[10px] text-teal-600 dark:text-teal-400 font-semibold uppercase tracking-wider">Hoje</p>
+                </div>
+                <button onclick="changeDate(1)" class="p-1.5 rounded-lg hover:bg-white dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400 transition">
+                    <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                </button>
+            </div>
+
+            <!-- Action Controls -->
+            <div class="flex items-center space-x-3">
+                <button onclick="openModal()" class="bg-teal-600 hover:bg-teal-700 text-white font-bold px-4 py-2.5 rounded-xl text-xs flex items-center gap-2 shadow-md shadow-teal-600/20 active:scale-95 transition">
+                    <i data-lucide="plus-circle" class="w-4 h-4"></i>
+                    <span class="hidden sm:inline">Novo Atendimento</span>
+                </button>
+                <button onclick="toggleTheme()" class="p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition">
+                    <i data-lucide="sun" id="themeIcon" class="w-4 h-4"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Workspace Container -->
+    <div class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-8 py-6 grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+        <!-- LEFT/MAIN COLUMN: Agenda Timeline & Filter -->
+        <main class="lg:col-span-8 space-y-6">
+
+            <!-- Mobile Date Carousel -->
+            <div class="md:hidden flex items-center justify-between bg-white dark:bg-slate-900 border border-teal-100 dark:border-slate-800 p-2 rounded-xl shadow-sm">
+                <button onclick="changeDate(-1)" class="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400">
+                    <i data-lucide="chevron-left" class="w-5 h-5"></i>
+                </button>
+                <div class="text-center">
+                    <input type="date" id="datePickerMobile" onchange="onDateSelectedMobile()" class="bg-transparent text-slate-900 dark:text-white font-bold text-sm text-center focus:outline-none">
+                    <p id="dayOfWeekLabelMobile" class="text-xs text-teal-600 dark:text-teal-400 font-semibold">Hoje</p>
+                </div>
+                <button onclick="changeDate(1)" class="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400">
+                    <i data-lucide="chevron-right" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <!-- Stats Bar Banner -->
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4">
+                <div class="bg-white dark:bg-slate-900 border border-emerald-200/80 dark:border-emerald-500/20 rounded-2xl p-4 shadow-sm relative overflow-hidden">
+                    <div class="flex items-center justify-between">
+                        <span class="text-[11px] font-bold text-emerald-700 dark:text-emerald-400 uppercase tracking-wider flex items-center gap-1.5">
+                            <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-600"></i> Faturado Hoje
+                        </span>
+                    </div>
+                    <p id="totalRecebido" class="text-xl sm:text-2xl font-black text-slate-900 dark:text-white mt-2">R$ 0,00</p>
+                </div>
+
+                <div class="bg-white dark:bg-slate-900 border border-amber-200/80 dark:border-amber-500/20 rounded-2xl p-4 shadow-sm relative overflow-hidden">
+                    <div class="flex items-center justify-between">
+                        <span class="text-[11px] font-bold text-amber-700 dark:text-amber-400 uppercase tracking-wider flex items-center gap-1.5">
+                            <i data-lucide="clock" class="w-4 h-4 text-amber-600"></i> A Receber
+                        </span>
+                    </div>
+                    <p id="totalPendente" class="text-xl sm:text-2xl font-black text-slate-900 dark:text-slate-100 mt-2">R$ 0,00</p>
+                </div>
+
+                <div class="col-span-2 sm:col-span-1 bg-white dark:bg-slate-900 border border-teal-100 dark:border-slate-800 rounded-2xl p-4 shadow-sm">
+                    <span class="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
+                        <i data-lucide="users" class="w-4 h-4 text-teal-600"></i> Total de Pacientes
+                    </span>
+                    <p id="totalPacientesHoje" class="text-xl sm:text-2xl font-black text-slate-900 dark:text-white mt-2">0 Atendimentos</p>
+                </div>
+            </div>
+
+            <!-- Filter Tabs -->
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white dark:bg-slate-900 p-3 border border-teal-100 dark:border-slate-800 rounded-2xl shadow-sm">
+                <div class="flex gap-2">
+                    <button onclick="setFilter('all')" id="tab-all" class="px-4 py-2 rounded-xl text-xs font-bold bg-teal-600 text-white shadow-sm transition">Todos (<span id="cnt-all">0</span>)</button>
+                    <button onclick="setFilter('pending')" id="tab-pending" class="px-4 py-2 rounded-xl text-xs font-semibold bg-slate-100 dark:bg-slate-950 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-800 hover:text-slate-900 dark:hover:text-white transition">Pendentes (<span id="cnt-pending">0</span>)</button>
+                    <button onclick="setFilter('paid')" id="tab-paid" class="px-4 py-2 rounded-xl text-xs font-semibold bg-slate-100 dark:bg-slate-950 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-800 hover:text-slate-900 dark:hover:text-white transition">Pagos (<span id="cnt-paid">0</span>)</button>
+                </div>
+                <div class="text-xs text-slate-500 dark:text-slate-400 font-medium px-2">
+                    Filtro: <strong class="text-slate-800 dark:text-white" id="currentFilterLabel">Dia Completo</strong>
+                </div>
+            </div>
+
+            <!-- Appointments List -->
+            <div id="appointmentsList" class="space-y-3.5">
+                <!-- Dynamic Injection -->
+            </div>
+
+            <!-- Empty State -->
+            <div id="emptyState" class="hidden text-center py-16 space-y-4 bg-white dark:bg-slate-900/40 border border-dashed border-teal-200 dark:border-slate-800 rounded-3xl p-8 shadow-sm">
+                <div class="w-14 h-14 bg-teal-50 dark:bg-slate-800 rounded-2xl flex items-center justify-center mx-auto text-teal-600">
+                    <i data-lucide="calendar-x-2" class="w-7 h-7"></i>
+                </div>
+                <div>
+                    <h3 class="text-base font-bold text-slate-800 dark:text-slate-200">Nenhum atendimento neste dia</h3>
+                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-1 max-w-sm mx-auto">Sua agenda está livre. Clique no botão abaixo para agendar seu primeiro paciente.</p>
+                </div>
+                <button onclick="openModal()" class="inline-flex items-center gap-2 bg-teal-600 text-white px-5 py-2.5 rounded-xl text-xs font-bold shadow-md hover:bg-teal-700 transition">
+                    <i data-lucide="plus-circle" class="w-4 h-4"></i> Novo Atendimento
+                </button>
+            </div>
+        </main>
+
+        <!-- RIGHT COLUMN: Monthly Insights & Backup -->
+        <aside class="lg:col-span-4 space-y-6">
+
+            <!-- Monthly Financial Card -->
+            <div class="bg-white dark:bg-slate-900 border border-teal-100 dark:border-slate-800 rounded-3xl p-5 space-y-4 shadow-sm">
+                <div class="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
+                    <h3 class="font-extrabold text-sm text-slate-900 dark:text-white flex items-center gap-2">
+                        <i data-lucide="trending-up" class="w-4 h-4 text-teal-600"></i> Balanço Mensal
+                    </h3>
+                    <span class="text-[10px] bg-teal-50 dark:bg-teal-500/10 text-teal-700 dark:text-teal-400 border border-teal-200 dark:border-teal-500/30 px-2.5 py-0.5 rounded-md font-bold uppercase">Este Mês</span>
+                </div>
+
+                <div class="space-y-3">
+                    <div class="bg-slate-50 dark:bg-slate-950 border border-slate-200/60 dark:border-slate-800 p-3.5 rounded-2xl flex justify-between items-center">
+                        <div>
+                            <span class="text-xs text-slate-500 dark:text-slate-400 block font-medium">Total Recebido</span>
+                            <span id="monthPaidTotal" class="text-lg font-black text-emerald-600 dark:text-emerald-400">R$ 0,00</span>
+                        </div>
+                        <div class="w-9 h-9 bg-emerald-100 dark:bg-emerald-500/10 rounded-xl flex items-center justify-center text-emerald-600 dark:text-emerald-400">
+                            <i data-lucide="dollar-sign" class="w-4 h-4"></i>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-50 dark:bg-slate-950 border border-slate-200/60 dark:border-slate-800 p-3.5 rounded-2xl flex justify-between items-center">
+                        <div>
+                            <span class="text-xs text-slate-500 dark:text-slate-400 block font-medium">Pendente de Cobrança</span>
+                            <span id="monthPendingTotal" class="text-lg font-black text-amber-600 dark:text-amber-400">R$ 0,00</span>
+                        </div>
+                        <div class="w-9 h-9 bg-amber-100 dark:bg-amber-500/10 rounded-xl flex items-center justify-center text-amber-600 dark:text-amber-400">
+                            <i data-lucide="clock" class="w-4 h-4"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Tools & Backup Panel -->
+            <div class="bg-white dark:bg-slate-900 border border-teal-100 dark:border-slate-800 rounded-3xl p-5 space-y-4 shadow-sm">
+                <h3 class="font-extrabold text-sm text-slate-900 dark:text-white flex items-center gap-2">
+                    <i data-lucide="shield-check" class="w-4 h-4 text-teal-600"></i> Segurança & Backup
+                </h3>
+                <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">Seus prontuários e caixa estão salvos localmente. Faça backup quando desejar.</p>
+                
+                <div class="grid grid-cols-2 gap-2">
+                    <button onclick="exportData()" class="bg-slate-100 hover:bg-slate-200 dark:bg-slate-950 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-800 font-bold py-2.5 px-3 rounded-xl text-xs flex items-center justify-center gap-1.5 transition">
+                        <i data-lucide="download" class="w-3.5 h-3.5 text-teal-600"></i> Exportar Backup
+                    </button>
+                    <button onclick="importData()" class="bg-slate-100 hover:bg-slate-200 dark:bg-slate-950 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-800 font-bold py-2.5 px-3 rounded-xl text-xs flex items-center justify-center gap-1.5 transition">
+                        <i data-lucide="upload" class="w-3.5 h-3.5 text-teal-600"></i> Importar Backup
+                    </button>
+                </div>
+
+                <button onclick="runAutoDemoSimulation()" class="w-full bg-gradient-to-r from-teal-600 via-emerald-600 to-teal-700 hover:from-teal-700 hover:to-emerald-800 text-white font-black py-3 px-3 rounded-xl text-xs flex items-center justify-center gap-2 shadow-md shadow-teal-600/25 active:scale-95 transition">
+                    <i data-lucide="play-circle" class="w-4 h-4 text-emerald-300"></i> ▶️ Assistir Simulação Animada
+                </button>
+
+                <button onclick="openInstallModal()" class="w-full bg-teal-50 dark:bg-teal-500/10 border border-teal-200 dark:border-teal-500/30 text-teal-700 dark:text-teal-400 font-bold py-2.5 px-3 rounded-xl text-xs flex items-center justify-center gap-2 hover:bg-teal-100 transition">
+                    <i data-lucide="smartphone" class="w-4 h-4"></i> Como Instalar no Celular (Guia 30s)
+                </button>
+
+                <div class="grid grid-cols-2 gap-2 pt-1 border-t border-slate-100 dark:border-slate-800">
+                    <button onclick="loadDemoData()" class="bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 font-medium py-2 px-2.5 rounded-xl text-[11px] flex items-center justify-center gap-1 hover:bg-slate-100 transition">
+                        <i data-lucide="sparkles" class="w-3.5 h-3.5 text-amber-500"></i> Dados de Demo
+                    </button>
+                    <button onclick="clearAllData()" class="bg-slate-50 dark:bg-slate-950 border border-rose-200 dark:border-rose-900/40 text-rose-600 dark:text-rose-400 font-medium py-2 px-2.5 rounded-xl text-[11px] flex items-center justify-center gap-1 hover:bg-rose-50 transition">
+                        <i data-lucide="trash-2" class="w-3.5 h-3.5 text-rose-500"></i> Zerar Caixa
+                    </button>
+                </div>
+            </div>
+
+            <!-- Dynamic Bonus Panel (Locked in Demo/Prototype, Unlocked Post-Purchase) -->
+            <div id="bonusPanelContainer"></div>
+        </aside>
+    </div>
+
+    <!-- Modal: Novo / Editar Atendimento -->
+    <div id="appointmentModal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 hidden">
+        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 w-full max-w-lg rounded-3xl p-6 space-y-5 shadow-2xl max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center border-b border-slate-100 dark:border-slate-800 pb-3">
+                <h3 class="font-extrabold text-base text-slate-900 dark:text-white flex items-center gap-2">
+                    <i data-lucide="user-plus" class="w-5 h-5 text-teal-600"></i> Novo Agendamento
+                </h3>
+                <button onclick="closeModal()" class="text-slate-400 hover:text-slate-600 dark:hover:text-white p-1">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <form id="appointmentForm" onsubmit="saveAppointment(event)" class="space-y-4">
+                <input type="hidden" id="appointId">
+
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">Nome Completo do Paciente *</label>
+                    <input type="text" id="patientName" required placeholder="Ex: Dra. Ana Beatriz Souza" class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-3.5 py-2.5 text-sm text-slate-900 dark:text-white focus:outline-none focus:border-teal-600">
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">WhatsApp (DDD + Número)</label>
+                        <input type="tel" id="patientPhone" placeholder="11999998888" class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-3.5 py-2.5 text-sm text-slate-900 dark:text-white focus:outline-none focus:border-teal-600">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">Horário do Atendimento *</label>
+                        <input type="time" id="appointTime" required class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-3.5 py-2.5 text-sm text-slate-900 dark:text-white focus:outline-none focus:border-teal-600">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">Procedimento</label>
+                        <select id="serviceType" class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-3.5 py-2.5 text-sm text-slate-900 dark:text-white focus:outline-none focus:border-teal-600">
+                            <option value="Fisioterapia Geral">Fisioterapia Geral</option>
+                            <option value="Studio de Pilates">Studio de Pilates</option>
+                            <option value="RPG / Postura">RPG / Postura</option>
+                            <option value="Osteopatia">Osteopatia</option>
+                            <option value="Massoterapia">Massoterapia / Liberação</option>
+                            <option value="Atendimento Domiciliar">Atendimento Domiciliar</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">Contador de Sessões</label>
+                        <div class="flex items-center gap-1.5">
+                            <input type="number" id="sessionCurrent" value="1" min="1" class="w-1/2 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-2 py-2.5 text-sm text-slate-900 dark:text-white text-center focus:outline-none">
+                            <span class="text-slate-400 text-xs">de</span>
+                            <input type="number" id="sessionTotal" value="10" min="1" class="w-1/2 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-2 py-2.5 text-sm text-slate-900 dark:text-white text-center focus:outline-none">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">Valor da Sessão (R$) *</label>
+                        <input type="number" id="appointPrice" step="0.01" value="140.00" required class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-3.5 py-2.5 text-sm text-slate-900 dark:text-white focus:outline-none focus:border-teal-600">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">Forma de Pagamento</label>
+                        <select id="paymentMethod" class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-3.5 py-2.5 text-sm text-slate-900 dark:text-white focus:outline-none focus:border-teal-600">
+                            <option value="PIX">PIX</option>
+                            <option value="Dinheiro">Dinheiro</option>
+                            <option value="Cartão de Crédito">Cartão de Crédito</option>
+                            <option value="Cartão de Débito">Cartão de Débito</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">Anotações do Prontuário Rápido</label>
+                    <textarea id="appointNotes" rows="2" placeholder="Ex: Paciente relatou melhora na mobilidade articular..." class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-3.5 py-2 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-teal-600"></textarea>
+                </div>
+
+                <div class="pt-2">
+                    <button type="submit" class="w-full bg-teal-600 hover:bg-teal-700 text-white font-extrabold py-3.5 rounded-xl text-sm shadow-md transition">
+                        Salvar Agendamento
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- JavaScript Application Core Logic -->
+    <script>
+        let currentDate = new Date().toISOString().split('T')[0];
+        let currentFilter = 'all';
+        let appointments = JSON.parse(localStorage.getItem('agendafisio_data')) || [];
+
+        document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+            document.getElementById('datePickerDesktop').value = currentDate;
+            document.getElementById('datePickerMobile').value = currentDate;
+            renderDateLabel();
+            renderAppointments();
+            updateFinancials();
+        });
+
+        function renderDateLabel() {
+            const dateObj = new Date(currentDate + 'T00:00:00');
+            const options = { weekday: 'long', day: 'numeric', month: 'short' };
+            const formatted = dateObj.toLocaleDateString('pt-BR', options);
+            const labelText = formatted.charAt(0).toUpperCase() + formatted.slice(1);
+            
+            document.getElementById('dayOfWeekLabelDesktop').textContent = labelText;
+            document.getElementById('dayOfWeekLabelMobile').textContent = labelText;
+        }
+
+        function changeDate(days) {
+            const dateObj = new Date(currentDate + 'T00:00:00');
+            dateObj.setDate(dateObj.getDate() + days);
+            currentDate = dateObj.toISOString().split('T')[0];
+            document.getElementById('datePickerDesktop').value = currentDate;
+            document.getElementById('datePickerMobile').value = currentDate;
+            renderDateLabel();
+            renderAppointments();
+            updateFinancials();
+        }
+
+        function onDateSelectedDesktop() {
+            currentDate = document.getElementById('datePickerDesktop').value;
+            document.getElementById('datePickerMobile').value = currentDate;
+            renderDateLabel();
+            renderAppointments();
+            updateFinancials();
+        }
+
+        function onDateSelectedMobile() {
+            currentDate = document.getElementById('datePickerMobile').value;
+            document.getElementById('datePickerDesktop').value = currentDate;
+            renderDateLabel();
+            renderAppointments();
+            updateFinancials();
+        }
+
+        function setFilter(filter) {
+            currentFilter = filter;
+            const labels = { all: 'Dia Completo', pending: 'Apenas Pendentes', paid: 'Apenas Pagos' };
+            document.getElementById('currentFilterLabel').textContent = labels[filter];
+
+            ['all', 'pending', 'paid'].forEach(tab => {
+                const el = document.getElementById(`tab-${tab}`);
+                if (tab === filter) {
+                    el.className = "px-4 py-2 rounded-xl text-xs font-bold bg-teal-600 text-white shadow-sm transition";
+                } else {
+                    el.className = "px-4 py-2 rounded-xl text-xs font-semibold bg-slate-100 dark:bg-slate-950 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-800 hover:text-slate-900 dark:hover:text-white transition";
+                }
+            });
+            renderAppointments();
+        }
+
+        function renderAppointments() {
+            const container = document.getElementById('appointmentsList');
+            const emptyState = document.getElementById('emptyState');
+            container.innerHTML = '';
+
+            const dayAppointments = appointments.filter(a => a.date === currentDate);
+            
+            document.getElementById('cnt-all').textContent = dayAppointments.length;
+            document.getElementById('cnt-pending').textContent = dayAppointments.filter(a => !a.paid).length;
+            document.getElementById('cnt-paid').textContent = dayAppointments.filter(a => a.paid).length;
+            document.getElementById('totalPacientesHoje').textContent = `${dayAppointments.length} Atendimento${dayAppointments.length !== 1 ? 's' : ''}`;
+
+            let filtered = dayAppointments;
+            if (currentFilter === 'pending') filtered = dayAppointments.filter(a => !a.paid);
+            if (currentFilter === 'paid') filtered = dayAppointments.filter(a => a.paid);
+
+            filtered.sort((a, b) => a.time.localeCompare(b.time));
+
+            if (filtered.length === 0) {
+                emptyState.classList.remove('hidden');
+                container.classList.add('hidden');
+                return;
+            }
+
+            emptyState.classList.add('hidden');
+            container.classList.remove('hidden');
+
+            filtered.forEach(item => {
+                const card = document.createElement('div');
+                card.className = `bg-white dark:bg-slate-900 border ${item.paid ? 'border-emerald-200 dark:border-emerald-500/30' : 'border-slate-200/80 dark:border-slate-800'} rounded-2xl p-4 sm:p-5 space-y-3 shadow-sm hover:shadow-md transition`;
+                
+                const formattedPrice = parseFloat(item.price).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+
+                card.innerHTML = `
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                        <div class="flex items-start space-x-3.5">
+                            <div class="bg-slate-100 dark:bg-slate-950 px-3 py-2 rounded-xl border border-slate-200/80 dark:border-slate-800 text-center">
+                                <span class="text-xs font-black text-teal-700 dark:text-teal-400 block">${item.time}</span>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-sm sm:text-base text-slate-900 dark:text-white">${item.name}</h4>
+                                <div class="flex flex-wrap items-center gap-2 mt-1">
+                                    <span class="text-[10px] font-bold text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-950 px-2 py-0.5 rounded border border-slate-200 dark:border-slate-800">${item.service}</span>
+                                    <span class="text-[10px] font-semibold text-teal-700 dark:text-teal-400 bg-teal-50 dark:bg-teal-500/10 px-2 py-0.5 rounded border border-teal-200 dark:border-teal-500/20">Sessão ${item.sessionCurrent}/${item.sessionTotal}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex sm:flex-col items-center sm:items-end justify-between border-t sm:border-t-0 pt-2.5 sm:pt-0 border-slate-100 dark:border-slate-800">
+                            <span class="font-extrabold text-base ${item.paid ? 'text-emerald-700 dark:text-emerald-400' : 'text-slate-900 dark:text-white'}">${formattedPrice}</span>
+                            <span class="text-[10px] font-bold ${item.paid ? 'bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-500/10 dark:text-emerald-400 dark:border-emerald-500/30' : 'bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-500/10 dark:text-amber-400 dark:border-amber-500/30'} border px-2.5 py-0.5 rounded-md uppercase">
+                                ${item.paid ? 'PAGO (' + item.paymentMethod + ')' : 'PENDENTE'}
+                            </span>
+                        </div>
+                    </div>
+
+                    ${item.notes ? `<p class="text-xs text-slate-600 dark:text-slate-400 bg-slate-50 dark:bg-slate-950 border border-slate-200/60 dark:border-slate-800 p-3 rounded-xl italic">"${item.notes}"</p>` : ''}
+
+                    <div class="flex items-center justify-between pt-2.5 border-t border-slate-100 dark:border-slate-800 text-xs">
+                        <button onclick="sendWhatsapp('${item.phone}', '${item.name}', '${item.time}')" class="text-teal-700 dark:text-teal-400 font-bold flex items-center gap-1.5 bg-teal-50 hover:bg-teal-100 dark:bg-teal-500/10 border border-teal-200 dark:border-teal-500/20 px-3 py-1.5 rounded-xl transition">
+                            <i data-lucide="message-circle" class="w-4 h-4"></i> Lembrar Zap
+                        </button>
+
+                        <div class="flex items-center space-x-2">
+                            <button onclick="togglePayment('${item.id}')" class="${item.paid ? 'text-amber-700 bg-amber-50 border-amber-200 dark:text-amber-400 dark:bg-amber-500/10' : 'text-emerald-700 bg-emerald-50 border-emerald-200 dark:text-emerald-400 dark:bg-emerald-500/10'} font-bold px-3 py-1.5 rounded-xl border transition">
+                                ${item.paid ? 'Desfazer Pago' : 'Marcar Pago'}
+                            </button>
+                            <button onclick="deleteAppointment('${item.id}')" class="text-slate-400 hover:text-red-500 p-1.5 transition">
+                                <i data-lucide="trash-2" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+
+            lucide.createIcons();
+        }
+
+        function updateFinancials() {
+            const dayAppointments = appointments.filter(a => a.date === currentDate);
+            const totalPaid = dayAppointments.filter(a => a.paid).reduce((sum, a) => sum + parseFloat(a.price), 0);
+            const totalPending = dayAppointments.filter(a => !a.paid).reduce((sum, a) => sum + parseFloat(a.price), 0);
+
+            document.getElementById('totalRecebido').textContent = totalPaid.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+            document.getElementById('totalPendente').textContent = totalPending.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+
+            const currentMonthPrefix = currentDate ? currentDate.substring(0, 7) : new Date().toISOString().substring(0, 7);
+            const monthAppointments = appointments.filter(a => a.date && a.date.substring(0, 7) === currentMonthPrefix);
+            const monthPaid = monthAppointments.filter(a => a.paid).reduce((sum, a) => sum + parseFloat(a.price), 0);
+            const monthPending = monthAppointments.filter(a => !a.paid).reduce((sum, a) => sum + parseFloat(a.price), 0);
+            
+            document.getElementById('monthPaidTotal').textContent = monthPaid.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+            document.getElementById('monthPendingTotal').textContent = monthPending.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+        }
+
+        function clearAllData() {
+            if (confirm("Deseja realmente zerar o caixa e apagar todos os atendimentos salvos?")) {
+                appointments = [];
+                localStorage.setItem('agendafisio_data', JSON.stringify(appointments));
+                renderAppointments();
+                updateFinancials();
+                alert("Caixa e agenda zerados com sucesso!");
+            }
+        }
+
+        function saveAppointment(e) {
+            e.preventDefault();
+            const id = document.getElementById('appointId').value || Date.now().toString();
+            const name = document.getElementById('patientName').value;
+            const phone = document.getElementById('patientPhone').value;
+            const time = document.getElementById('appointTime').value;
+            const service = document.getElementById('serviceType').value;
+            const sessionCurrent = document.getElementById('sessionCurrent').value;
+            const sessionTotal = document.getElementById('sessionTotal').value;
+            const price = document.getElementById('appointPrice').value;
+            const paymentMethod = document.getElementById('paymentMethod').value;
+            const notes = document.getElementById('appointNotes').value;
+
+            const existingIndex = appointments.findIndex(a => a.id === id);
+            const newItem = {
+                id, date: currentDate, name, phone, time, service,
+                sessionCurrent, sessionTotal, price, paymentMethod, notes,
+                paid: existingIndex >= 0 ? appointments[existingIndex].paid : false
+            };
+
+            if (existingIndex >= 0) {
+                appointments[existingIndex] = newItem;
+            } else {
+                appointments.push(newItem);
+            }
+
+            localStorage.setItem('agendafisio_data', JSON.stringify(appointments));
+            closeModal();
+            renderAppointments();
+            updateFinancials();
+        }
+
+        function togglePayment(id) {
+            const item = appointments.find(a => a.id === id);
+            if (item) {
+                item.paid = !item.paid;
+                localStorage.setItem('agendafisio_data', JSON.stringify(appointments));
+                renderAppointments();
+                updateFinancials();
+            }
+        }
+
+        function deleteAppointment(id) {
+            if (confirm("Deseja realmente apagar este atendimento?")) {
+                appointments = appointments.filter(a => a.id !== id);
+                localStorage.setItem('agendafisio_data', JSON.stringify(appointments));
+                renderAppointments();
+                updateFinancials();
+            }
+        }
+
+        function sendWhatsapp(phone, name, time) {
+            const cleanPhone = phone ? phone.replace(/\D/g, '') : '';
+            const msg = encodeURIComponent(`Olá ${name}! Confirmando nossa sessão de fisioterapia agendada para hoje às ${time}. Posso confirmar sua presença?`);
+            
+            if (cleanPhone) {
+                window.open(`https://wa.me/55${cleanPhone}?text=${msg}`, '_blank');
+            } else {
+                window.open(`https://wa.me/?text=${msg}`, '_blank');
+            }
+        }
+
+        function openModal() {
+            document.getElementById('appointmentForm').reset();
+            document.getElementById('appointId').value = '';
+            document.getElementById('appointmentModal').classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('appointmentModal').classList.add('hidden');
+        }
+
+        function toggleTheme() {
+            document.documentElement.classList.toggle('dark');
+            document.documentElement.classList.toggle('light');
+        }
+
+        function loadDemoData() {
+            const today = new Date().toISOString().split('T')[0];
+            appointments = [
+                { id: '1', date: today, time: '08:00', name: 'Dra. Ana Beatriz Souza', phone: '11988887777', service: 'Fisioterapia Geral', sessionCurrent: '3', sessionTotal: '10', price: '140.00', paymentMethod: 'PIX', notes: 'Melhora da dor cervical pós-tração', paid: true },
+                { id: '2', date: today, time: '09:30', name: 'Carlos Eduardo Ramos', phone: '11977776666', service: 'RPG / Postura', sessionCurrent: '5', sessionTotal: '10', price: '150.00', paymentMethod: 'PIX', notes: 'Exercícios de fortalecimento de paravertebrais', paid: false },
+                { id: '3', date: today, time: '14:00', name: 'Fernanda Lima', phone: '11966665555', service: 'Studio de Pilates', sessionCurrent: '8', sessionTotal: '12', price: '130.00', paymentMethod: 'Cartão de Crédito', notes: 'Reabilitação de joelho pré-operatória', paid: true }
+            ];
+            localStorage.setItem('agendafisio_data', JSON.stringify(appointments));
+            renderAppointments();
+            updateFinancials();
+        }
+
+        function exportData() {
+            try {
+                const jsonStr = JSON.stringify(appointments, null, 2);
+                const blob = new Blob([jsonStr], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const downloadAnchor = document.createElement('a');
+                downloadAnchor.href = url;
+                downloadAnchor.download = `agendafisio_backup_${currentDate || 'data'}.json`;
+                document.body.appendChild(downloadAnchor);
+                downloadAnchor.click();
+                document.body.removeChild(downloadAnchor);
+                URL.revokeObjectURL(url);
+            } catch (err) {
+                alert("Erro ao exportar backup: " + err.message);
+            }
+        }
+
+        function importData() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = 'application/json';
+            input.onchange = e => {
+                const file = e.target.files[0];
+                if (!file) return;
+                const reader = new FileReader();
+                reader.readAsText(file, 'UTF-8');
+                reader.onload = readerEvent => {
+                    try {
+                        const content = JSON.parse(readerEvent.target.result);
+                        if (Array.isArray(content)) {
+                            appointments = content;
+                            localStorage.setItem('agendafisio_data', JSON.stringify(appointments));
+                            renderAppointments();
+                            updateFinancials();
+                            alert("✅ Backup restaurado com sucesso! " + appointments.length + " atendimentos carregados.");
+                        } else {
+                            alert("Formato de arquivo de backup inválido.");
+                        }
+                    } catch (err) {
+                        alert("Erro ao importar arquivo: " + err.message);
+                    }
+                }
+            }
+            input.click();
+        }
+
+        function openInstallModal() {
+            document.getElementById('installModal').classList.remove('hidden');
+        }
+
+        function closeInstallModal() {
+            document.getElementById('installModal').classList.add('hidden');
+        }
+
+        function checkAccessState() {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('paid') === 'true' || urlParams.get('access') === 'full') {
+                localStorage.setItem('agendafisio_paid', 'true');
+            }
+            if (urlParams.get('simulate') === 'true' || urlParams.get('auto') === 'true') {
+                setTimeout(runAutoDemoSimulation, 800);
+            }
+            
+            const isPaid = localStorage.getItem('agendafisio_paid') === 'true';
+            const bonusContainer = document.getElementById('bonusPanelContainer');
+            const demoBanner = document.getElementById('demoBanner');
+
+            if (!bonusContainer) return;
+
+            if (!isPaid) {
+                if (demoBanner) demoBanner.classList.remove('hidden');
+                bonusContainer.innerHTML = `
+                    <div class="bg-gradient-to-br from-amber-500/10 via-amber-500/5 to-transparent dark:from-amber-950/40 border border-amber-200 dark:border-amber-500/30 rounded-3xl p-5 space-y-3.5 shadow-sm">
+                        <div class="flex items-center justify-between">
+                            <h3 class="font-extrabold text-sm text-slate-900 dark:text-white flex items-center gap-2">
+                                <i data-lucide="lock" class="w-4 h-4 text-amber-600 dark:text-amber-400"></i> Bônus Exclusivos
+                            </h3>
+                            <span class="text-[9px] bg-amber-600 text-white font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">Bloqueado</span>
+                        </div>
+                        <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">Disponível instantaneamente após a assinatura de R$ 27,00/mês:</p>
+                        <div class="space-y-2 pt-1">
+                            <button onclick="openLockModal('Bônus 1: Scripts de Cobrança')" class="w-full bg-white/90 dark:bg-slate-900 border border-amber-200/80 dark:border-amber-500/20 text-slate-600 dark:text-slate-300 font-bold py-2 px-3 rounded-xl text-xs flex items-center justify-between hover:border-amber-400 transition shadow-sm">
+                                <span class="flex items-center gap-2"><i data-lucide="lock" class="w-3.5 h-3.5 text-amber-600"></i> Bônus 1: Scripts Whats</span>
+                                <span class="text-[9px] bg-amber-100 text-amber-800 px-1.5 py-0.5 rounded font-bold uppercase">PRO</span>
+                            </button>
+                            <button onclick="openLockModal('Bônus 2: Guia Carnê-Leão')" class="w-full bg-white/90 dark:bg-slate-900 border border-amber-200/80 dark:border-amber-500/20 text-slate-600 dark:text-slate-300 font-bold py-2 px-3 rounded-xl text-xs flex items-center justify-between hover:border-amber-400 transition shadow-sm">
+                                <span class="flex items-center gap-2"><i data-lucide="lock" class="w-3.5 h-3.5 text-amber-600"></i> Bônus 2: Carnê-Leão</span>
+                                <span class="text-[9px] bg-amber-100 text-amber-800 px-1.5 py-0.5 rounded font-bold uppercase">PRO</span>
+                            </button>
+                            <button onclick="openLockModal('Bônus 3: Contrato & Anamnese')" class="w-full bg-white/90 dark:bg-slate-900 border border-amber-200/80 dark:border-amber-500/20 text-slate-600 dark:text-slate-300 font-bold py-2 px-3 rounded-xl text-xs flex items-center justify-between hover:border-amber-400 transition shadow-sm">
+                                <span class="flex items-center gap-2"><i data-lucide="lock" class="w-3.5 h-3.5 text-amber-600"></i> Bônus 3: Contrato & Anamnese</span>
+                                <span class="text-[9px] bg-amber-100 text-amber-800 px-1.5 py-0.5 rounded font-bold uppercase">PRO</span>
+                            </button>
+                        </div>
+                        <a href="https://pay.cakto.com.br/v8ahpcd_1166266" target="_blank" class="w-full mt-2 bg-teal-600 hover:bg-teal-700 text-white font-black py-2.5 px-3 rounded-xl text-xs flex items-center justify-center gap-2 shadow-md shadow-teal-600/20 transition">
+                            <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> Assinar & Liberar Bônus
+                        </a>
+                    </div>
+                `;
+            } else {
+                if (demoBanner) demoBanner.classList.add('hidden');
+                bonusContainer.innerHTML = `
+                    <div class="bg-gradient-to-br from-teal-500/10 via-emerald-500/5 to-transparent dark:from-teal-950/40 border border-teal-200 dark:border-teal-500/30 rounded-3xl p-5 space-y-3.5 shadow-sm">
+                        <div class="flex items-center justify-between">
+                            <h3 class="font-extrabold text-sm text-slate-900 dark:text-white flex items-center gap-2">
+                                <i data-lucide="gift" class="w-4 h-4 text-teal-600 dark:text-teal-400"></i> Bônus Inclusos
+                            </h3>
+                            <span class="text-[9px] bg-emerald-600 text-white font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">Liberado</span>
+                        </div>
+                        <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">Acesse seus scripts de cobrança, guia do Carnê-Leão e contrato de anamnese:</p>
+                        <div class="space-y-2 pt-1">
+                            <a href="../bonus1_scripts_cobranca.html" target="_blank" class="w-full bg-white dark:bg-slate-900 hover:bg-teal-50 border border-teal-100 dark:border-slate-800 text-slate-800 dark:text-slate-200 font-bold py-2 px-3 rounded-xl text-xs flex items-center justify-between transition shadow-sm">
+                                <span class="flex items-center gap-2"><i data-lucide="file-text" class="w-3.5 h-3.5 text-teal-600"></i> Bônus 1: Scripts Whats</span>
+                                <i data-lucide="external-link" class="w-3 h-3 text-slate-400"></i>
+                            </a>
+                            <a href="../bonus2_guia_imposto_carne_leao.html" target="_blank" class="w-full bg-white dark:bg-slate-900 hover:bg-teal-50 border border-teal-100 dark:border-slate-800 text-slate-800 dark:text-slate-200 font-bold py-2 px-3 rounded-xl text-xs flex items-center justify-between transition shadow-sm">
+                                <span class="flex items-center gap-2"><i data-lucide="calculator" class="w-3.5 h-3.5 text-teal-600"></i> Bônus 2: Carnê-Leão</span>
+                                <i data-lucide="external-link" class="w-3 h-3 text-slate-400"></i>
+                            </a>
+                            <a href="../bonus3_contrato_anamnese.html" target="_blank" class="w-full bg-white dark:bg-slate-900 hover:bg-teal-50 border border-teal-100 dark:border-slate-800 text-slate-800 dark:text-slate-200 font-bold py-2 px-3 rounded-xl text-xs flex items-center justify-between transition shadow-sm">
+                                <span class="flex items-center gap-2"><i data-lucide="shield" class="w-3.5 h-3.5 text-teal-600"></i> Bônus 3: Contrato & Anamnese</span>
+                                <i data-lucide="external-link" class="w-3 h-3 text-slate-400"></i>
+                            </a>
+                        </div>
+                    </div>
+                `;
+            }
+            if (window.lucide) lucide.createIcons();
+        }
+
+        function openLockModal(title) {
+            document.getElementById('lockModalTitle').innerText = title || "Conteúdo Bloqueado no Protótipo";
+            document.getElementById('lockModal').classList.remove('hidden');
+        }
+
+        function closeLockModal() {
+            document.getElementById('lockModal').classList.add('hidden');
+        }
+
+        let isSimulationRunning = false;
+
+        async function runAutoDemoSimulation() {
+            if (isSimulationRunning) return;
+            isSimulationRunning = true;
+
+            let simToast = document.getElementById('simulationToast');
+            if (!simToast) {
+                simToast = document.createElement('div');
+                simToast.id = 'simulationToast';
+                simToast.className = "fixed top-16 left-1/2 -translate-x-1/2 z-50 bg-slate-900/95 text-white px-6 py-3.5 rounded-2xl shadow-2xl border border-teal-500/40 flex items-center gap-3 text-xs font-bold transition-all duration-300";
+                document.body.appendChild(simToast);
+            }
+
+            const updateToast = (msg, step) => {
+                simToast.className = "fixed top-16 left-1/2 -translate-x-1/2 z-50 bg-slate-900/95 text-white px-6 py-3.5 rounded-2xl shadow-2xl border border-teal-500/40 flex items-center gap-3 text-xs font-bold transition-all duration-300";
+                simToast.innerHTML = `
+                    <div class="w-3.5 h-3.5 rounded-full bg-teal-400 animate-ping"></div>
+                    <div>
+                        <span class="text-teal-400 font-extrabold uppercase text-[10px] block tracking-wider">Demonstração em Tempo Real • Passo ${step}/5</span>
+                        <span class="text-sm font-semibold text-slate-100">${msg}</span>
+                    </div>
+                `;
+            };
+
+            const sleep = ms => new Promise(r => setTimeout(r, ms));
+
+            try {
+                // Step 1: Open Modal
+                updateToast("1/5: Abrindo formulário de agendamento...", 1);
+                openModal();
+                await sleep(1800);
+
+                // Step 2: Auto-typing values (Human Pacing ~65ms per char)
+                updateToast("2/5: Preenchendo nome da paciente, horário e valor...", 2);
+                const nameInput = document.getElementById('patientName');
+                const phoneInput = document.getElementById('patientPhone');
+                const timeInput = document.getElementById('appointTime');
+                const priceInput = document.getElementById('appointPrice');
+                const notesInput = document.getElementById('appointNotes');
+
+                nameInput.value = "";
+                const targetName = "Dra. Ana Paula (Fisioterapia RPG)";
+                for (let char of targetName) {
+                    nameInput.value += char;
+                    await sleep(65);
+                }
+
+                phoneInput.value = "11988887777";
+                timeInput.value = "14:00";
+                priceInput.value = "140.00";
+                notesInput.value = "Sessão de reabilitação postural com alongamento";
+                await sleep(2500);
+
+                // Step 3: Save appointment
+                updateToast("3/5: Salvando agendamento e atualizando o valor 'A Receber'...", 3);
+                const mockEvent = { preventDefault: () => {} };
+                saveAppointment(mockEvent);
+                await sleep(3000);
+
+                // Step 4: Highlight WhatsApp reminder
+                updateToast("4/5: Destacando botão de Lembrete no WhatsApp em 1 toque...", 4);
+                const firstCard = document.querySelector('#appointmentsList > div');
+                if (firstCard) {
+                    firstCard.classList.add('ring-4', 'ring-teal-500', 'scale-[1.02]', 'transition-all');
+                }
+                await sleep(3000);
+                if (firstCard) {
+                    firstCard.classList.remove('ring-4', 'ring-teal-500', 'scale-[1.02]');
+                }
+
+                // Step 5: Confirm Payment
+                updateToast("5/5: Confirmando pagamento em PIX — Caixa faturado R$ 140,00!", 5);
+                const firstAppoint = appointments.find(a => a.name.includes("Ana Paula"));
+                if (firstAppoint) {
+                    togglePayment(firstAppoint.id);
+                }
+                await sleep(3500);
+
+                // Finish Toast
+                simToast.className = "fixed top-16 left-1/2 -translate-x-1/2 z-50 bg-gradient-to-r from-teal-900 via-slate-900 to-teal-900 text-white px-6 py-4 rounded-2xl shadow-2xl border border-teal-400 flex items-center gap-3 text-xs font-bold transition-all duration-300";
+                simToast.innerHTML = `
+                    <div class="w-9 h-9 bg-teal-500/20 text-teal-300 border border-teal-400/30 rounded-xl flex items-center justify-center">
+                        <i data-lucide="check-circle" class="w-5 h-5 text-teal-400"></i>
+                    </div>
+                    <div>
+                        <span class="text-teal-300 font-extrabold uppercase text-[10px] block tracking-wider">Demonstração Concluída! 🎉</span>
+                        <span class="text-xs font-semibold text-slate-200">Viu como é simples? Cadastrado, confirmado no Zap e faturado sem complicações.</span>
+                    </div>
+                `;
+                if (window.lucide) lucide.createIcons();
+
+                setTimeout(() => {
+                    if (simToast) simToast.remove();
+                }, 7000);
+
+            } catch (e) {
+                console.error(e);
+            } finally {
+                isSimulationRunning = false;
+            }
+        }
+
+        // Initialize state on load
+        document.addEventListener('DOMContentLoaded', checkAccessState);
+        checkAccessState();
+    </script>
+
+    <!-- Modal: Bônus Bloqueado -->
+    <div id="lockModal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 hidden">
+        <div class="bg-white dark:bg-slate-900 border border-amber-200 dark:border-amber-500/30 w-full max-w-md rounded-3xl p-6 text-center space-y-4 shadow-2xl relative">
+            <button onclick="closeLockModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+            <div class="w-12 h-12 bg-amber-100 text-amber-600 rounded-2xl flex items-center justify-center mx-auto">
+                <i data-lucide="lock" class="w-6 h-6"></i>
+            </div>
+            <h3 class="font-black text-lg text-slate-900 dark:text-white" id="lockModalTitle">Conteúdo Bloqueado no Protótipo</h3>
+            <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                Os 3 bônus exclusivos (Scripts de Cobrança, Guia do Carnê-Leão e Modelos de Contrato) são liberados instantaneamente após a assinatura de <strong class="text-teal-600">R$ 27,00/mês</strong>.
+            </p>
+            <div class="pt-2 flex flex-col gap-2">
+                <a href="https://pay.cakto.com.br/v8ahpcd_1166266" target="_blank" class="w-full bg-teal-600 hover:bg-teal-700 text-white font-black py-3 rounded-xl text-xs shadow-lg shadow-teal-600/25 flex items-center justify-center gap-2">
+                    <i data-lucide="sparkles" class="w-4 h-4"></i> QUERO MEU ACESSO DE R$ 27,00
+                </a>
+                <button onclick="closeLockModal()" class="w-full py-2 text-xs font-bold text-slate-400 hover:text-slate-600">Continuar Testando Protótipo</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Como Instalar & Backup (Guia 30s) -->
+    <div id="installModal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 hidden">
+        <div class="bg-white dark:bg-slate-900 border border-teal-200 dark:border-slate-800 w-full max-w-lg rounded-3xl p-6 space-y-5 shadow-2xl relative max-h-[90vh] overflow-y-auto">
+            <button onclick="closeInstallModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 dark:hover:text-white">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+
+            <div class="flex items-center space-x-3 border-b border-slate-100 dark:border-slate-800 pb-3">
+                <div class="w-10 h-10 bg-teal-100 text-teal-700 rounded-2xl flex items-center justify-center">
+                    <i data-lucide="smartphone" class="w-5 h-5"></i>
+                </div>
+                <div>
+                    <h3 class="font-extrabold text-base text-slate-900 dark:text-white">Como Instalar no Celular em 30s</h3>
+                    <p class="text-xs text-slate-500 dark:text-slate-400">Guia de instalação PWA sem precisar de App Store</p>
+                </div>
+            </div>
+
+            <!-- Tutorial iPhone & Android com Ilustrações -->
+            <div class="space-y-4 text-xs text-slate-700 dark:text-slate-300">
+                <div class="bg-teal-50/60 dark:bg-teal-950/40 border border-teal-100 dark:border-teal-900/40 p-4 rounded-2xl space-y-3">
+                    <h4 class="font-bold text-teal-800 dark:text-teal-300 flex items-center gap-2">
+                        <i data-lucide="apple" class="w-4 h-4"></i> No iPhone (Safari):
+                    </h4>
+                    <img src="../tutorial_iphone.jpg" alt="Passo a passo instalacao iPhone" class="w-full rounded-xl border border-teal-200 dark:border-teal-900 shadow-sm">
+                    <ol class="list-decimal list-inside space-y-1 text-slate-600 dark:text-slate-400">
+                        <li>Abra este site no navegador <strong>Safari</strong>.</li>
+                        <li>Toque no botão de <strong>Compartilhar</strong> (quadrado com seta para cima).</li>
+                        <li>Selecione <strong>"Adicionar à Tela de Início"</strong> e confirme.</li>
+                    </ol>
+                </div>
+
+                <div class="bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 p-4 rounded-2xl space-y-3">
+                    <h4 class="font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                        <i data-lucide="smartphone" class="w-4 h-4 text-teal-600"></i> No Android (Chrome):
+                    </h4>
+                    <img src="../tutorial_android.jpg" alt="Passo a passo instalacao Android" class="w-full rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+                    <ol class="list-decimal list-inside space-y-1 text-slate-600 dark:text-slate-400">
+                        <li>Abra este site no <strong>Google Chrome</strong>.</li>
+                        <li>Toque nos <strong>3 pontinhos (⋮)</strong> no canto superior.</li>
+                        <li>Selecione <strong>"Instalar aplicativo"</strong>.</li>
+                    </ol>
+                </div>
+
+                <!-- Link para o Guia em PDF -->
+                <a href="../guia_instalacao_ilustrado.html" target="_blank" class="w-full bg-white dark:bg-slate-900 hover:bg-teal-50 border border-teal-200 dark:border-slate-800 text-teal-700 dark:text-teal-400 font-bold py-2.5 px-3 rounded-xl text-xs flex items-center justify-center gap-2 transition shadow-sm">
+                    <i data-lucide="file-text" class="w-4 h-4"></i> Baixar / Imprimir Guia Completo em PDF ↗
+                </a>
+
+                <!-- Dica de Backup -->
+                <div class="border-t border-slate-100 dark:border-slate-800 pt-3 space-y-2">
+                    <h4 class="font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
+                        <i data-lucide="shield-check" class="w-4 h-4 text-teal-600"></i> Como funciona o Backup:
+                    </h4>
+                    <p class="text-slate-600 dark:text-slate-400 leading-relaxed">
+                        Para trocar de celular ou salvar suas consultas no computador, clique em <strong>"Exportar Backup"</strong>. Um arquivo JSON será salvo no seu dispositivo. No celular novo, clique em <strong>"Importar Backup"</strong> e selecione o arquivo para restaurar tudo instantaneamente!
+                    </p>
+                </div>
+            </div>
+
+            <button onclick="closeInstallModal()" class="w-full bg-teal-600 hover:bg-teal-700 text-white font-bold py-3 rounded-xl text-xs shadow-md transition">
+                Entendi! Fechar Guia
+            </button>
+        </div>
+    </div>
+</body>
+</html>
