@@ -1,0 +1,25 @@
+{
+  "name": "AgendaFisio - Gestão Clínica Autônoma",
+  "short_name": "AgendaFisio",
+  "description": "Agenda e Prontuário para Fisioterapeutas Autônomos",
+  "start_url": "/app/?paid=true",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0d9488",
+  "theme_color": "#0d9488",
+  "icons": [
+    {
+      "src": "/agendafisio_icon.png",
+      "type": "image/png",
+      "sizes": "192x192 512x512",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/logo.jpg",
+      "type": "image/jpeg",
+      "sizes": "512x512",
+      "purpose": "any maskable"
+    }
+  ]
+}
