@@ -2,7 +2,7 @@
   "name": "AgendaFisio - Gestão Clínica Autônoma",
   "short_name": "AgendaFisio",
   "description": "Agenda e Prontuário para Fisioterapeutas Autônomos",
-  "start_url": "/app/",
+  "start_url": "/app/?paid=true",
   "scope": "/app/",
   "display": "standalone",
   "orientation": "portrait",

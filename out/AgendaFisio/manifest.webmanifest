@@ -1,7 +1,7 @@
 {
   "name": "AgendaFisio - Gestão Clínica Autônoma",
   "short_name": "AgendaFisio",
-  "start_url": "/app/",
+  "start_url": "/app/?paid=true",
   "scope": "/",
   "display": "standalone",
   "orientation": "portrait",
