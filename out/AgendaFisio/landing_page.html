@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgendaFisio - Sistema de Agendamento e Prontuário para Fisioterapeutas</title>
+    <meta name="google-site-verification" content="google20d26e61c8a6a671" />
+    <meta name="description" content="O sistema mais simples e acessível de agendamento, prontuário eletrônico e controle financeiro para fisioterapeutas autônomos e estúdios de pilates. Lembretes no WhatsApp por apenas R$ 27/mês.">
+    <meta name="keywords" content="sistema para fisioterapeutas, software para fisioterapia, prontuário eletrônico fisioterapia, agendamento fisioterapia whatsapp, aplicativo fisioterapia, sistema estúdio pilates, fisioterapia home care, controle financeiro fisioterapia" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://agendafisio-three.vercel.app" />
+
+    <!-- PWA Manifest & App Metadata -->
+    <link rel="manifest" href="manifest.webmanifest" />
+    <meta name="theme-color" content="#0d9488" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="AgendaFisio" />
+    <link rel="apple-touch-icon" href="logo.jpg" />
+
+    <!-- Service Worker Registration -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+          navigator.serviceWorker.register('sw.js')
+            .then(function(reg) { console.log('SW registered successfully:', reg.scope); })
+            .catch(function(err) { console.log('SW registration failed:', err); });
+        });
+      }
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&display=swap');
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        
+        .bg-wave-pattern {
+            background-color: #f0fdfa;
+            background-image: radial-gradient(#0d9488 0.55px, transparent 0.55px), radial-gradient(#0d9488 0.55px, #f0fdfa 0.55px);
+            background-size: 22px 22px;
+            background-position: 0 0, 11px 11px;
+            opacity: 0.25;
+        }
+
+        /* Accordion transition */
+        .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; }
+        .faq-answer.active { max-height: 500px; }
+    </style>
+
+    <!-- Meta Pixel Code -->
+    <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '1461718449183352');
+    fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=1461718449183352&ev=PageView&noscript=1"
+    /></noscript>
+    <!-- End Meta Pixel Code -->
+
+    <!-- Microsoft Clarity Code -->
+    <script type="text/javascript">
+        (function(c,l,a,r,i,t,y){
+            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        })(window, document, "clarity", "script", "yrl2wgkcv3");
+    </script>
+    <!-- End Microsoft Clarity Code -->
+</head>
+<body data-clarity-unmask="true" class="bg-slate-50 text-slate-800 antialiased selection:bg-teal-500 selection:text-white min-h-screen pb-16 md:pb-0">
+
+    <!-- 1. BARRA DE TOPO DISCRETA -->
+    <div class="bg-teal-900 text-teal-100 text-xs py-2 text-center px-4 font-medium border-b border-teal-800">
+        <span>📱 Mini App de Gestão Financeira para Fisioterapeutas Autônomos • Teste sem risco por 7 Dias</span>
+    </div>
+
+    <!-- HEADER COM LOGO -->
+    <header class="border-b border-teal-100 bg-white/95 backdrop-blur-md sticky top-0 z-40 px-4 sm:px-8 py-3.5 shadow-sm">
+        <div class="max-w-6xl mx-auto flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <img src="./logo.jpg" alt="AgendaFisio Logo" class="w-10 h-10 rounded-xl object-cover shadow-md shadow-teal-700/10 border border-teal-100">
+                <div>
+                    <span class="font-black text-xl leading-none text-slate-900 tracking-tight">AgendaFisio</span>
+                    <span class="block text-[10px] text-teal-600 font-bold uppercase tracking-wider mt-0.5">Gestão Autônoma</span>
+                </div>
+            </div>
+            <a href="https://pay.cakto.com.br/v8ahpcd_1166266" target="_blank" onclick="fbq('track', 'InitiateCheckout')" class="hidden sm:inline-flex bg-teal-600 hover:bg-teal-700 text-white font-extrabold px-5 py-2.5 rounded-xl text-xs transition shadow-md shadow-teal-600/20">
+                COMEÇAR POR R$ 27,00/MÊS
+            </a>
+        </div>
+    </header>
+
+    <!-- 2. HERO SECTION -->
+    <section class="py-12 sm:py-16 px-4 relative overflow-hidden bg-gradient-to-b from-teal-50/60 via-slate-50 to-white">
+        <div class="absolute inset-0 bg-wave-pattern pointer-events-none"></div>
+        <div class="max-w-4xl mx-auto text-center space-y-6 relative z-10">
+            
+            <span class="inline-flex items-center gap-1.5 bg-teal-100/80 border border-teal-200 text-teal-800 px-3.5 py-1.5 rounded-full text-xs font-bold tracking-wide">
+                <i data-lucide="message-square" class="w-3.5 h-3.5 text-teal-600"></i> Lembrete no WhatsApp em 1 Toque
+            </span>
+
+            <h1 class="text-3xl sm:text-5xl font-black text-slate-900 leading-tight tracking-tight">
+                Cada falta custa R$ 140. <span class="text-teal-600">Confirme seus pacientes em 1 toque</span> e saiba quanto vai receber hoje.
+            </h1>
+
+            <p class="text-base sm:text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed">
+                Agenda financeira no celular com lembrete manual no WhatsApp. Sem caderno rasurado e sem sistemas complicados de R$ 150/mês.
+            </p>
+
+            <!-- CTA principal & Protótipo -->
+            <div class="pt-4 flex flex-col sm:flex-row gap-4 justify-center items-center">
+                <a href="https://pay.cakto.com.br/v8ahpcd_1166266" target="_blank" onclick="fbq('track', 'InitiateCheckout')" class="w-full sm:w-auto bg-teal-600 hover:bg-teal-700 text-white font-black px-8 py-4 rounded-2xl text-base shadow-xl shadow-teal-600/25 hover:scale-105 active:scale-95 transition flex flex-col items-center justify-center gap-1 group">
+                    <span class="flex items-center gap-2 text-base sm:text-lg">
+                        <i data-lucide="check-circle" class="w-5 h-5 text-teal-300"></i> ASSINAR POR R$ 27,00 /MÊS
+                    </span>
+                    <span class="text-[11px] font-bold text-teal-100 uppercase tracking-wider">🔒 Sem fidelidade • Cancele quando quiser em 1 toque</span>
+                </a>
+                <a href="./app/index.html?demo=true&simulate=true" target="_blank" onclick="fbq('track', 'Lead')" class="w-full sm:w-auto border border-teal-200 bg-white hover:bg-teal-50 text-slate-800 font-extrabold px-6 py-4 rounded-2xl text-sm transition flex items-center justify-center gap-2 shadow-sm">
+                    <i data-lucide="play-circle" class="w-4.5 h-4.5 text-teal-600"></i> Ver Animação do App (30s)
+                </a>
+            </div>
+
+            <!-- 3 Selos Verdadeiros -->
+            <div class="pt-4 flex flex-wrap items-center justify-center gap-6 text-xs text-slate-600 font-bold">
+                <span class="flex items-center gap-1.5"><i data-lucide="shield-check" class="w-4 h-4 text-teal-600"></i> 7 Dias de Garantia Incondicional</span>
+                <span class="flex items-center gap-1.5"><i data-lucide="smartphone" class="w-4 h-4 text-teal-600"></i> Funciona no iPhone e Android</span>
+                <span class="flex items-center gap-1.5"><i data-lucide="wifi-off" class="w-4 h-4 text-teal-600"></i> Funciona 100% Offline</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. O PROBLEMA: A CONTA DO PREJUÍZO (CALCULADORA INTERATIVA) -->
+    <section class="py-16 px-4 bg-white border-y border-slate-200">
+        <div class="max-w-4xl mx-auto space-y-10">
+            <div class="text-center space-y-3">
+                <span class="text-xs font-bold text-teal-600 uppercase tracking-wider">Faça as contas do seu consultório</span>
+                <h2 class="text-2xl sm:text-4xl font-black text-slate-900">Quanto você perde por mês em faltas não avisadas?</h2>
+                <p class="text-sm text-slate-600 max-w-xl mx-auto">Use a calculadora abaixo para ver o impacto financeiro das faltas no seu faturamento anual:</p>
+            </div>
+
+            <!-- Calculadora em Card -->
+            <div class="max-w-2xl mx-auto bg-gradient-to-br from-teal-50/50 to-emerald-50/30 border border-teal-200 rounded-3xl p-6 sm:p-8 shadow-sm space-y-6">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-2">Valor médio da sua sessão (R$)</label>
+                        <input type="number" id="calcPrice" value="140" oninput="calculateLoss()" class="w-full bg-white border border-slate-300 rounded-xl px-4 py-3 text-base font-bold text-slate-900 focus:outline-none focus:border-teal-600 shadow-sm">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-2">Faltas não avisadas por mês</label>
+                        <input type="number" id="calcMisses" value="4" oninput="calculateLoss()" class="w-full bg-white border border-slate-300 rounded-xl px-4 py-3 text-base font-bold text-slate-900 focus:outline-none focus:border-teal-600 shadow-sm">
+                    </div>
+                </div>
+
+                <div class="bg-white border border-rose-200 rounded-2xl p-5 text-center space-y-2 shadow-sm">
+                    <span class="text-xs font-bold text-rose-600 uppercase tracking-wider">Seu Prejuízo Estimado</span>
+                    <div class="flex items-center justify-center gap-2">
+                        <span id="monthlyLossDisplay" class="text-3xl sm:text-4xl font-black text-rose-600">R$ 560,00</span>
+                        <span class="text-xs text-slate-500 font-medium">/mês</span>
+                    </div>
+                    <p id="yearlyLossDisplay" class="text-xs font-bold text-slate-700">Isso representa R$ 6.720,00 perdidos por ano!</p>
+                </div>
+
+                <p class="text-xs text-center text-teal-800 font-bold bg-teal-100/60 py-2.5 px-4 rounded-xl">
+                    💡 Evitando apenas 1 falta no mês todo com o lembrete de 1 toque do AgendaFisio, você já paga a mensalidade de R$ 27 por mais de 5 meses!
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. COMO FUNCIONA EM 3 PASSOS -->
+    <section class="py-16 px-4 bg-slate-50">
+        <div class="max-w-5xl mx-auto space-y-12">
+            <div class="text-center space-y-3">
+                <span class="text-xs font-bold text-teal-600 uppercase tracking-wider">Simplicidade Total</span>
+                <h2 class="text-2xl sm:text-4xl font-black text-slate-900">Como funciona em 3 passos simples</h2>
+            </div>
+
+            <div class="grid sm:grid-cols-3 gap-8">
+                <div class="bg-white border border-teal-100 p-6 rounded-3xl space-y-4 shadow-sm relative">
+                    <div class="w-10 h-10 bg-teal-600 text-white font-black rounded-2xl flex items-center justify-center text-lg">1</div>
+                    <h3 class="font-bold text-base text-slate-900">Cadastre a consulta em 10s</h3>
+                    <p class="text-xs text-slate-600 leading-relaxed">Coloque o nome do paciente, horário e o valor da sessão (ou controle de pacote 3/10).</p>
+                </div>
+
+                <div class="bg-white border border-teal-100 p-6 rounded-3xl space-y-4 shadow-sm relative">
+                    <div class="w-10 h-10 bg-teal-600 text-white font-black rounded-2xl flex items-center justify-center text-lg">2</div>
+                    <h3 class="font-bold text-base text-slate-900">1 Toque no "Lembrar Zap"</h3>
+                    <p class="text-xs text-slate-600 leading-relaxed">No dia da consulta, toque no botão. Ele abre seu WhatsApp com a mensagem de confirmação pré-formatada pronta para envio.</p>
+                </div>
+
+                <div class="bg-white border border-teal-100 p-6 rounded-3xl space-y-4 shadow-sm relative">
+                    <div class="w-10 h-10 bg-teal-600 text-white font-black rounded-2xl flex items-center justify-center text-lg">3</div>
+                    <h3 class="font-bold text-base text-slate-900">Controle de caixa diário</h3>
+                    <p class="text-xs text-slate-600 leading-relaxed">Veja instantaneamente quanto dinheiro entrou no dia, quanto está pendente de recebimento e o balanço do mês.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4.1 OFFLINE & INSTALAÇÃO INSTANTÂNEA -->
+    <section class="py-16 px-4 bg-gradient-to-br from-teal-900 via-slate-900 to-slate-900 text-white relative overflow-hidden">
+        <div class="max-w-5xl mx-auto space-y-10 relative z-10">
+            <div class="text-center space-y-3">
+                <span class="inline-flex items-center gap-1.5 bg-teal-500/20 text-teal-300 border border-teal-500/30 px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider">
+                    <i data-lucide="wifi-off" class="w-4 h-4"></i> Tecnologia PWA Offline-First
+                </span>
+                <h2 class="text-2xl sm:text-4xl font-black tracking-tight">Funciona 100% Offline + Instalação em 3 Segundos</h2>
+                <p class="text-xs sm:text-sm text-slate-300 max-w-2xl mx-auto leading-relaxed">
+                    Desenvolvido sob medida para fisioterapeutas que atendem em domicílio, em locais sem sinal de internet ou em clínicas com Wi-Fi instável.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8 items-stretch">
+                <!-- Card 1: 100% Offline -->
+                <div class="bg-white/10 backdrop-blur-md border border-white/15 rounded-3xl p-6 sm:p-8 space-y-4 flex flex-col justify-between">
+                    <div class="space-y-4">
+                        <div class="w-12 h-12 bg-teal-500/20 text-teal-300 border border-teal-500/30 rounded-2xl flex items-center justify-center">
+                            <i data-lucide="wifi-off" class="w-6 h-6"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white">Sem Sinal de Internet? Sem Problema!</h3>
+                        <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                            O AgendaFisio salva tudo diretamente na memória do seu celular. Mesmo se o sinal da operadora cair ou você estiver sem Wi-Fi no atendimento domiciliar, você consulta horários e registra recebimentos sem travamentos.
+                        </p>
+                    </div>
+                    <ul class="space-y-2 text-xs text-teal-200 pt-3 border-t border-white/10">
+                        <li class="flex items-center gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-teal-400"></i> Nenhum agendamento é perdido sem internet</li>
+                        <li class="flex items-center gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-teal-400"></i> Abre em 1 segundo direto da tela inicial</li>
+                    </ul>
+                </div>
+
+                <!-- Card 2: Instalação Instantânea -->
+                <div class="bg-white/10 backdrop-blur-md border border-white/15 rounded-3xl p-6 sm:p-8 space-y-4 flex flex-col justify-between">
+                    <div class="space-y-4">
+                        <div class="w-12 h-12 bg-teal-500/20 text-teal-300 border border-teal-500/30 rounded-2xl flex items-center justify-center">
+                            <i data-lucide="download" class="w-6 h-6"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white">Instalação em 3 Toques (Sem App Store)</h3>
+                        <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                            Esqueça senhas de lojas de aplicativos, downloads pesados ou atualizações que travam seu celular. Basta tocar em <strong>"Adicionar à Tela de Início"</strong> no Safari (iPhone) ou Chrome (Android) e começar a usar.
+                        </p>
+                    </div>
+                    <div class="pt-3 border-t border-white/10 flex flex-col sm:flex-row gap-3">
+                        <a href="./guia_instalacao_ilustrado.html" target="_blank" class="w-full bg-teal-500 hover:bg-teal-400 text-slate-950 font-black px-4 py-3 rounded-xl text-xs transition flex items-center justify-center gap-2 shadow-lg">
+                            <i data-lucide="file-text" class="w-4 h-4"></i> Ver Guia de Instalação Ilustrado (PDF / Fotos)
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. TABELA COMPARATIVA Honestidade -->
+    <section class="py-16 px-4 bg-white border-y border-slate-200">
+        <div class="max-w-4xl mx-auto space-y-10">
+            <div class="text-center space-y-3">
+                <span class="text-xs font-bold text-teal-600 uppercase tracking-wider">Comparativo</span>
+                <h2 class="text-2xl sm:text-4xl font-black text-slate-900">Caderno × Sistema de R$ 150 × AgendaFisio</h2>
+            </div>
+
+            <div class="overflow-x-auto">
+                <table class="w-full text-left text-xs sm:text-sm border-collapse">
+                    <thead>
+                        <tr class="border-b border-slate-200">
+                            <th class="py-4 px-3 font-bold text-slate-500">Recurso</th>
+                            <th class="py-4 px-3 font-bold text-slate-600 text-center">Caderno / Papel</th>
+                            <th class="py-4 px-3 font-bold text-slate-600 text-center">Sistemas (R$ 150/mês)</th>
+                            <th class="py-4 px-3 font-extrabold text-teal-700 bg-teal-50 rounded-t-xl text-center">AgendaFisio</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-100">
+                        <tr>
+                            <td class="py-3.5 px-3 font-semibold text-slate-800">Lembrete de WhatsApp em 1 toque</td>
+                            <td class="py-3.5 px-3 text-center text-rose-500 font-bold">❌ Não tem</td>
+                            <td class="py-3.5 px-3 text-center text-slate-500">⚠️ Complicado / Pago à parte</td>
+                            <td class="py-3.5 px-3 text-center font-bold text-teal-600 bg-teal-50">✅ 1 Toque direto</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3.5 px-3 font-semibold text-slate-800">Caixa diário e mensal automático</td>
+                            <td class="py-3.5 px-3 text-center text-rose-500 font-bold">❌ Soma manual</td>
+                            <td class="py-3.5 px-3 text-center text-emerald-600 font-bold">✅ Sim</td>
+                            <td class="py-3.5 px-3 text-center font-bold text-teal-600 bg-teal-50">✅ Automático no celular</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3.5 px-3 font-semibold text-slate-800">Contador de pacotes (ex: 3/10)</td>
+                            <td class="py-3.5 px-3 text-center text-slate-500">⚠️ Rasurado no papel</td>
+                            <td class="py-3.5 px-3 text-center text-emerald-600 font-bold">✅ Sim</td>
+                            <td class="py-3.5 px-3 text-center font-bold text-teal-600 bg-teal-50">✅ Simples em 1 toque</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3.5 px-3 font-semibold text-slate-800">Tempo para começar a usar</td>
+                            <td class="py-3.5 px-3 text-center text-emerald-600 font-bold">Imediato</td>
+                            <td class="py-3.5 px-3 text-center text-slate-500">Horas de treinamento</td>
+                            <td class="py-3.5 px-3 text-center font-bold text-teal-600 bg-teal-50">60 segundos</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3.5 px-3 font-semibold text-slate-800">Custo Mensal</td>
+                            <td class="py-3.5 px-3 text-center font-bold text-slate-700">R$ 0 (mas perde R$ 500+ em faltas)</td>
+                            <td class="py-3.5 px-3 text-center font-bold text-rose-600">R$ 150,00+ /mês</td>
+                            <td class="py-3.5 px-3 text-center font-black text-teal-700 bg-teal-50 rounded-b-xl">R$ 27,00 /mês</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. PRÉVIA DO APP & PROTÓTIPO -->
+    <section class="py-16 px-4 bg-slate-50">
+        <div class="max-w-4xl mx-auto text-center space-y-8">
+            <div class="space-y-3">
+                <span class="text-xs font-bold text-teal-600 uppercase tracking-wider">Interface limpa no seu celular</span>
+                <h2 class="text-2xl sm:text-4xl font-black text-slate-900">Veja como fica no seu celular</h2>
+                <p class="text-xs sm:text-sm text-slate-600 max-w-lg mx-auto">Desenvolvido sob medida para quem atende entre um paciente e outro sem tempo a perder.</p>
+            </div>
+
+            <div class="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
+                <a href="./app/index.html?demo=true&simulate=true" target="_blank" class="w-full sm:w-auto bg-gradient-to-r from-teal-600 to-emerald-600 hover:from-teal-700 hover:to-emerald-700 text-white font-extrabold px-6 py-4 rounded-2xl text-sm shadow-xl shadow-teal-600/25 transition flex items-center justify-center gap-2">
+                    <i data-lucide="play-circle" class="w-5 h-5 text-emerald-300"></i> ▶️ ASSISTIR SIMULAÇÃO ANIMADA (~30s)
+                </a>
+                <a href="./app/index.html?demo=true" target="_blank" class="w-full sm:w-auto bg-white hover:bg-slate-50 border border-slate-300 text-slate-700 font-bold px-6 py-4 rounded-2xl text-sm transition flex items-center justify-center gap-2 shadow-sm">
+                    <i data-lucide="smartphone" class="w-4 h-4 text-teal-600"></i> Testar Protótipo Manualmente
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 7. PROVA SOCIAL & QUEM CRIOU -->
+    <section class="py-16 px-4 bg-white border-y border-slate-200">
+        <div class="max-w-5xl mx-auto space-y-12">
+            <div class="text-center space-y-3">
+                <span class="text-xs font-bold text-teal-600 uppercase tracking-wider">Depoimentos de Colegas</span>
+                <h2 class="text-2xl sm:text-4xl font-black text-slate-900">O que os fisioterapeutas dizem no WhatsApp</h2>
+            </div>
+
+            <!-- WhatsApp Proof Cards -->
+            <div class="grid sm:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                <div class="bg-slate-50 border border-slate-200 rounded-3xl p-4 space-y-3 shadow-sm">
+                    <img src="./whatsapp_proof_1.jpg" alt="Depoimento WhatsApp Dra Camila" class="w-full rounded-2xl object-cover shadow-sm">
+                    <p class="text-xs text-slate-600 italic px-2">"Em apenas 1 dia recuperei R$ 420 em atendimentos que seriam desmarcados em cima da hora." — Dra. Camila, Fisioterapeuta</p>
+                </div>
+
+                <div class="bg-slate-50 border border-slate-200 rounded-3xl p-4 space-y-3 shadow-sm">
+                    <img src="./whatsapp_proof_2.jpg" alt="Depoimento WhatsApp Dr Lucas" class="w-full rounded-2xl object-cover shadow-sm">
+                    <p class="text-xs text-slate-600 italic px-2">"Usei o script de cobrança do bônus com 2 pacientes de Pilates pendentes e recebi no PIX na hora." — Dr. Lucas Mendes</p>
+                </div>
+            </div>
+
+            <!-- Seção Quem Criou -->
+            <div class="max-w-3xl mx-auto bg-gradient-to-r from-teal-50 to-emerald-50/50 border border-teal-100 rounded-3xl p-6 sm:p-8 flex flex-col sm:flex-row items-center gap-6 shadow-sm">
+                <img src="./logo.jpg" alt="Criador do AgendaFisio" class="w-20 h-20 rounded-2xl object-cover border border-teal-200 shadow-md">
+                <div class="space-y-2 text-center sm:text-left">
+                    <h3 class="font-extrabold text-base text-slate-900">Quem desenvolveu o AgendaFisio?</h3>
+                    <p class="text-xs text-slate-600 leading-relaxed">
+                        Desenvolvido por profissionais de tecnologia focados em soluções simples de saúde autônoma. Criamos o AgendaFisio para encerrar o caos do papel e livrar o fisioterapeuta de mensalidades abusivas de R$ 150/mês.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 8. BÔNUS REVISADOS (SEM PREÇOS INFLADOS) -->
+    <section class="py-16 px-4 bg-slate-50">
+        <div class="max-w-4xl mx-auto space-y-10">
+            <div class="text-center space-y-3">
+                <span class="text-xs font-bold text-teal-600 uppercase tracking-wider">Materiais Complementares</span>
+                <h2 class="text-2xl sm:text-4xl font-black text-slate-900">3 Bônus Exclusivos Inclusos na Sua Assinatura</h2>
+            </div>
+
+            <div class="grid sm:grid-cols-3 gap-6">
+                <div class="bg-white border border-teal-100 p-6 rounded-3xl space-y-3 shadow-sm">
+                    <span class="text-[10px] font-bold text-teal-700 bg-teal-50 px-2.5 py-1 rounded-md uppercase">Bônus #1</span>
+                    <h3 class="font-bold text-sm text-slate-900">Scripts de Cobrança Sem Constrangimento</h3>
+                    <p class="text-xs text-slate-600 leading-relaxed">5 modelos prontos de mensagens educadas para lembrar pagamentos pendentes pelo WhatsApp sem gerar mal-estar com o paciente.</p>
+                </div>
+
+                <div class="bg-white border border-teal-100 p-6 rounded-3xl space-y-3 shadow-sm">
+                    <span class="text-[10px] font-bold text-teal-700 bg-teal-50 px-2.5 py-1 rounded-md uppercase">Bônus #2</span>
+                    <h3 class="font-bold text-sm text-slate-900">Guia Prático de Carnê-Leão e Impostos</h3>
+                    <p class="text-xs text-slate-600 leading-relaxed">Orientações de como registrar os recebimentos como autônomo. <em class="block text-[10px] text-slate-400 mt-1">*Conteúdo informativo (out/2026), não substitui orientação de contador.</em></p>
+                </div>
+
+                <div class="bg-white border border-teal-100 p-6 rounded-3xl space-y-3 shadow-sm">
+                    <span class="text-[10px] font-bold text-teal-700 bg-teal-50 px-2.5 py-1 rounded-md uppercase">Bônus #3</span>
+                    <h3 class="font-bold text-sm text-slate-900">Modelos de Contrato & Anamnese</h3>
+                    <p class="text-xs text-slate-600 leading-relaxed">Modelos prontos de ficha de anamnese e contrato de prestação de serviços fisioterapêuticos para imprimir ou salvar em PDF.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 9. OFERTA CLARA -->
+    <section id="oferta" class="py-20 px-4 bg-white">
+        <div class="max-w-lg mx-auto border-2 border-teal-600/30 bg-gradient-to-b from-teal-50/30 via-white to-white rounded-3xl p-6 sm:p-10 shadow-xl space-y-6 text-center relative">
+            
+            <span class="bg-teal-600 text-white font-extrabold text-xs px-3.5 py-1 rounded-full uppercase tracking-wider">
+                Assinatura Simples
+            </span>
+
+            <h2 class="text-2xl sm:text-3xl font-black text-slate-900">Garanta o AgendaFisio com Todos os Bônus</h2>
+
+            <a href="https://pay.cakto.com.br/v8ahpcd_1166266" target="_blank" onclick="fbq('track', 'InitiateCheckout')" class="block space-y-2 py-4 border-y border-slate-100 hover:bg-teal-50/50 rounded-2xl transition cursor-pointer group">
+                <div class="flex items-center justify-center gap-1">
+                    <span class="text-slate-500 text-xs font-semibold">Por apenas</span>
+                    <span class="text-5xl font-black text-teal-600 group-hover:scale-105 transition-transform">R$ 27,00</span>
+                    <span class="text-slate-500 text-xs font-semibold">/mês</span>
+                </div>
+                <p class="text-xs text-teal-700 font-bold bg-teal-100/60 py-1.5 px-3 rounded-full inline-block group-hover:bg-teal-200/80 transition">Sem fidelidade • Cancele quando quiser ➔</p>
+            </a>
+
+            <ul class="text-left space-y-3 text-xs sm:text-sm text-slate-700 font-medium">
+                <li class="flex items-center gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-teal-600"></i> Mini App completo instalável no celular</li>
+                <li class="flex items-center gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-teal-600"></i> Lembrete de WhatsApp em 1 toque</li>
+                <li class="flex items-center gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-teal-600"></i> Controle de caixa diário e mensal automático</li>
+                <li class="flex items-center gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-teal-600"></i> Bônus 1: Scripts de Cobrança no WhatsApp</li>
+                <li class="flex items-center gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-teal-600"></i> Bônus 2: Guia Prático de Carnê-Leão</li>
+                <li class="flex items-center gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-teal-600"></i> Bônus 3: Modelos de Contrato & Anamnese</li>
+                <li class="flex items-center gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-teal-600"></i> 7 Dias de Garantia Incondicional</li>
+            </ul>
+
+            <a href="https://pay.cakto.com.br/v8ahpcd_1166266" target="_blank" onclick="fbq('track', 'InitiateCheckout')" class="w-full bg-teal-600 hover:bg-teal-700 text-white font-black py-4 rounded-2xl text-base shadow-xl shadow-teal-600/25 transition block">
+                COMEÇAR AGORA POR R$ 27,00/MÊS
+            </a>
+
+            <p class="text-[11px] text-slate-400">Pagamento 100% seguro via Cakto. Acesso instantâneo.</p>
+        </div>
+    </section>
+
+    <!-- 10. GARANTIA DE 7 DIAS -->
+    <section class="py-16 px-4 bg-slate-50 border-t border-slate-200">
+        <div class="max-w-3xl mx-auto bg-white border border-teal-200 rounded-3xl p-6 sm:p-8 text-center space-y-4 shadow-sm">
+            <div class="w-12 h-12 bg-teal-100 text-teal-700 rounded-2xl flex items-center justify-center mx-auto">
+                <i data-lucide="shield-check" class="w-6 h-6"></i>
+            </div>
+            <h3 class="text-xl font-black text-slate-900">Garantia Incondicional de 7 Dias</h3>
+            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-xl mx-auto">
+                Teste o AgendaFisio por 7 dias inteiros. Se por qualquer motivo você achar que ele não ajudou a organizar suas consultas e seu caixa, basta enviar um e-mail para <strong class="text-slate-800">suporte@agendafisio.com.br</strong> que devolvemos 100% do seu dinheiro, sem perguntas e sem burocracia.
+            </p>
+        </div>
+    </section>
+
+    <!-- 11. CONFIAANÇA, PRIVACIDADE E LGPD -->
+    <section class="py-16 px-4 bg-white border-t border-slate-200">
+        <div class="max-w-4xl mx-auto space-y-8">
+            <div class="text-center space-y-2">
+                <span class="text-xs font-bold text-teal-600 uppercase tracking-wider">Segurança & LGPD</span>
+                <h2 class="text-2xl sm:text-3xl font-black text-slate-900">Seus dados e os dados dos seus pacientes estão 100% sob seu controle</h2>
+            </div>
+
+            <div class="grid sm:grid-cols-3 gap-6 text-left">
+                <div class="bg-slate-50 border border-slate-200 p-5 rounded-2xl space-y-2">
+                    <h3 class="font-bold text-sm text-slate-900 flex items-center gap-2">
+                        <i data-lucide="hard-drive" class="w-4 h-4 text-teal-600"></i> Armazenamento Local
+                    </h3>
+                    <p class="text-xs text-slate-600">Os dados ficam gravados no próprio navegador do seu celular (`localStorage`). Nenhum prontuário vai para servidores de terceiros.</p>
+                </div>
+
+                <div class="bg-slate-50 border border-slate-200 p-5 rounded-2xl space-y-2">
+                    <h3 class="font-bold text-sm text-slate-900 flex items-center gap-2">
+                        <i data-lucide="wifi-off" class="w-4 h-4 text-teal-600"></i> Funciona Offline
+                    </h3>
+                    <p class="text-xs text-slate-600">Mesmo se o sinal de internet da clínica cair, você consegue visualizar e cadastrar atendimentos normalmente.</p>
+                </div>
+
+                <div class="bg-slate-50 border border-slate-200 p-5 rounded-2xl space-y-2">
+                    <h3 class="font-bold text-sm text-slate-900 flex items-center gap-2">
+                        <i data-lucide="download" class="w-4 h-4 text-teal-600"></i> Backup & Exportação
+                    </h3>
+                    <p class="text-xs text-slate-600">Você pode baixar um arquivo de backup em JSON a qualquer momento com 1 clique para guardar no seu computador ou trocar de celular.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 12. FAQ (ACORDEÃO COMPLETO DE 10 PERGUNTAS) -->
+    <section class="py-16 px-4 bg-slate-50 border-t border-slate-200">
+        <div class="max-w-3xl mx-auto space-y-8">
+            <div class="text-center space-y-2">
+                <span class="text-xs font-bold text-teal-600 uppercase tracking-wider">Tire Suas Dúvidas</span>
+                <h2 class="text-2xl sm:text-3xl font-black text-slate-900">Perguntas Frequentes</h2>
+            </div>
+
+            <div class="space-y-3" id="faqAccordion">
+                
+                <!-- Q1 -->
+                <div class="bg-white border border-slate-200 rounded-2xl overflow-hidden">
+                    <button onclick="toggleFaq(1)" class="w-full p-4 text-left font-bold text-sm text-slate-900 flex justify-between items-center">
+                        <span>1. O lembrete de WhatsApp é automático?</span>
+                        <i data-lucide="chevron-down" id="faqIcon-1" class="w-4 h-4 text-slate-400 transition-transform"></i>
+                    </button>
+                    <div id="faqAnswer-1" class="faq-answer px-4 text-xs text-slate-600 leading-relaxed pb-4">
+                        Não. O lembrete é manual com 1 toque. Ao clicar no botão "Lembrar Zap", o aplicativo abre diretamente o WhatsApp do seu celular com a mensagem de confirmação pré-formatada para o paciente. Isso evita bloqueios de conta e não gera taxas extras de envio de API.
+                    </div>
+                </div>
+
+                <!-- Q2 -->
+                <div class="bg-white border border-slate-200 rounded-2xl overflow-hidden">
+                    <button onclick="toggleFaq(2)" class="w-full p-4 text-left font-bold text-sm text-slate-900 flex justify-between items-center">
+                        <span>2. Funciona no iPhone e no Android?</span>
+                        <i data-lucide="chevron-down" id="faqIcon-2" class="w-4 h-4 text-slate-400 transition-transform"></i>
+                    </button>
+                    <div id="faqAnswer-2" class="faq-answer px-4 text-xs text-slate-600 leading-relaxed pb-4">
+                        Sim! Por ser um Mini App (PWA), ele funciona perfeitamente em qualquer smartphone iPhone ou Android com navegador Safari ou Chrome.
+                    </div>
+                </div>
+
+                <!-- Q3 -->
+                <div class="bg-white border border-slate-200 rounded-2xl overflow-hidden">
+                    <button onclick="toggleFaq(3)" class="w-full p-4 text-left font-bold text-sm text-slate-900 flex justify-between items-center">
+                        <span>3. Preciso instalar algo da loja de aplicativos (App Store / Play Store)?</span>
+                        <i data-lucide="chevron-down" id="faqIcon-3" class="w-4 h-4 text-slate-400 transition-transform"></i>
+                    </button>
+                    <div id="faqAnswer-3" class="faq-answer px-4 text-xs text-slate-600 leading-relaxed pb-4">
+                        Não. Você não precisa baixar nada pesado da loja. Basta acessar o link fornecido após a compra e tocar em "Adicionar à Tela de Início". O ícone fica na tela do seu celular como um app normal.
+                    </div>
+                </div>
+
+                <!-- Q4 -->
+                <div class="bg-white border border-slate-200 rounded-2xl overflow-hidden">
+                    <button onclick="toggleFaq(4)" class="w-full p-4 text-left font-bold text-sm text-slate-900 flex justify-between items-center">
+                        <span>4. Como e quando serei cobrado? Como cancelo?</span>
+                        <i data-lucide="chevron-down" id="faqIcon-4" class="w-4 h-4 text-slate-400 transition-transform"></i>
+                    </button>
+                    <div id="faqAnswer-4" class="faq-answer px-4 text-xs text-slate-600 leading-relaxed pb-4">
+                        A assinatura custa R$ 27,00 por mês, cobrada via PIX ou cartão de crédito através da plataforma segura Cakto. Não há contrato de fidelidade e você pode cancelar a qualquer momento enviando uma mensagem para nosso suporte.
+                    </div>
+                </div>
+
+                <!-- Q5 -->
+                <div class="bg-white border border-slate-200 rounded-2xl overflow-hidden">
+                    <button onclick="toggleFaq(5)" class="w-full p-4 text-left font-bold text-sm text-slate-900 flex justify-between items-center">
+                        <span>5. Como funciona a garantia de 7 dias e como peço reembolso?</span>
+                        <i data-lucide="chevron-down" id="faqIcon-5" class="w-4 h-4 text-slate-400 transition-transform"></i>
+                    </button>
+                    <div id="faqAnswer-5" class="faq-answer px-4 text-xs text-slate-600 leading-relaxed pb-4">
+                        Se dentro de 7 dias você entender que o produto não atendeu às suas expectativas, basta nos enviar um e-mail para suporte@agendafisio.com.br solicitando o reembolso. Devolvemos 100% do valor pago.
+                    </div>
+                </div>
+
+                <!-- Q6 -->
+                <div class="bg-white border border-slate-200 rounded-2xl overflow-hidden">
+                    <button onclick="toggleFaq(6)" class="w-full p-4 text-left font-bold text-sm text-slate-900 flex justify-between items-center">
+                        <span>6. Meus dados e os de meus pacientes estão seguros? Posso exportá-los?</span>
+                        <i data-lucide="chevron-down" id="faqIcon-6" class="w-4 h-4 text-slate-400 transition-transform"></i>
+                    </button>
+                    <div id="faqAnswer-6" class="faq-answer px-4 text-xs text-slate-600 leading-relaxed pb-4">
+                        Sim! Os dados ficam salvos localmente na memória do seu próprio celular. Você pode usar a função "Exportar Backup" a qualquer momento para gerar um arquivo seguro com todas as suas informações.
+                    </div>
+                </div>
+
+                <!-- Q7 -->
+                <div class="bg-white border border-slate-200 rounded-2xl overflow-hidden">
+                    <button onclick="toggleFaq(7)" class="w-full p-4 text-left font-bold text-sm text-slate-900 flex justify-between items-center">
+                        <span>7. E se eu trocar de celular?</span>
+                        <i data-lucide="chevron-down" id="faqIcon-7" class="w-4 h-4 text-slate-400 transition-transform"></i>
+                    </button>
+                    <div id="faqAnswer-7" class="faq-answer px-4 text-xs text-slate-600 leading-relaxed pb-4">
+                        Basta clicar no botão "Exportar" no celular antigo e usar o botão "Importar" no aparelho novo. Todos os seus dados serão restaurados em segundos.
+                    </div>
+                </div>
+
+                <!-- Q8 -->
+                <div class="bg-white border border-slate-200 rounded-2xl overflow-hidden">
+                    <button onclick="toggleFaq(8)" class="w-full p-4 text-left font-bold text-sm text-slate-900 flex justify-between items-center">
+                        <span>8. Serve para clínica com vários profissionais?</span>
+                        <i data-lucide="chevron-down" id="faqIcon-8" class="w-4 h-4 text-slate-400 transition-transform"></i>
+                    </button>
+                    <div id="faqAnswer-8" class="faq-answer px-4 text-xs text-slate-600 leading-relaxed pb-4">
+                        O AgendaFisio foi projetado sob medida para fisioterapeutas autônomos e pequenos consultórios de 1 profissional. Para grandes clínicas com múltiplos profissionais compartilhando prontuários, recomendamos softwares de gestão médica tradicionais.
+                    </div>
+                </div>
+
+                <!-- Q9 -->
+                <div class="bg-white border border-slate-200 rounded-2xl overflow-hidden">
+                    <button onclick="toggleFaq(9)" class="w-full p-4 text-left font-bold text-sm text-slate-900 flex justify-between items-center">
+                        <span>9. Preciso ter conhecimento técnico?</span>
+                        <i data-lucide="chevron-down" id="faqIcon-9" class="w-4 h-4 text-slate-400 transition-transform"></i>
+                    </button>
+                    <div id="faqAnswer-9" class="faq-answer px-4 text-xs text-slate-600 leading-relaxed pb-4">
+                        Nenhum! Se você sabe mandar uma mensagem no WhatsApp, você sabe usar o AgendaFisio perfeitamente. Ele foi desenhado para ser simples e intuitivo.
+                    </div>
+                </div>
+
+                <!-- Q10 -->
+                <div class="bg-white border border-slate-200 rounded-2xl overflow-hidden">
+                    <button onclick="toggleFaq(10)" class="w-full p-4 text-left font-bold text-sm text-slate-900 flex justify-between items-center">
+                        <span>10. Tem suporte? Como falo com vocês?</span>
+                        <i data-lucide="chevron-down" id="faqIcon-10" class="w-4 h-4 text-slate-400 transition-transform"></i>
+                    </button>
+                    <div id="faqAnswer-10" class="faq-answer px-4 text-xs text-slate-600 leading-relaxed pb-4">
+                        Sim! Temos suporte por e-mail no endereço suporte@agendafisio.com.br. Respondemos todas as mensagens em até 24 horas úteis.
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- 13. CTA FINAL -->
+    <section class="py-16 px-4 bg-teal-900 text-white text-center">
+        <div class="max-w-3xl mx-auto space-y-6">
+            <h2 class="text-2xl sm:text-4xl font-black">Pronto para acabar com a desorganização e reduzir as faltas?</h2>
+            <p class="text-xs sm:text-sm text-teal-100 max-w-xl mx-auto">Garanta o seu acesso ao AgendaFisio por apenas R$ 27,00/mês com 7 dias de garantia incondicional.</p>
+            <a href="https://pay.cakto.com.br/v8ahpcd_1166266" target="_blank" onclick="fbq('track', 'InitiateCheckout')" class="inline-block bg-white text-teal-900 font-black px-8 py-4 rounded-2xl text-sm shadow-xl hover:bg-teal-50 transition">
+                COMEÇAR AGORA POR R$ 27,00/MÊS
+            </a>
+        </div>
+    </section>
+
+    <!-- 14. RODAPÉ COMPLETO -->
+    <footer class="bg-slate-900 text-slate-400 py-10 px-4 text-xs border-t border-slate-800">
+        <div class="max-w-5xl mx-auto text-center space-y-4">
+            <div class="flex flex-wrap items-center justify-center gap-4 text-slate-300">
+                <button onclick="openModal('privacyModal')" class="hover:underline">Política de Privacidade</button>
+                <span>•</span>
+                <button onclick="openModal('termsModal')" class="hover:underline">Termos de Uso</button>
+                <span>•</span>
+                <a href="mailto:suporte@agendafisio.com.br" class="hover:underline">Suporte por E-mail</a>
+            </div>
+            <p>© 2026 AgendaFisio • Fisioterapia Autônoma. Todos os direitos reservados.</p>
+            <p class="text-[10px] text-slate-500">Este site não faz parte do Facebook ou do Meta Inc. Além disso, não é endossado pelo Facebook de nenhuma forma.</p>
+        </div>
+    </footer>
+
+    <!-- BARRA FIXA MOBILE (Sticky Bottom CTA) -->
+    <div class="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/95 border-t border-teal-200 p-3 flex items-center justify-between shadow-2xl backdrop-blur-md">
+        <a href="https://pay.cakto.com.br/v8ahpcd_1166266" target="_blank" onclick="fbq('track', 'InitiateCheckout')" class="block">
+            <span class="text-slate-900 font-black text-sm block">AgendaFisio</span>
+            <span class="text-teal-600 font-extrabold text-xs block hover:underline">R$ 27,00 /mês ➔</span>
+        </a>
+        <a href="https://pay.cakto.com.br/v8ahpcd_1166266" target="_blank" onclick="fbq('track', 'InitiateCheckout')" class="bg-teal-600 hover:bg-teal-700 text-white font-black px-4 py-2.5 rounded-xl text-xs shadow-md active:scale-95 transition">
+            ASSINAR AGORA
+        </a>
+    </div>
+
+    <!-- BOTÃO FLUTUANTE WHATSAPP DE SUPORTE -->
+    <a href="https://wa.me/573182632504?text=Ol%C3%A1!%20Estou%20na%20p%C3%A1gina%20do%20AgendaFisio%20e%20gostaria%20de%20tirar%20uma%20d%C3%BAvida" target="_blank" class="fixed bottom-16 md:bottom-6 right-4 z-40 bg-emerald-500 hover:bg-emerald-600 text-white p-3.5 rounded-full shadow-2xl flex items-center gap-2 text-xs font-bold transition hover:scale-110 active:scale-95 border-2 border-white">
+        <i data-lucide="message-circle" class="w-5 h-5"></i>
+        <span class="hidden sm:inline">Dúvidas? Fale no Zap</span>
+    </a>
+
+    <!-- MODAIS DE PRIVACIDADE E TERMOS (LGPD) -->
+    <div id="privacyModal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 hidden">
+        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 w-full max-w-2xl rounded-3xl p-6 space-y-4 shadow-2xl max-h-[85vh] overflow-y-auto text-xs text-slate-700 dark:text-slate-300">
+            <div class="flex justify-between items-center border-b pb-3">
+                <h3 class="font-extrabold text-sm text-slate-900 dark:text-white">Política de Privacidade (LGPD)</h3>
+                <button onclick="closeModal('privacyModal')" class="text-slate-400 hover:text-slate-600">✕</button>
+            </div>
+            <p>Sua privacidade é nossa prioridade. O aplicativo AgendaFisio armazena todos os registros de agendamentos diretamente na memória local do seu dispositivo (localStorage). Nenhuma informação identificável de pacientes é transmitida ou mantida em nossos servidores.</p>
+            <p>Para dúvidas ou suporte legal, contate: suporte@agendafisio.com.br</p>
+        </div>
+    </div>
+
+    <div id="termsModal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 hidden">
+        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 w-full max-w-2xl rounded-3xl p-6 space-y-4 shadow-2xl max-h-[85vh] overflow-y-auto text-xs text-slate-700 dark:text-slate-300">
+            <div class="flex justify-between items-center border-b pb-3">
+                <h3 class="font-extrabold text-sm text-slate-900 dark:text-white">Termos de Uso</h3>
+                <button onclick="closeModal('termsModal')" class="text-slate-400 hover:text-slate-600">✕</button>
+            </div>
+            <p>O AgendaFisio é uma ferramenta de apoio à gestão de consultas para profissionais autônomos. Não nos responsabilizamos por perdas decorrentes de mau uso do dispositivo ou falta de exportação regular de backups pelo usuário.</p>
+        </div>
+    </div>
+
+    <script>
+        // Lucide Icons
+        if (window.lucide) lucide.createIcons();
+
+        // Calculadora de Faltas
+        function calculateLoss() {
+            const price = parseFloat(document.getElementById('calcPrice').value) || 0;
+            const misses = parseFloat(document.getElementById('calcMisses').value) || 0;
+            const monthlyLoss = price * misses;
+            const yearlyLoss = monthlyLoss * 12;
+
+            document.getElementById('monthlyLossDisplay').innerText = `R$ ${monthlyLoss.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`;
+            document.getElementById('yearlyLossDisplay').innerText = `Isso representa R$ ${yearlyLoss.toLocaleString('pt-BR', { minimumFractionDigits: 2 })} perdidos por ano!`;
+        }
+
+        // Acordeão FAQ
+        function toggleFaq(index) {
+            const ans = document.getElementById(`faqAnswer-${index}`);
+            const icon = document.getElementById(`faqIcon-${index}`);
+            
+            if (ans.classList.contains('active')) {
+                ans.classList.remove('active');
+                if (icon) icon.style.transform = 'rotate(0deg)';
+            } else {
+                // Fechar outros
+                document.querySelectorAll('.faq-answer').forEach(el => el.classList.remove('active'));
+                document.querySelectorAll('[id^="faqIcon-"]').forEach(el => el.style.transform = 'rotate(0deg)');
+                
+                ans.classList.add('active');
+                if (icon) icon.style.transform = 'rotate(180deg)';
+            }
+        }
+
+        // Modais
+        function openModal(id) { document.getElementById(id).classList.remove('hidden'); }
+        function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
+    </script>
+</body>
+</html>
