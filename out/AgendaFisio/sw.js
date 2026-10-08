@@ -1,41 +1,19 @@
-const CACHE_NAME = 'agendafisio-cache-v1';
-const urlsToCache = [
-  '/',
-  '/app',
-  '/manifest.webmanifest',
-  '/favicon.svg',
-  '/kincare_logo.png'
-];
+// Ultra-safe Pass-Through Service Worker for AgendaFisio PWA
+// Guarantees Android PWA installability while ensuring 0% risk of white screen caching errors.
 
 self.addEventListener('install', (event) => {
-  event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
-      return cache.addAll(urlsToCache);
-    })
-  );
   self.skipWaiting();
 });
 
 self.addEventListener('activate', (event) => {
-  event.waitUntil(
-    caches.keys().then((cacheNames) => {
-      return Promise.all(
-        cacheNames
-          .filter((name) => name !== CACHE_NAME)
-          .map((name) => caches.delete(name))
-      );
-    })
-  );
-  self.clients.claim();
+  event.waitUntil(self.clients.claim());
 });
 
 self.addEventListener('fetch', (event) => {
+  // Always fetch directly from the network so live JS/CSS React bundles load perfectly!
   event.respondWith(
-    caches.match(event.request).then((cachedResponse) => {
-      if (cachedResponse) {
-        return cachedResponse;
-      }
-      return fetch(event.request);
+    fetch(event.request).catch(() => {
+      return caches.match(event.request);
     })
   );
 });
