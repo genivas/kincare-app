@@ -79,18 +79,18 @@
 <body data-clarity-unmask="true" class="bg-slate-50 text-slate-800 antialiased selection:bg-teal-500 selection:text-white min-h-screen pb-16 md:pb-0">
 
     <!-- 1. BARRA DE TOPO DISCRETA -->
-    <div class="bg-teal-900 text-teal-100 text-xs py-2 text-center px-4 font-medium border-b border-teal-800">
-        <span>📱 Mini App de Gestão Financeira para Fisioterapeutas Autônomos • Teste sem risco por 7 Dias</span>
+    <div onclick="window.open('https://pay.cakto.com.br/v8ahpcd_1166266', '_blank')" class="bg-teal-900 text-teal-100 text-xs py-2 text-center px-4 font-medium border-b border-teal-800 cursor-pointer hover:bg-teal-950 hover:underline transition">
+        <span>📱 Mini App de Gestão Financeira para Fisioterapeutas Autônomos • Teste sem risco por 7 Dias ➔</span>
     </div>
 
     <!-- HEADER COM LOGO -->
     <header class="border-b border-teal-100 bg-white/95 backdrop-blur-md sticky top-0 z-40 px-4 sm:px-8 py-3.5 shadow-sm">
         <div class="max-w-6xl mx-auto flex items-center justify-between">
-            <div class="flex items-center space-x-3">
-                <img src="./logo.jpg" alt="AgendaFisio Logo" class="w-10 h-10 rounded-xl object-cover shadow-md shadow-teal-700/10 border border-teal-100">
+            <div onclick="window.open('https://pay.cakto.com.br/v8ahpcd_1166266', '_blank')" class="flex items-center space-x-3 cursor-pointer group">
+                <img src="./logo.jpg" alt="AgendaFisio Logo" class="w-10 h-10 rounded-xl object-cover shadow-md shadow-teal-700/10 border border-teal-100 group-hover:scale-105 transition">
                 <div>
-                    <span class="font-black text-xl leading-none text-slate-900 tracking-tight">AgendaFisio</span>
-                    <span class="block text-[10px] text-teal-600 font-bold uppercase tracking-wider mt-0.5">Gestão Autônoma</span>
+                    <span class="font-black text-xl leading-none text-slate-900 tracking-tight group-hover:text-teal-600 transition">AgendaFisio</span>
+                    <span class="block text-[10px] text-teal-600 font-bold uppercase tracking-wider mt-0.5">Gestão Autônoma • R$ 27/mês ➔</span>
                 </div>
             </div>
             <a href="https://pay.cakto.com.br/v8ahpcd_1166266" target="_blank" onclick="fbq('track', 'InitiateCheckout')" class="hidden sm:inline-flex bg-teal-600 hover:bg-teal-700 text-white font-extrabold px-5 py-2.5 rounded-xl text-xs transition shadow-md shadow-teal-600/20">
@@ -211,9 +211,10 @@
                     <span class="text-[11px] font-extrabold text-teal-800 bg-teal-100/80 px-3 py-1 rounded-full inline-block mt-1 group-hover:bg-teal-200 transition">👉 Clique para recuperar esse valor por R$ 27,00/mês</span>
                 </div>
 
-                <p class="text-xs text-center text-teal-800 font-bold bg-teal-100/60 py-2.5 px-4 rounded-xl">
+                <div onclick="window.open('https://pay.cakto.com.br/v8ahpcd_1166266', '_blank')" class="text-xs text-center text-teal-900 font-bold bg-teal-100/80 hover:bg-teal-200/90 py-3 px-4 rounded-2xl cursor-pointer shadow-sm transition border border-teal-200 group">
                     💡 Evitando apenas 1 falta no mês todo com o lembrete de 1 toque do AgendaFisio, você já paga a mensalidade de R$ 27 por mais de 5 meses!
-                </p>
+                    <span class="block text-[11px] text-teal-700 font-extrabold group-hover:underline mt-1">👉 Clique para garantir sua assinatura por R$ 27/mês ➔</span>
+                </div>
 
                 <!-- CTA DIRETO NA CALCULADORA PARA ELIMINAR DEAD CLICKS -->
                 <div class="pt-2 text-center">
