@@ -692,15 +692,15 @@
         </div>
     </footer>
 
-    <!-- BARRA FIXA MOBILE (Sticky Bottom CTA) -->
-    <div class="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/95 border-t border-teal-200 p-3 flex items-center justify-between shadow-2xl backdrop-blur-md">
-        <a href="https://pay.cakto.com.br/v8ahpcd_1166266" target="_blank" onclick="fbq('track', 'InitiateCheckout')" class="block">
+    <!-- BARRA FIXA MOBILE (Sticky Bottom CTA - 100% Clicável sem Dead Clicks) -->
+    <div onclick="window.open('https://pay.cakto.com.br/v8ahpcd_1166266', '_blank'); fbq('track', 'InitiateCheckout')" class="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/95 border-t border-teal-200 p-3 flex items-center justify-between shadow-2xl backdrop-blur-md cursor-pointer hover:bg-teal-50/50 transition">
+        <div class="block">
             <span class="text-slate-900 font-black text-sm block">AgendaFisio</span>
-            <span class="text-teal-600 font-extrabold text-xs block hover:underline">R$ 27,00 /mês ➔</span>
-        </a>
-        <a href="https://pay.cakto.com.br/v8ahpcd_1166266" target="_blank" onclick="fbq('track', 'InitiateCheckout')" class="bg-teal-600 hover:bg-teal-700 text-white font-black px-4 py-2.5 rounded-xl text-xs shadow-md active:scale-95 transition">
-            ASSINAR AGORA
-        </a>
+            <span class="text-teal-600 font-extrabold text-xs block">R$ 27,00 /mês ➔</span>
+        </div>
+        <div class="bg-gradient-to-r from-teal-600 to-emerald-600 text-white font-black px-4 py-2.5 rounded-xl text-xs shadow-md active:scale-95 transition flex items-center gap-1.5">
+            ASSINAR AGORA ➔
+        </div>
     </div>
 
     <!-- BOTÃO FLUTUANTE WHATSAPP DE SUPORTE -->
