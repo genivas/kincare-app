@@ -44,6 +44,26 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
         body { font-family: 'Plus Jakarta Sans', sans-serif; }
+
+        @media print {
+            body * { visibility: hidden !important; }
+            #printableReceiptContainer, #printableReceiptContainer * { visibility: visible !important; }
+            #printableReceiptContainer {
+                position: fixed !important;
+                left: 0 !important;
+                top: 0 !important;
+                width: 100% !important;
+                margin: 0 !important;
+                padding: 30px !important;
+                background: #ffffff !important;
+                color: #0f172a !important;
+                display: block !important;
+                z-index: 999999 !important;
+                box-shadow: none !important;
+                border: 1px solid #cbd5e1 !important;
+            }
+            .no-print { display: none !important; }
+        }
     </style>
     <!-- Vercel Web Analytics -->
     <script>
@@ -342,6 +362,87 @@
         </div>
     </div>
 
+    <!-- Modal: Emitir Recibo Profissional -->
+    <div id="receiptModal" class="fixed inset-0 z-50 bg-slate-900/70 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 hidden">
+        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 w-full max-w-lg rounded-3xl p-5 sm:p-6 space-y-4 shadow-2xl max-h-[95vh] overflow-y-auto">
+            <div class="flex justify-between items-center border-b border-slate-100 dark:border-slate-800 pb-3 no-print">
+                <div class="flex items-center gap-2">
+                    <span class="bg-teal-50 dark:bg-teal-950 p-2 rounded-xl text-teal-600 dark:text-teal-400">
+                        <i data-lucide="file-text" class="w-5 h-5"></i>
+                    </span>
+                    <div>
+                        <h3 class="font-extrabold text-base text-slate-900 dark:text-white leading-tight">Emitir Recibo do Paciente</h3>
+                        <p class="text-[11px] text-slate-500">Pronto para imprimir, salvar em PDF ou mandar no WhatsApp</p>
+                    </div>
+                </div>
+                <button onclick="closeReceiptModal()" class="text-slate-400 hover:text-slate-600 dark:hover:text-white p-1">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <!-- Dados do Profissional (Editáveis com Auto-save) -->
+            <div class="bg-slate-50 dark:bg-slate-950 p-3.5 rounded-2xl border border-slate-200/80 dark:border-slate-800 space-y-2 no-print">
+                <span class="text-[10px] font-extrabold uppercase tracking-wider text-teal-700 dark:text-teal-400 block">Seus Dados Profissionais (Aparecem no Recibo):</span>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                    <div>
+                        <input type="text" id="profNameInput" oninput="saveProfData()" placeholder="Seu Nome (Ex: Dra. Mariana Silva)" class="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl px-2.5 py-1.5 text-xs font-semibold text-slate-900 dark:text-white focus:outline-none focus:border-teal-600">
+                    </div>
+                    <div>
+                        <input type="text" id="profCrefitoInput" oninput="saveProfData()" placeholder="CREFITO (Ex: CREFITO-3/123456-F)" class="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl px-2.5 py-1.5 text-xs font-semibold text-slate-900 dark:text-white focus:outline-none focus:border-teal-600">
+                    </div>
+                </div>
+            </div>
+
+            <!-- ÁREA IMPRIMÍVEL DO RECIBO (Design Oficial Limpo) -->
+            <div id="printableReceiptContainer" class="bg-white text-slate-900 p-5 rounded-2xl border-2 border-slate-200 shadow-sm space-y-4">
+                <!-- Cabeçalho do Recibo -->
+                <div class="text-center border-b border-slate-200 pb-3">
+                    <span class="text-[11px] font-black uppercase tracking-widest text-teal-700 block">Comprovante de Atendimento</span>
+                    <h2 class="text-lg font-black text-slate-900 tracking-tight">RECIBO DE FISIOTERAPIA</h2>
+                    <div class="flex items-center justify-between text-[11px] text-slate-500 font-semibold mt-1.5">
+                        <span id="recNumLabel">REC-0001</span>
+                        <span id="recDateLabel">Data: 13/10/2026</span>
+                    </div>
+                </div>
+
+                <!-- Corpo do Recibo -->
+                <div class="space-y-3 text-xs leading-relaxed text-slate-700">
+                    <p class="bg-slate-50 p-3 rounded-xl border border-slate-100">
+                        Recebi de <strong id="recPatientName" class="text-slate-900 font-extrabold uppercase">Nome do Paciente</strong> a quantia de <strong id="recPriceFormatted" class="text-teal-700 text-sm font-black">R$ 140,00</strong>, referente à prestação de serviços de <strong id="recServiceName" class="text-slate-900">Fisioterapia</strong>.
+                    </p>
+
+                    <div class="grid grid-cols-2 gap-2 text-[11px]">
+                        <div class="bg-slate-50 p-2.5 rounded-lg border border-slate-100">
+                            <span class="text-slate-500 block font-medium">Controle de Sessão:</span>
+                            <strong id="recSessionInfo" class="text-slate-900 font-bold">Sessão 8 de 10</strong>
+                        </div>
+                        <div class="bg-slate-50 p-2.5 rounded-lg border border-slate-100">
+                            <span class="text-slate-500 block font-medium">Pagamento:</span>
+                            <strong id="recPaymentMethod" class="text-emerald-700 font-bold uppercase">PIX (Quitado)</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Assinatura / Profissional -->
+                <div class="pt-6 border-t border-slate-200 text-center space-y-1">
+                    <div class="w-48 border-b border-slate-400 mx-auto mb-1"></div>
+                    <strong id="recProfSignatureName" class="block text-xs font-black text-slate-900 uppercase">Dra. Mariana Silva</strong>
+                    <span id="recProfSignatureCrefito" class="block text-[11px] text-slate-600 font-bold">Fisioterapeuta • CREFITO-3/123456-F</span>
+                </div>
+            </div>
+
+            <!-- Botões de Ação -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-2 no-print">
+                <button onclick="printReceipt()" class="bg-teal-600 hover:bg-teal-700 text-white font-extrabold py-3 px-4 rounded-xl text-xs flex items-center justify-center gap-2 shadow-md shadow-teal-600/20 transition active:scale-95">
+                    <i data-lucide="printer" class="w-4 h-4"></i> Imprimir / Salvar PDF
+                </button>
+                <button onclick="sendReceiptWhatsapp()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold py-3 px-4 rounded-xl text-xs flex items-center justify-center gap-2 shadow-md shadow-emerald-600/20 transition active:scale-95">
+                    <i data-lucide="message-circle" class="w-4 h-4"></i> Mandar Recibo no Zap
+                </button>
+            </div>
+        </div>
+    </div>
+
     <!-- JavaScript Application Core Logic -->
     <script>
         let currentDate = new Date().toISOString().split('T')[0];
@@ -468,14 +569,22 @@
 
                     ${item.notes ? `<p class="text-xs text-slate-600 dark:text-slate-400 bg-slate-50 dark:bg-slate-950 border border-slate-200/60 dark:border-slate-800 p-3 rounded-xl italic">"${item.notes}"</p>` : ''}
 
-                    <div class="flex items-center justify-between pt-2.5 border-t border-slate-100 dark:border-slate-800 text-xs">
-                        <button onclick="sendWhatsapp('${item.phone}', '${item.name}', '${item.time}')" class="text-teal-700 dark:text-teal-400 font-bold flex items-center gap-1.5 bg-teal-50 hover:bg-teal-100 dark:bg-teal-500/10 border border-teal-200 dark:border-teal-500/20 px-3 py-1.5 rounded-xl transition">
-                            <i data-lucide="message-circle" class="w-4 h-4"></i> Lembrar Zap
-                        </button>
+                    <div class="flex flex-wrap items-center justify-between gap-2 pt-2.5 border-t border-slate-100 dark:border-slate-800 text-xs">
+                        <div class="flex items-center gap-1.5 flex-wrap">
+                            <button onclick="sendWhatsapp('${item.phone}', '${item.name}', '${item.time}')" class="text-teal-700 dark:text-teal-400 font-bold flex items-center gap-1 bg-teal-50 hover:bg-teal-100 dark:bg-teal-500/10 border border-teal-200 dark:border-teal-500/20 px-2.5 py-1.5 rounded-xl transition" title="Lembrar sessão no WhatsApp">
+                                <i data-lucide="message-circle" class="w-3.5 h-3.5"></i> Lembrar Zap
+                            </button>
+                            <button onclick="incrementSession('${item.id}')" class="text-emerald-700 dark:text-emerald-400 font-bold flex items-center gap-1 bg-emerald-50 hover:bg-emerald-100 dark:bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/20 px-2.5 py-1.5 rounded-xl transition shadow-sm active:scale-95" title="Dar presença e avançar sessão">
+                                <i data-lucide="check-circle" class="w-3.5 h-3.5"></i> Presença (+1)
+                            </button>
+                            <button onclick="openReceiptModal('${item.id}')" class="text-blue-700 dark:text-blue-400 font-bold flex items-center gap-1 bg-blue-50 hover:bg-blue-100 dark:bg-blue-500/10 border border-blue-200 dark:border-blue-500/20 px-2.5 py-1.5 rounded-xl transition shadow-sm active:scale-95" title="Emitir recibo em PDF ou WhatsApp">
+                                <i data-lucide="file-text" class="w-3.5 h-3.5"></i> Recibo PDF
+                            </button>
+                        </div>
 
-                        <div class="flex items-center space-x-2">
+                        <div class="flex items-center space-x-1.5 ml-auto">
                             <button onclick="togglePayment('${item.id}')" class="${item.paid ? 'text-amber-700 bg-amber-50 border-amber-200 dark:text-amber-400 dark:bg-amber-500/10' : 'text-emerald-700 bg-emerald-50 border-emerald-200 dark:text-emerald-400 dark:bg-emerald-500/10'} font-bold px-3 py-1.5 rounded-xl border transition">
-                                ${item.paid ? 'Desfazer Pago' : 'Marcar Pago'}
+                                ${item.paid ? 'Desfazer' : 'Marcar Pago'}
                             </button>
                             <button onclick="deleteAppointment('${item.id}')" class="text-slate-400 hover:text-red-500 p-1.5 transition">
                                 <i data-lucide="trash-2" class="w-4 h-4"></i>
@@ -575,6 +684,142 @@
                 window.open(`https://wa.me/55${cleanPhone}?text=${msg}`, '_blank');
             } else {
                 window.open(`https://wa.me/?text=${msg}`, '_blank');
+            }
+        }
+
+        // --- CONTROLE DE PRESENÇA RÁPIDA E PACOTES ---
+        function showToast(msg, type = 'success') {
+            let t = document.getElementById('appNotificationToast');
+            if (!t) {
+                t = document.createElement('div');
+                t.id = 'appNotificationToast';
+                document.body.appendChild(t);
+            }
+            const bg = type === 'alert' ? 'bg-amber-600 border-amber-300' : (type === 'success' ? 'bg-emerald-600 border-emerald-300' : 'bg-slate-900 border-teal-500');
+            t.className = `fixed top-14 left-1/2 -translate-x-1/2 z-50 ${bg} text-white px-5 py-3 rounded-2xl shadow-2xl border text-xs sm:text-sm font-bold flex items-center gap-2.5 transition-all duration-300`;
+            t.innerHTML = `<span>${msg}</span>`;
+            clearTimeout(window._toastTimeout);
+            window._toastTimeout = setTimeout(() => {
+                t.className = "hidden";
+            }, 4500);
+        }
+
+        function incrementSession(id) {
+            const item = appointments.find(a => a.id === id);
+            if (!item) return;
+
+            let curr = parseInt(item.sessionCurrent) || 1;
+            let total = parseInt(item.sessionTotal) || 10;
+
+            if (curr < total) {
+                curr += 1;
+                item.sessionCurrent = curr.toString();
+                localStorage.setItem('agendafisio_data', JSON.stringify(appointments));
+                renderAppointments();
+
+                if (curr === total) {
+                    showToast(`🎉 ALERTA DE RENOVAÇÃO: ${item.name} concluiu a ${curr}ª de ${total} sessões! Pacote finalizado. Hora de renovar!`, 'alert');
+                    if (typeof confetti === 'function') {
+                        confetti({ particleCount: 70, spread: 60, origin: { y: 0.6 } });
+                    }
+                } else {
+                    showToast(`✅ Presença registrada: ${item.name} (Sessão ${curr} de ${total})`, 'success');
+                }
+            } else {
+                if (confirm(`O paciente ${item.name} já concluiu todas as ${total} sessões do pacote atual.\n\nDeseja renovar e iniciar um NOVO PACOTE (reiniciar para 1 de ${total})?`)) {
+                    item.sessionCurrent = '1';
+                    item.paid = false;
+                    localStorage.setItem('agendafisio_data', JSON.stringify(appointments));
+                    renderAppointments();
+                    updateFinancials();
+                    showToast(`🔄 Novo ciclo de ${total} sessões iniciado para ${item.name}!`, 'success');
+                }
+            }
+        }
+
+        // --- EMISSÃO DE RECIBOS PROFISSIONAIS (PDF & WHATSAPP) ---
+        let currentReceiptItem = null;
+
+        function saveProfData() {
+            const name = document.getElementById('profNameInput').value;
+            const crefito = document.getElementById('profCrefitoInput').value;
+            localStorage.setItem('agendafisio_prof_name', name);
+            localStorage.setItem('agendafisio_prof_crefito', crefito);
+            
+            document.getElementById('recProfSignatureName').textContent = name || 'Dra. Fisioterapeuta';
+            document.getElementById('recProfSignatureCrefito').textContent = crefito ? `Fisioterapeuta • ${crefito}` : 'Fisioterapeuta';
+        }
+
+        function openReceiptModal(id) {
+            const item = appointments.find(a => a.id === id);
+            if (!item) return;
+            currentReceiptItem = item;
+
+            const savedName = localStorage.getItem('agendafisio_prof_name') || 'Dra. Fisioterapeuta';
+            const savedCrefito = localStorage.getItem('agendafisio_prof_crefito') || 'CREFITO-3/000000-F';
+
+            document.getElementById('profNameInput').value = savedName;
+            document.getElementById('profCrefitoInput').value = savedCrefito;
+            document.getElementById('recProfSignatureName').textContent = savedName;
+            document.getElementById('recProfSignatureCrefito').textContent = savedCrefito ? `Fisioterapeuta • ${savedCrefito}` : 'Fisioterapeuta';
+
+            // Dados do Atendimento
+            const numSeq = item.id ? item.id.slice(-4) : '001';
+            document.getElementById('recNumLabel').textContent = `REC-${new Date().getFullYear()}-${numSeq}`;
+            
+            const parts = (item.date || currentDate).split('-');
+            const formattedDate = parts.length === 3 ? `${parts[2]}/${parts[1]}/${parts[0]}` : currentDate;
+            document.getElementById('recDateLabel').textContent = `Data: ${formattedDate}`;
+
+            document.getElementById('recPatientName').textContent = item.name;
+            const formattedPrice = parseFloat(item.price).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+            document.getElementById('recPriceFormatted').textContent = formattedPrice;
+            document.getElementById('recServiceName').textContent = item.service || 'Fisioterapia';
+            document.getElementById('recSessionInfo').textContent = `Sessão ${item.sessionCurrent || '1'} de ${item.sessionTotal || '10'}`;
+            document.getElementById('recPaymentMethod').textContent = `${item.paymentMethod || 'PIX'} (${item.paid ? 'Quitado' : 'A Combinar'})`;
+
+            document.getElementById('receiptModal').classList.remove('hidden');
+            lucide.createIcons();
+        }
+
+        function closeReceiptModal() {
+            document.getElementById('receiptModal').classList.add('hidden');
+        }
+
+        function printReceipt() {
+            window.print();
+        }
+
+        function sendReceiptWhatsapp() {
+            if (!currentReceiptItem) return;
+            const profName = document.getElementById('profNameInput').value || 'Fisioterapeuta';
+            const profCrefito = document.getElementById('profCrefitoInput').value || '';
+            const price = parseFloat(currentReceiptItem.price).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+            
+            const parts = (currentReceiptItem.date || currentDate).split('-');
+            const dateStr = parts.length === 3 ? `${parts[2]}/${parts[1]}/${parts[0]}` : currentDate;
+
+            const text = 
+`🧾 *RECIBO DE ATENDIMENTO - FISIOTERAPIA* 🧾
+
+Paciente: *${currentReceiptItem.name}*
+Serviço: ${currentReceiptItem.service || 'Fisioterapia'}
+Controle: Sessão ${currentReceiptItem.sessionCurrent || '1'} de ${currentReceiptItem.sessionTotal || '10'}
+Valor: *${price}*
+Forma de Pagamento: ${currentReceiptItem.paymentMethod || 'PIX'} (${currentReceiptItem.paid ? 'Quitado' : 'Pendente'})
+Data: ${dateStr}
+
+Profissional: *${profName}* ${profCrefito ? '(' + profCrefito + ')' : ''}
+
+_Comprovante emitido via AgendaFisio_`;
+
+            const cleanPhone = currentReceiptItem.phone ? currentReceiptItem.phone.replace(/\D/g, '') : '';
+            const encoded = encodeURIComponent(text);
+
+            if (cleanPhone) {
+                window.open(`https://wa.me/55${cleanPhone}?text=${encoded}`, '_blank');
+            } else {
+                window.open(`https://wa.me/?text=${encoded}`, '_blank');
             }
         }
 
