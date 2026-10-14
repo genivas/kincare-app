@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bônus 3 - Kit de Documentos Clínicos Essenciais para Fisioterapeutas</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @media print {
+            .no-print { display: none !important; }
+            body { background: white !important; padding: 0 !important; }
+            .print-page { page-break-after: always; border: none !important; box-shadow: none !important; padding: 0 !important; }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 p-4 sm:p-8 max-w-5xl mx-auto font-sans antialiased">
+
+    <!-- CABEÇALHO -->
+    <header class="border-b border-teal-200 pb-6 mb-8 text-center sm:text-left no-print">
+        <div class="flex flex-wrap items-center justify-between gap-4">
+            <div>
+                <span class="bg-emerald-100 text-emerald-800 text-xs font-black px-3.5 py-1 rounded-full uppercase tracking-wider">
+                    🎁 Bônus Exclusivo AgendaFisio
+                </span>
+                <h1 class="text-2xl sm:text-3xl font-black text-slate-900 mt-2">
+                    Kit com 6 Documentos Essenciais para Fisioterapia
+                </h1>
+                <p class="text-slate-600 text-xs sm:text-sm mt-1 max-w-2xl">
+                    Modelos profissionais prontos para uso em atendimentos domiciliares ou consultório. Baseados nas resoluções do COFFITO e Receita Federal.
+                </p>
+            </div>
+            <button onclick="window.print()" class="inline-flex items-center gap-2 bg-teal-600 hover:bg-teal-700 text-white font-extrabold px-5 py-2.5 rounded-xl text-xs shadow-md transition">
+                <i data-lucide="printer" class="w-4 h-4"></i> Imprimir / Salvar Todos em PDF
+            </button>
+        </div>
+    </header>
+
+    <div class="space-y-10">
+
+        <!-- DOC 1: CONTRATO DE PRESTAÇÃO DE SERVIÇOS (ANTI-FALTA) -->
+        <article class="bg-white border border-slate-200 rounded-2xl p-6 sm:p-8 shadow-sm space-y-4 print-page">
+            <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+                <h2 class="text-lg font-black text-slate-900 flex items-center gap-2">
+                    <i data-lucide="file-check-2" class="w-5 h-5 text-teal-600"></i> 1. Contrato de Prestação de Serviços (Cláusula Anti-Falta de 24h)
+                </h2>
+                <span class="text-[10px] bg-slate-100 font-bold px-2 py-0.5 rounded text-slate-600 no-print">Respaldo Jurídico</span>
+            </div>
+
+            <div class="bg-slate-50 p-5 rounded-xl text-xs text-slate-700 leading-relaxed font-mono space-y-3 border border-slate-200">
+                <p class="font-bold text-center text-slate-900 text-sm uppercase">CONTRATO DE PRESTAÇÃO DE SERVIÇOS FISIOTERAPÊUTICOS</p>
+                <p><strong>CONTRATADO(A):</strong> Dr(a). [Nome do Fisioterapeuta], Fisioterapeuta registrado(a) no CREFITO sob o nº [CREFITO/UF], CPF nº [CPF], telefone [WhatsApp].</p>
+                <p><strong>CONTRATANTE:</strong> [Nome do Paciente], portador(a) do RG nº [RG], CPF nº [CPF], residente à [Endereço Completo com Bairro e Cidade], telefone [Telefone].</p>
+                
+                <p class="font-bold text-slate-900 pt-2">CLÁUSULA 1ª – DO OBJETO</p>
+                <p>O presente contrato tem por objeto a prestação de serviços de fisioterapia individualizada, conforme plano terapêutico traçado na avaliação clínica inicial.</p>
+
+                <p class="font-bold text-slate-900 pt-2">CLÁUSULA 2ª – DOS VALORES E FORMA DE PAGAMENTO</p>
+                <p>Pelos serviços prestados, o CONTRATANTE pagará o valor de R$ [Valor] por sessão [ou R$ _____ pelo pacote de ____ sessões], a ser quitado via PIX, dinheiro ou cartão ao término da sessão ou no primeiro dia de cada ciclo.</p>
+
+                <p class="font-bold text-slate-900 pt-2 text-rose-700">CLÁUSULA 3ª – DA POLÍTICA DE CANCELAMENTOS E FALTAS (ANTI-FALTA)</p>
+                <p>As remarcações e cancelamentos de consultas devem ser comunicados com <strong>antecedência mínima de 24 (vinte e quatro) horas</strong>. Faltas não comunicadas ou avisadas em prazo inferior implicarão na <strong>cobrança integral do valor da sessão</strong>, haja vista a reserva exclusiva do horário na agenda do profissional e o deslocamento já programado.</p>
+
+                <p class="font-bold text-slate-900 pt-2">CLÁUSULA 4ª – DO FORO</p>
+                <p>Fica eleito o foro da Comarca de [Sua Cidade/UF] para dirimir quaisquer dúvidas oriundas deste contrato.</p>
+
+                <div class="pt-6 grid grid-cols-2 gap-8 text-center">
+                    <div>
+                        <p>________________________________________</p>
+                        <p class="mt-1">Dr(a). [Fisioterapeuta] • CREFITO [Nº]</p>
+                    </div>
+                    <div>
+                        <p>________________________________________</p>
+                        <p class="mt-1">[Nome do Paciente / Responsável Legal]</p>
+                    </div>
+                </div>
+            </div>
+        </article>
+
+        <!-- DOC 2: TERMO DE CONSENTIMENTO LIVRE E ESCLARECIDO (TCLE) -->
+        <article class="bg-white border border-slate-200 rounded-2xl p-6 sm:p-8 shadow-sm space-y-4 print-page">
+            <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+                <h2 class="text-lg font-black text-slate-900 flex items-center gap-2">
+                    <i data-lucide="shield-alert" class="w-5 h-5 text-teal-600"></i> 2. Termo de Consentimento Livre e Esclarecido (TCLE)
+                </h2>
+                <span class="text-[10px] bg-slate-100 font-bold px-2 py-0.5 rounded text-slate-600 no-print">Exigência Ética CREFITO</span>
+            </div>
+
+            <div class="bg-slate-50 p-5 rounded-xl text-xs text-slate-700 leading-relaxed font-mono space-y-3 border border-slate-200">
+                <p class="font-bold text-center text-slate-900 text-sm uppercase">TERMO DE CONSENTIMENTO LIVRE E ESCLARECIDO (TCLE)</p>
+                <p>Eu, ______________________________________________________, portador(a) do CPF nº _______________________, declaro que fui devidamente informado(a) pelo(a) Fisioterapeuta Dr(a). [Nome do Fisioterapeuta], CREFITO [Nº], sobre os procedimentos, objetivos, possíveis riscos e benefícios do tratamento fisioterapêutico proposto.</p>
+                
+                <p>1. Tive a oportunidade de fazer perguntas, as quais foram respondidas com clareza em linguagem acessível.</p>
+                <p>2. Compreendo que a fisioterapia pode envolver exercícios físicos, mobilizações articulares, manipulações e recursos físicos que podem gerar desconforto passageiro ou dor muscular tardia adaptativa.</p>
+                <p>3. Comprometo-me a informar imediatamente qualquer alteração em meu estado de saúde, uso de novas medicações ou desconforto durante as sessões.</p>
+                <p>4. Fui orientado(a) de que posso revogar este consentimento a qualquer momento sem qualquer penalidade.</p>
+
+                <p class="pt-4">[Cidade/UF], _____ de ____________________ de 202___.</p>
+                <div class="pt-6 text-center">
+                    <p>__________________________________________________________________</p>
+                    <p class="mt-1">Assinatura do Paciente ou Responsável Legal</p>
+                </div>
+            </div>
+        </article>
+
+        <!-- DOC 3: FICHA DE ANAMNESE E AVALIAÇÃO CLÍNICA -->
+        <article class="bg-white border border-slate-200 rounded-2xl p-6 sm:p-8 shadow-sm space-y-4 print-page">
+            <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+                <h2 class="text-lg font-black text-slate-900 flex items-center gap-2">
+                    <i data-lucide="clipboard-list" class="w-5 h-5 text-teal-600"></i> 3. Ficha de Anamnese & Avaliação Clínica Completa
+                </h2>
+                <span class="text-[10px] bg-slate-100 font-bold px-2 py-0.5 rounded text-slate-600 no-print">Resolução COFFITO 414</span>
+            </div>
+
+            <div class="bg-slate-50 p-5 rounded-xl text-xs text-slate-700 leading-relaxed font-mono space-y-3 border border-slate-200">
+                <p class="font-bold text-center text-slate-900 text-sm uppercase">FICHA DE AVALIAÇÃO FISIOTERAPÊUTICA</p>
+                
+                <p class="font-bold text-slate-900 pt-1">I. DADOS DE IDENTIFICAÇÃO</p>
+                <p>Nome: ________________________________________________ Data Nasc: ___/___/______ Idade: ____ anos</p>
+                <p>Profissão: _____________________________________________ Telefone/WhatsApp: (___) _______________</p>
+                <p>Diagnóstico Clínico/Médico: ______________________________ Médico Responsável: __________________</p>
+
+                <p class="font-bold text-slate-900 pt-2">II. QUEIXA PRINCIPAL (QP) & HISTÓRIA DA DOENÇA ATUAL (HDA)</p>
+                <p>Queixa do paciente: ________________________________________________________________________</p>
+                <p>Início dos sintomas: [ ] Menos de 1 mês [ ] 1 a 6 meses [ ] Mais de 6 meses (Crônica)</p>
+                <p>Localização da dor: ___________________________ Tipo: [ ] Pontada [ ] Queimação [ ] Peso [ ] Irradiada</p>
+                <p>Escala Visual Analógica (EVA de 0 a 10): [ ___ ] | Fatores de melhora/piora: ____________________</p>
+
+                <p class="font-bold text-slate-900 pt-2">III. ANTECEDENTES PESSOAIS & COMORBIDADES</p>
+                <p>[ ] Hipertensão  [ ] Diabetes  [ ] Osteoporose  [ ] Cardiopatia  [ ] Cirurgia Prévia: __________________</p>
+                <p>Medicamentos em uso contínuo: _____________________________________________________________</p>
+
+                <p class="font-bold text-slate-900 pt-2">IV. EXAME FÍSICO & TESTES ESPECIAIS</p>
+                <p>Inspeção / Postura: _________________________________________________________________________</p>
+                <p>Amplitude de Movimento (ADM): ____________________ Força Muscular: ____________________________</p>
+                <p>Testes Especiais Positivos: __________________________________________________________________</p>
+
+                <p class="font-bold text-slate-900 pt-2">V. DIAGNÓSTICO FISIOTERAPÊUTICO & METAS DE TRATAMENTO</p>
+                <p>Objetivo curto prazo: ______________________________________________________________________</p>
+                <p>Frequência sugerida: [ ___ ] vezes por semana | Previsão de reavaliação: _______________________</p>
+            </div>
+        </article>
+
+        <!-- DOC 4: FICHA DE EVOLUÇÃO CLÍNICA DIÁRIA -->
+        <article class="bg-white border border-slate-200 rounded-2xl p-6 sm:p-8 shadow-sm space-y-4 print-page">
+            <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+                <h2 class="text-lg font-black text-slate-900 flex items-center gap-2">
+                    <i data-lucide="calendar" class="w-5 h-5 text-teal-600"></i> 4. Ficha de Evolução Clínica Diária (Prontuário)
+                </h2>
+                <span class="text-[10px] bg-slate-100 font-bold px-2 py-0.5 rounded text-slate-600 no-print">Registro Contínuo</span>
+            </div>
+
+            <div class="bg-slate-50 p-5 rounded-xl text-xs text-slate-700 leading-relaxed font-mono space-y-4 border border-slate-200">
+                <p class="font-bold text-center text-slate-900 text-sm uppercase">REGISTRO DE EVOLUÇÃO FISIOTERAPÊUTICA</p>
+                <p><strong>Paciente:</strong> ____________________________________________________ | <strong>Prontuário Nº:</strong> _________</p>
+
+                <table class="w-full border-collapse border border-slate-300 text-[11px]">
+                    <thead>
+                        <tr class="bg-slate-200 text-slate-900">
+                            <th class="border border-slate-300 p-2 text-center w-24">Data / Hora</th>
+                            <th class="border border-slate-300 p-2 text-center w-16">Sessão</th>
+                            <th class="border border-slate-300 p-2 text-center w-16">EVA</th>
+                            <th class="border border-slate-300 p-2 text-left">Conduta Realizada & Resposta do Paciente</th>
+                            <th class="border border-slate-300 p-2 text-center w-28">Assinatura / Carimbo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="border border-slate-300 p-2.5 text-center">___/___/___<br>___:___</td>
+                            <td class="border border-slate-300 p-2.5 text-center">1/10</td>
+                            <td class="border border-slate-300 p-2.5 text-center">___/10</td>
+                            <td class="border border-slate-300 p-2.5">Paciente relata melhora de 30% na dor matinal. Realizada cinesioterapia ativa com foco em fortalecimento de estabilizadores e liberação miofascial. Boa tolerância aos exercícios sem queixas álgicas agudas.</td>
+                            <td class="border border-slate-300 p-2.5 text-center text-[10px] text-slate-400">Dr(a). [Fisio]</td>
+                        </tr>
+                        <tr>
+                            <td class="border border-slate-300 p-2.5 text-center">___/___/___<br>___:___</td>
+                            <td class="border border-slate-300 p-2.5 text-center">___/___</td>
+                            <td class="border border-slate-300 p-2.5 text-center">___/10</td>
+                            <td class="border border-slate-300 p-2.5">__________________________________________________________________________________<br>__________________________________________________________________________________</td>
+                            <td class="border border-slate-300 p-2.5 text-center text-[10px] text-slate-400">Assinatura</td>
+                        </tr>
+                        <tr>
+                            <td class="border border-slate-300 p-2.5 text-center">___/___/___<br>___:___</td>
+                            <td class="border border-slate-300 p-2.5 text-center">___/___</td>
+                            <td class="border border-slate-300 p-2.5 text-center">___/10</td>
+                            <td class="border border-slate-300 p-2.5">__________________________________________________________________________________<br>__________________________________________________________________________________</td>
+                            <td class="border border-slate-300 p-2.5 text-center text-[10px] text-slate-400">Assinatura</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </article>
+
+        <!-- DOC 5: RECIBO OFICIAL (PARA IRPF E REEMBOLSO DE CONVÊNIO) -->
+        <article class="bg-white border border-slate-200 rounded-2xl p-6 sm:p-8 shadow-sm space-y-4 print-page">
+            <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+                <h2 class="text-lg font-black text-slate-900 flex items-center gap-2">
+                    <i data-lucide="receipt" class="w-5 h-5 text-teal-600"></i> 5. Recibo Profissional de Fisioterapia (IRPF & Convênio)
+                </h2>
+                <span class="text-[10px] bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded no-print">Padrão Receita Federal</span>
+            </div>
+
+            <div class="bg-slate-50 p-6 rounded-xl text-xs text-slate-700 leading-relaxed font-mono space-y-4 border border-slate-200">
+                <div class="flex justify-between items-center border-b border-slate-200 pb-2">
+                    <span class="font-black text-slate-900 text-base">RECIBO DE PAGAMENTO DE SERVIÇOS FISIOTERAPÊUTICOS</span>
+                    <span class="font-bold text-slate-900 text-sm">Nº ________ / 202___</span>
+                </div>
+
+                <p class="text-sm"><strong>VALOR: R$ _________________ (______________________________________________________)</strong></p>
+
+                <p>Recebi de <strong>_________________________________________________________________________</strong>,</p>
+                <p>inscrito(a) no CPF sob o nº <strong>___________________________________</strong>,</p>
+                <p>a quantia supra de R$ _____________ referente à realização de <strong>[ ___ ] sessões de Fisioterapia [Domiciliar / Especializada]</strong>, realizadas no período de ___/___/______ a ___/___/______.</p>
+
+                <p class="text-[11px] text-slate-500 italic">*Recibo emitido para fins de comprovação junto à Receita Federal (Declaração de IRPF) e/ou solicitação de reembolso junto à operadora de plano de saúde privada.</p>
+
+                <p class="pt-2 text-right">[Cidade/UF], _____ de ____________________ de 202___.</p>
+
+                <div class="pt-6 text-center">
+                    <p>__________________________________________________________________</p>
+                    <p class="font-bold text-slate-900 mt-1">Dr(a). [Nome Completo do Fisioterapeuta]</p>
+                    <p class="text-[11px] text-slate-600">Fisioterapeuta • CREFITO: [Número / UF] • CPF: [Seu CPF]</p>
+                </div>
+            </div>
+        </article>
+
+        <!-- DOC 6: PRESCRIÇÃO DE EXERCÍCIOS DOMICILIARES (HOME CARE) -->
+        <article class="bg-white border border-slate-200 rounded-2xl p-6 sm:p-8 shadow-sm space-y-4 print-page">
+            <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+                <h2 class="text-lg font-black text-slate-900 flex items-center gap-2">
+                    <i data-lucide="activity" class="w-5 h-5 text-teal-600"></i> 6. Ficha de Orientações & Exercícios Domiciliares (Home Exercises)
+                </h2>
+                <span class="text-[10px] bg-slate-100 font-bold px-2 py-0.5 rounded text-slate-600 no-print">Adesão do Paciente</span>
+            </div>
+
+            <div class="bg-slate-50 p-5 rounded-xl text-xs text-slate-700 leading-relaxed font-mono space-y-3 border border-slate-200">
+                <p class="font-bold text-center text-slate-900 text-sm uppercase">ORIENTAÇÕES & EXERCÍCIOS PARA FAZER EM CASA</p>
+                <p><strong>Paciente:</strong> ____________________________________________________ | <strong>Data da Prescrição:</strong> ___/___/______</p>
+
+                <div class="space-y-3 pt-2">
+                    <div class="p-3 bg-white border border-slate-200 rounded-lg">
+                        <p class="font-bold text-slate-900">1. Exercício: ________________________________________________________________</p>
+                        <p>Repetições: [ ___ ] séries de [ ___ ] repetições | Frequência: [ ___ ] vezes ao dia.</p>
+                        <p class="text-[11px] text-slate-500">Cuidados: Manter respiração suave e interromper imediatamente em caso de dor aguda.</p>
+                    </div>
+
+                    <div class="p-3 bg-white border border-slate-200 rounded-lg">
+                        <p class="font-bold text-slate-900">2. Exercício: ________________________________________________________________</p>
+                        <p>Repetições: [ ___ ] séries de [ ___ ] repetições | Frequência: [ ___ ] vezes ao dia.</p>
+                        <p class="text-[11px] text-slate-500">Cuidados: __________________________________________________________________</p>
+                    </div>
+
+                    <div class="p-3 bg-white border border-slate-200 rounded-lg">
+                        <p class="font-bold text-slate-900">3. Cuidados de Rotina / Crioterapia ou Termoterapia:</p>
+                        <p>[ ] Bolsa de gelo por 20 minutos [ ___ ] vezes ao dia | [ ] Compressas mornas.</p>
+                    </div>
+                </div>
+
+                <p class="text-[11px] text-rose-600 font-bold pt-2">⚠️ Atenção: Realize apenas os movimentos orientados na consulta presencial. Em caso de dúvidas, envie mensagem pelo WhatsApp.</p>
+
+                <p class="pt-3 text-right">Dr(a). [Fisioterapeuta] • WhatsApp: [Contato]</p>
+            </div>
+        </article>
+
+    </div>
+
+    <!-- RODAPÉ -->
+    <footer class="mt-12 text-center text-xs text-slate-400 border-t border-slate-200 pt-6 no-print">
+        <p>© AgendaFisio • Material de apoio profissional para Fisioterapeutas Autônomos.</p>
+        <p class="mt-1">Dica: Você pode copiar o texto, colar no Word/Docs com seu timbre ou imprimir diretamente em PDF usando o botão do topo.</p>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>

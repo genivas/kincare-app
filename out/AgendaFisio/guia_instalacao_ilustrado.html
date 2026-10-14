@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guia Ilustrado de Instalação & Backup - AgendaFisio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&display=swap');
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        @media print {
+            .no-print { display: none !important; }
+            body { background: white !important; }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased min-h-screen p-4 sm:p-8">
+
+    <!-- Top Action Bar for Printing/PDF -->
+    <div class="max-w-4xl mx-auto mb-6 flex items-center justify-between no-print bg-white border border-slate-200 p-4 rounded-2xl shadow-sm">
+        <div class="flex items-center space-x-3">
+            <img src="./logo.jpg" alt="AgendaFisio Logo" class="w-8 h-8 rounded-xl object-cover border border-teal-100">
+            <span class="font-black text-slate-900 text-sm">AgendaFisio • Guia em PDF</span>
+        </div>
+        <button onclick="window.print()" class="bg-teal-600 hover:bg-teal-700 text-white font-bold px-5 py-2.5 rounded-xl text-xs flex items-center gap-2 shadow-md transition">
+            <i data-lucide="printer" class="w-4 h-4"></i> Imprimir / Salvar em PDF
+        </button>
+    </div>
+
+    <!-- Main Illustrated Guide Container -->
+    <div class="max-w-4xl mx-auto bg-white border border-slate-200 rounded-3xl p-6 sm:p-10 shadow-lg space-y-10">
+        
+        <!-- Header -->
+        <div class="text-center space-y-3 border-b pb-6 border-slate-100">
+            <img src="./logo.jpg" alt="AgendaFisio Logo" class="w-16 h-16 rounded-2xl object-cover mx-auto shadow-md border border-teal-100">
+            <h1 class="text-2xl sm:text-4xl font-black text-slate-900">Guia Ilustrado de Instalação no Celular</h1>
+            <p class="text-xs sm:text-sm text-slate-600 max-w-xl mx-auto">
+                Aprenda passo a passo como colocar o AgendaFisio na tela inicial do seu smartphone e como fazer backup de segurança dos seus dados.
+            </p>
+        </div>
+
+        <!-- SEÇÃO 1: iPHONE (SAFARI) -->
+        <div class="space-y-6">
+            <div class="flex items-center space-x-3">
+                <div class="w-8 h-8 bg-teal-100 text-teal-700 font-black rounded-xl flex items-center justify-center text-sm">1</div>
+                <h2 class="text-xl font-extrabold text-slate-900 flex items-center gap-2">
+                    <i data-lucide="apple" class="w-5 h-5 text-teal-600"></i> Como Instalar no iPhone (Safari)
+                </h2>
+            </div>
+
+            <!-- Visual Infographic -->
+            <div class="border border-teal-100 rounded-2xl overflow-hidden shadow-sm bg-slate-50 p-2">
+                <img src="./tutorial_iphone.jpg" alt="Passo a passo instalacao iPhone Safari" class="w-full rounded-xl object-cover">
+            </div>
+
+            <ol class="list-decimal list-inside space-y-2 text-xs sm:text-sm text-slate-700 bg-teal-50/50 p-4 rounded-2xl border border-teal-100 font-medium">
+                <li><strong>Passo 1:</strong> Abra a URL do aplicativo no navegador <strong>Safari</strong> do seu iPhone.</li>
+                <li><strong>Passo 2:</strong> No rodapé do Safari, toque no ícone de <strong>Compartilhar</strong> (quadrado com uma seta apontando para cima).</li>
+                <li><strong>Passo 3:</strong> Role o menu para baixo e toque em <strong>"Adicionar à Tela de Início"</strong>.</li>
+                <li><strong>Passo 4:</strong> Toque em <strong>Adicionar</strong> no canto superior direito. O ícone do AgendaFisio aparecerá na tela do seu iPhone como um app nativo!</li>
+            </ol>
+        </div>
+
+        <hr class="border-slate-100">
+
+        <!-- SEÇÃO 2: ANDROID (CHROME) -->
+        <div class="space-y-6">
+            <div class="flex items-center space-x-3">
+                <div class="w-8 h-8 bg-teal-100 text-teal-700 font-black rounded-xl flex items-center justify-center text-sm">2</div>
+                <h2 class="text-xl font-extrabold text-slate-900 flex items-center gap-2">
+                    <i data-lucide="smartphone" class="w-5 h-5 text-teal-600"></i> Como Instalar no Android (Chrome)
+                </h2>
+            </div>
+
+            <!-- Visual Infographic -->
+            <div class="border border-teal-100 rounded-2xl overflow-hidden shadow-sm bg-slate-50 p-2">
+                <img src="./tutorial_android.jpg" alt="Passo a passo instalacao Android Chrome" class="w-full rounded-xl object-cover">
+            </div>
+
+            <ol class="list-decimal list-inside space-y-2 text-xs sm:text-sm text-slate-700 bg-slate-50 p-4 rounded-2xl border border-slate-200 font-medium">
+                <li><strong>Passo 1:</strong> Abra o aplicativo no navegador <strong>Google Chrome</strong> do seu Android.</li>
+                <li><strong>Passo 2:</strong> Toque nos <strong>3 pontinhos (⋮)</strong> no canto superior direito do Chrome.</li>
+                <li><strong>Passo 3:</strong> Selecione a opção <strong>"Instalar aplicativo"</strong> ou <strong>"Adicionar à Tela Inicial"</strong>.</li>
+                <li><strong>Passo 4:</strong> Confirme a instalação. O aplicativo será instalado em tela cheia na sua tela inicial!</li>
+            </ol>
+        </div>
+
+        <hr class="border-slate-100">
+
+        <!-- SEÇÃO 3: BACKUP E SEGURANÇA -->
+        <div class="space-y-4">
+            <div class="flex items-center space-x-3">
+                <div class="w-8 h-8 bg-teal-100 text-teal-700 font-black rounded-xl flex items-center justify-center text-sm">3</div>
+                <h2 class="text-xl font-extrabold text-slate-900 flex items-center gap-2">
+                    <i data-lucide="shield-check" class="w-5 h-5 text-teal-600"></i> Como Fazer Backup e Trocar de Celular
+                </h2>
+            </div>
+
+            <div class="grid sm:grid-cols-2 gap-4 text-xs sm:text-sm">
+                <div class="bg-slate-50 border border-slate-200 p-5 rounded-2xl space-y-2">
+                    <h3 class="font-bold text-slate-900 flex items-center gap-2">
+                        <i data-lucide="download" class="w-4 h-4 text-teal-600"></i> Para Exportar o Backup
+                    </h3>
+                    <p class="text-slate-600 leading-relaxed">No menu lateral do app, toque no botão <strong>"Exportar Backup"</strong>. Um arquivo de dados em formato JSON será baixado com segurança no seu celular.</p>
+                </div>
+
+                <div class="bg-slate-50 border border-slate-200 p-5 rounded-2xl space-y-2">
+                    <h3 class="font-bold text-slate-900 flex items-center gap-2">
+                        <i data-lucide="upload" class="w-4 h-4 text-teal-600"></i> Para Restaurar o Backup
+                    </h3>
+                    <p class="text-slate-600 leading-relaxed">No celular novo, abra o app e toque em <strong>"Importar Backup"</strong>. Selecione o arquivo baixado. Todos os atendimentos serão carregados na hora!</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="text-center pt-6 border-t border-slate-100 text-xs text-slate-400">
+            <p>© 2026 AgendaFisio • Suporte: suporte@agendafisio.com.br</p>
+        </div>
+    </div>
+
+    <script>
+        if (window.lucide) lucide.createIcons();
+    </script>
+</body>
+</html>
