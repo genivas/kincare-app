@@ -85,22 +85,22 @@
 <body data-clarity-unmask="true" class="bg-slate-50 text-slate-800 antialiased selection:bg-teal-500 selection:text-white min-h-screen pb-16 md:pb-0">
 
     <!-- 1. BARRA DE TOPO DISCRETA -->
-    <div onclick="window.open('https://pay.cakto.com.br/v8ahpcd_1166266', '_blank')" class="bg-teal-900 text-teal-100 text-xs py-2 text-center px-4 font-medium border-b border-teal-800 cursor-pointer hover:bg-teal-950 hover:underline transition">
-        <span>📱 Mini App de Gestão Financeira para Fisioterapeutas Autônomos • Teste sem risco por 7 Dias ➔</span>
+    <div onclick="document.getElementById('oferta').scrollIntoView({behavior: 'smooth'})" class="bg-teal-900 text-teal-100 text-xs py-2 text-center px-4 font-medium border-b border-teal-800 cursor-pointer hover:bg-teal-950 hover:underline transition">
+        <span>📱 Mini App de Gestão Financeira para Fisioterapeutas Autônomos • Planos a partir de R$ 5,58/mês • 7 Dias de Garantia ➔</span>
     </div>
 
     <!-- HEADER COM LOGO -->
     <header class="border-b border-teal-100 bg-white/95 backdrop-blur-md sticky top-0 z-40 px-4 sm:px-8 py-3.5 shadow-sm">
         <div class="max-w-6xl mx-auto flex items-center justify-between">
-            <div onclick="window.open('https://pay.cakto.com.br/v8ahpcd_1166266', '_blank')" class="flex items-center space-x-3 cursor-pointer group">
+            <div onclick="document.getElementById('oferta').scrollIntoView({behavior: 'smooth'})" class="flex items-center space-x-3 cursor-pointer group">
                 <img src="./logo.jpg" alt="AgendaFisio Logo" class="w-10 h-10 rounded-xl object-cover shadow-md shadow-teal-700/10 border border-teal-100 group-hover:scale-105 transition">
                 <div>
                     <span class="font-black text-xl leading-none text-slate-900 tracking-tight group-hover:text-teal-600 transition">AgendaFisio</span>
-                    <span class="block text-[10px] text-teal-600 font-bold uppercase tracking-wider mt-0.5">Gestão Autônoma • R$ 27/mês ➔</span>
+                    <span class="block text-[10px] text-teal-600 font-bold uppercase tracking-wider mt-0.5">Gestão Autônoma • Planos Transparentes ➔</span>
                 </div>
             </div>
-            <a href="https://pay.cakto.com.br/v8ahpcd_1166266" target="_blank" onclick="fbq('track', 'InitiateCheckout')" class="hidden sm:inline-flex bg-teal-600 hover:bg-teal-700 text-white font-extrabold px-5 py-2.5 rounded-xl text-xs transition shadow-md shadow-teal-600/20">
-                COMEÇAR POR R$ 27,00/MÊS
+            <a href="#oferta" class="hidden sm:inline-flex bg-teal-600 hover:bg-teal-700 text-white font-extrabold px-5 py-2.5 rounded-xl text-xs transition shadow-md shadow-teal-600/20">
+                VER PLANOS E PREÇOS ➔
             </a>
         </div>
     </header>
@@ -461,46 +461,106 @@
         </div>
     </section>
 
-    <!-- 9. OFERTA CLARA -->
-    <section id="oferta" class="py-20 px-4 bg-white">
-        <div class="max-w-lg mx-auto border-2 border-teal-600/30 bg-gradient-to-b from-teal-50/30 via-white to-white rounded-3xl p-6 sm:p-10 shadow-xl space-y-6 text-center relative">
+    <!-- 9. OFERTA CLARA (TABELA COMPARATIVA MENSAL VS ANUAL) -->
+    <section id="oferta" class="py-20 px-4 bg-slate-50 border-t border-slate-200">
+        <div class="max-w-4xl mx-auto space-y-10 text-center">
             
-            <span class="bg-teal-600 text-white font-extrabold text-xs px-3.5 py-1 rounded-full uppercase tracking-wider">
-                Assinatura Simples
-            </span>
+            <div class="space-y-3">
+                <span class="bg-teal-100 text-teal-800 font-extrabold text-xs px-3.5 py-1 rounded-full uppercase tracking-wider">
+                    Planos Transparentes • Sem Letras Miúdas
+                </span>
+                <h2 class="text-2xl sm:text-4xl font-black text-slate-900">Escolha o Melhor Plano para a Sua Rotina</h2>
+                <p class="text-xs sm:text-sm text-slate-600 max-w-xl mx-auto">Comece a usar agora mesmo com 7 dias de garantia total. Cancele ou altere quando quiser.</p>
+            </div>
 
-            <h2 class="text-2xl sm:text-3xl font-black text-slate-900">Garanta o AgendaFisio com Todos os Bônus</h2>
-
-            <a href="https://pay.cakto.com.br/v8ahpcd_1166266" target="_blank" onclick="fbq('track', 'InitiateCheckout')" class="block space-y-2 py-4 border-y border-slate-100 hover:bg-teal-50/50 rounded-2xl transition cursor-pointer group">
-                <div class="flex items-center justify-center gap-1">
-                    <span class="text-slate-500 text-xs font-semibold">Por apenas</span>
-                    <span class="text-5xl font-black text-teal-600 group-hover:scale-105 transition-transform">R$ 27,00</span>
-                    <span class="text-slate-500 text-xs font-semibold">/mês</span>
-                </div>
-                <p class="text-xs text-teal-700 font-bold bg-teal-100/60 py-1.5 px-3 rounded-full inline-block group-hover:bg-teal-200/80 transition">Sem fidelidade • Cancele quando quiser ➔</p>
-            </a>
-
-            <ul class="text-left space-y-3 text-xs sm:text-sm text-slate-700 font-medium">
-                <li class="flex items-center gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-teal-600"></i> Mini App completo instalável no celular</li>
-                <li class="flex items-center gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-teal-600"></i> Lembrete de WhatsApp em 1 toque</li>
-                <li class="flex items-center gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-teal-600"></i> Controle de caixa diário e mensal automático</li>
-                <li class="flex items-center gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-teal-600"></i> Bônus 1: Scripts de Cobrança no WhatsApp</li>
-                <li class="flex items-center gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-teal-600"></i> Bônus 2: Guia Prático de Carnê-Leão</li>
-                <li class="flex items-center gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-teal-600"></i> Bônus 3: Modelos de Contrato & Anamnese</li>
-                <li class="flex items-center gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-teal-600"></i> 7 Dias de Garantia Incondicional</li>
-            </ul>
-
-            <div class="space-y-3 pt-2">
-                <a href="https://pay.cakto.com.br/v8ahpcd_1166266" target="_blank" onclick="fbq('track', 'InitiateCheckout')" class="w-full bg-teal-600 hover:bg-teal-700 text-white font-black py-4 rounded-2xl text-base shadow-xl shadow-teal-600/25 transition block">
-                    COMEÇAR AGORA POR R$ 27,00/MÊS ➔
-                </a>
+            <!-- GRID COM OS 2 PLANOS LADO A LADO -->
+            <div class="grid md:grid-cols-2 gap-6 sm:gap-8 items-stretch text-left">
                 
-                <a href="https://wa.me/573182632504?text=Ol%C3%A1!%20Estou%20na%20p%C3%A1gina%20do%20AgendaFisio%20e%20gostaria%20de%20tirar%20uma%20d%C3%BAvida%20sobre%20o%20aplicativo" target="_blank" class="w-full border border-teal-200 bg-white hover:bg-slate-50 text-slate-800 font-extrabold py-3.5 px-4 rounded-2xl text-xs transition flex items-center justify-center gap-2 shadow-sm">
-                    <i data-lucide="message-circle" class="w-4 h-4 text-emerald-600"></i> Tem dúvidas sobre o aplicativo? Fale com o Suporte no Zap
+                <!-- PLANO 1: MENSAL -->
+                <div class="bg-white border-2 border-slate-200 rounded-3xl p-6 sm:p-8 space-y-6 shadow-sm flex flex-col justify-between hover:border-slate-300 transition">
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs font-black uppercase tracking-wider text-slate-500">Plano Mensal</span>
+                            <span class="text-[10px] font-bold text-slate-600 bg-slate-100 px-2.5 py-1 rounded-full">Sem Fidelidade</span>
+                        </div>
+                        
+                        <div>
+                            <div class="flex items-baseline gap-1">
+                                <span class="text-4xl sm:text-5xl font-black text-slate-900">R$ 27,00</span>
+                                <span class="text-slate-500 text-xs font-semibold">/mês</span>
+                            </div>
+                            <p class="text-[11px] text-slate-500 mt-1">Cobrança mensal no cartão ou PIX</p>
+                        </div>
+
+                        <ul class="space-y-2.5 text-xs text-slate-700 font-medium border-t border-slate-100 pt-4">
+                            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-teal-600"></i> Acesso total ao Mini App no celular</li>
+                            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-teal-600"></i> Lembretes de WhatsApp em 1 clique</li>
+                            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-teal-600"></i> Contador de presença de pacotes</li>
+                            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-teal-600"></i> Emissão de recibos em PDF e WhatsApp</li>
+                            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-teal-600"></i> Todos os 3 Bônus inclusos</li>
+                            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-teal-600"></i> 7 Dias de Garantia Incondicional</li>
+                        </ul>
+                    </div>
+
+                    <div class="pt-4">
+                        <a href="https://pay.cakto.com.br/v8ahpcd_1166266" target="_blank" onclick="fbq('track', 'InitiateCheckout')" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-extrabold py-3.5 px-4 rounded-2xl text-xs sm:text-sm text-center block transition shadow-md active:scale-95">
+                            ASSINAR MENSAL (R$ 27/MÊS) ➔
+                        </a>
+                    </div>
+                </div>
+
+                <!-- PLANO 2: ANUAL (DESTAQUE / RECOMENDADO) -->
+                <div class="bg-gradient-to-b from-teal-50/70 via-white to-white border-2 border-teal-600 rounded-3xl p-6 sm:p-8 space-y-6 shadow-xl flex flex-col justify-between relative hover:border-teal-700 transition">
+                    <!-- Badge de Destaque -->
+                    <div class="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-gradient-to-r from-teal-600 to-emerald-600 text-white font-black text-[10px] sm:text-xs uppercase tracking-wider py-1 px-4 rounded-full shadow-md whitespace-nowrap">
+                        ⭐ MAIS ESCOLHIDO • ECONOMIZE 80% ⭐
+                    </div>
+
+                    <div class="space-y-4 pt-1">
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs font-black uppercase tracking-wider text-teal-700">Plano Anual (Lançamento)</span>
+                            <span class="text-[10px] font-black text-emerald-800 bg-emerald-100 px-2.5 py-1 rounded-full">Apenas R$ 5,58/mês</span>
+                        </div>
+
+                        <div>
+                            <div class="flex items-center gap-2">
+                                <span class="text-slate-400 line-through text-xs font-bold">De R$ 324,00</span>
+                                <span class="bg-emerald-100 text-emerald-800 text-[10px] font-black px-2 py-0.5 rounded">R$ 257 de Economia</span>
+                            </div>
+                            <div class="flex items-baseline gap-1 mt-0.5">
+                                <span class="text-4xl sm:text-5xl font-black text-teal-700">R$ 67,00</span>
+                                <span class="text-slate-600 text-xs font-semibold">/ano à vista</span>
+                            </div>
+                            <p class="text-[11px] text-teal-800 font-bold mt-1">Pagamento Único no PIX ou Cartão • Sem surpresas</p>
+                        </div>
+
+                        <ul class="space-y-2.5 text-xs text-slate-800 font-medium border-t border-teal-100 pt-4">
+                            <li class="flex items-center gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-600"></i> <strong>1 Ano Inteiro de Acesso Ilimitado</strong></li>
+                            <li class="flex items-center gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-600"></i> Sem risco de cobrança mensal surpresa</li>
+                            <li class="flex items-center gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-600"></i> Lembretes de WhatsApp em 1 clique</li>
+                            <li class="flex items-center gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-600"></i> Contador de presença e recibos em PDF</li>
+                            <li class="flex items-center gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-600"></i> Todos os 3 Bônus inclusos imediatamente</li>
+                            <li class="flex items-center gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-600"></i> <strong>7 Dias de Garantia Incondicional</strong></li>
+                        </ul>
+                    </div>
+
+                    <div class="pt-4 space-y-2">
+                        <a href="https://pay.cakto.com.br/37nmopo" target="_blank" onclick="fbq('track', 'InitiateCheckout')" class="w-full bg-gradient-to-r from-teal-600 to-emerald-600 hover:from-teal-700 hover:to-emerald-700 text-white font-black py-4 px-4 rounded-2xl text-sm text-center block shadow-lg shadow-teal-600/30 transition transform hover:scale-[1.02] active:scale-95">
+                            GARANTIR PLANO ANUAL POR R$ 67 ➔
+                        </a>
+                        <p class="text-[10px] text-center text-slate-500 font-medium">Liberação imediata via PIX ou Cartão pela Cakto</p>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- SUPORTE WHATSAPP -->
+            <div class="pt-4">
+                <a href="https://wa.me/573182632504?text=Ol%C3%A1!%20Estou%20na%20p%C3%A1gina%20do%20AgendaFisio%20e%20gostaria%20de%20tirar%20uma%20d%C3%BAvida%20sobre%20os%20planos" target="_blank" class="inline-flex items-center justify-center gap-2 border border-teal-200 bg-white hover:bg-slate-50 text-slate-800 font-bold py-3 px-6 rounded-2xl text-xs transition shadow-sm">
+                    <i data-lucide="message-circle" class="w-4 h-4 text-emerald-600"></i> Dúvidas sobre qual escolher? Fale com nosso Suporte no WhatsApp
                 </a>
             </div>
 
-            <p class="text-[11px] text-slate-500 font-medium">🔒 Pagamento 100% seguro via Cakto • Escolha Cartão ou PIX • Acesso Liberado Imediatamente.</p>
         </div>
     </section>
 
@@ -701,13 +761,13 @@
     </footer>
 
     <!-- BARRA FIXA MOBILE (Sticky Bottom CTA - 100% Clicável sem Dead Clicks) -->
-    <div onclick="window.open('https://pay.cakto.com.br/v8ahpcd_1166266', '_blank'); fbq('track', 'InitiateCheckout')" class="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/95 border-t border-teal-200 p-3 flex items-center justify-between shadow-2xl backdrop-blur-md cursor-pointer hover:bg-teal-50/50 transition">
+    <div onclick="document.getElementById('oferta').scrollIntoView({behavior: 'smooth'})" class="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/95 border-t border-teal-200 p-3 flex items-center justify-between shadow-2xl backdrop-blur-md cursor-pointer hover:bg-teal-50/50 transition">
         <div class="block">
             <span class="text-slate-900 font-black text-sm block">AgendaFisio</span>
-            <span class="text-teal-600 font-extrabold text-xs block">R$ 27,00 /mês ➔</span>
+            <span class="text-teal-700 font-extrabold text-[11px] block">A partir de R$ 5,58/mês no Anual ➔</span>
         </div>
         <div class="bg-gradient-to-r from-teal-600 to-emerald-600 text-white font-black px-4 py-2.5 rounded-xl text-xs shadow-md active:scale-95 transition flex items-center gap-1.5">
-            ASSINAR AGORA ➔
+            VER PLANOS ➔
         </div>
     </div>
 
