@@ -655,7 +655,9 @@
         async function handleLogout() {
             if (confirm("Deseja realmente sair da sua conta na nuvem?")) {
                 if (auth) await auth.signOut();
+                localStorage.removeItem('agendafisio_paid');
                 showToast("Desconectado da nuvem.", "info");
+                checkAccessState();
             }
         }
 
@@ -1171,14 +1173,19 @@ _Comprovante emitido via AgendaFisio_`;
 
         function checkAccessState() {
             const urlParams = new URLSearchParams(window.location.search);
-            if (urlParams.get('paid') === 'true' || urlParams.get('access') === 'full') {
+            const isDemo = urlParams.get('demo') === 'true';
+
+            if (isDemo) {
+                localStorage.removeItem('agendafisio_paid');
+            } else if (urlParams.get('paid') === 'true' || urlParams.get('access') === 'full') {
                 localStorage.setItem('agendafisio_paid', 'true');
             }
+
             if (urlParams.get('simulate') === 'true' || urlParams.get('auto') === 'true') {
                 setTimeout(runAutoDemoSimulation, 800);
             }
             
-            const isPaid = localStorage.getItem('agendafisio_paid') === 'true';
+            const isPaid = !isDemo && (localStorage.getItem('agendafisio_paid') === 'true');
             const bonusContainer = document.getElementById('bonusPanelContainer');
             const demoBanner = document.getElementById('demoBanner');
 
