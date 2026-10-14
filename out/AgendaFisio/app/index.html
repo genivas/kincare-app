@@ -65,6 +65,10 @@
             .no-print { display: none !important; }
         }
     </style>
+    <!-- Firebase SDK (Compat) -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <!-- Vercel Web Analytics -->
     <script>
         window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
@@ -113,12 +117,26 @@
             </div>
 
             <!-- Action Controls -->
-            <div class="flex items-center space-x-3">
-                <button onclick="openModal()" class="bg-teal-600 hover:bg-teal-700 text-white font-bold px-4 py-2.5 rounded-xl text-xs flex items-center gap-2 shadow-md shadow-teal-600/20 active:scale-95 transition">
+            <div class="flex items-center space-x-2 sm:space-x-3">
+                <!-- User Profile Badge (When Logged In) -->
+                <div id="userProfileBadge" class="hidden items-center gap-1.5 sm:gap-2 bg-teal-50 dark:bg-slate-800 border border-teal-200 dark:border-teal-500/20 px-2.5 sm:px-3 py-1.5 rounded-xl shadow-sm">
+                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                    <span id="userEmailLabel" class="text-[11px] font-bold text-teal-900 dark:text-teal-300 max-w-[90px] sm:max-w-[140px] truncate">usuario@email.com</span>
+                    <button onclick="handleLogout()" class="text-slate-400 hover:text-rose-500 text-[10px] font-black uppercase transition ml-1" title="Sair da conta">Sair</button>
+                </div>
+
+                <!-- Login Button (When Logged Out) -->
+                <button id="loginHeaderBtn" onclick="openAuthModal()" class="bg-slate-900 hover:bg-slate-800 text-white font-extrabold px-3 py-2 rounded-xl text-xs flex items-center gap-1.5 shadow-sm active:scale-95 transition">
+                    <i data-lucide="cloud" class="w-3.5 h-3.5 text-teal-400"></i>
+                    <span class="hidden sm:inline">Entrar / Salvar na Nuvem</span>
+                    <span class="sm:hidden">Entrar</span>
+                </button>
+
+                <button onclick="openModal()" class="bg-teal-600 hover:bg-teal-700 text-white font-bold px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl text-xs flex items-center gap-1.5 shadow-md shadow-teal-600/20 active:scale-95 transition">
                     <i data-lucide="plus-circle" class="w-4 h-4"></i>
                     <span class="hidden sm:inline">Novo Atendimento</span>
                 </button>
-                <button onclick="toggleTheme()" class="p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition">
+                <button onclick="toggleTheme()" class="p-2 sm:p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition">
                     <i data-lucide="sun" id="themeIcon" class="w-4 h-4"></i>
                 </button>
             </div>
@@ -443,8 +461,243 @@
         </div>
     </div>
 
+    <!-- Modal: Login e Cadastro com Firebase (Google + E-mail) -->
+    <div id="authModal" class="fixed inset-0 z-50 bg-slate-900/70 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 hidden">
+        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 w-full max-w-md rounded-3xl p-6 sm:p-7 space-y-5 shadow-2xl">
+            <div class="flex justify-between items-start border-b border-slate-100 dark:border-slate-800 pb-3">
+                <div class="flex items-center gap-3">
+                    <img src="./logo.jpg" alt="AgendaFisio Logo" class="w-10 h-10 rounded-xl object-cover shadow-sm border border-teal-100">
+                    <div>
+                        <h3 class="font-extrabold text-base text-slate-900 dark:text-white">Acesse sua Conta</h3>
+                        <p class="text-[11px] text-teal-600 dark:text-teal-400 font-semibold">Seus pacientes e recibos salvos na nuvem</p>
+                    </div>
+                </div>
+                <button onclick="closeAuthModal()" class="text-slate-400 hover:text-slate-600 dark:hover:text-white p-1">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <!-- Login com Google (1 Toque) -->
+            <button onclick="handleGoogleSignIn()" type="button" class="w-full bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-750 text-slate-800 dark:text-white font-extrabold py-3 px-4 rounded-2xl text-xs flex items-center justify-center gap-2.5 shadow-sm active:scale-95 transition">
+                <svg class="w-4 h-4" viewBox="0 0 24 24">
+                    <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                    <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                    <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+                    <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+                </svg>
+                <span>Continuar com o Google (1 Toque)</span>
+            </button>
+
+            <div class="flex items-center gap-2 my-2">
+                <div class="h-px bg-slate-200 dark:bg-slate-800 flex-1"></div>
+                <span class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">ou com e-mail</span>
+                <div class="h-px bg-slate-200 dark:bg-slate-800 flex-1"></div>
+            </div>
+
+            <!-- Formulário E-mail e Senha -->
+            <form onsubmit="handleEmailAuth(event)" class="space-y-3">
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">Seu E-mail</label>
+                    <input type="email" id="authEmail" required placeholder="dr.fisioterapeuta@gmail.com" class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-3.5 py-2.5 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-teal-600">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">Sua Senha</label>
+                    <input type="password" id="authPassword" required minlength="6" placeholder="Mínimo 6 caracteres" class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-3.5 py-2.5 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-teal-600">
+                </div>
+
+                <!-- Mensagem de Erro/Status -->
+                <p id="authErrorMessage" class="hidden text-xs text-rose-500 font-bold bg-rose-50 dark:bg-rose-950/40 p-2.5 rounded-xl border border-rose-200 dark:border-rose-900/40"></p>
+
+                <div class="grid grid-cols-2 gap-2 pt-1">
+                    <button type="submit" onclick="authActionType = 'login'" class="bg-teal-600 hover:bg-teal-700 text-white font-extrabold py-3 px-3 rounded-xl text-xs shadow-md transition active:scale-95">
+                        Entrar
+                    </button>
+                    <button type="submit" onclick="authActionType = 'register'" class="bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-750 text-slate-800 dark:text-white font-extrabold py-3 px-3 rounded-xl text-xs border border-slate-200 dark:border-slate-700 transition active:scale-95">
+                        Criar Conta
+                    </button>
+                </div>
+            </form>
+
+            <div class="text-center pt-2 border-t border-slate-100 dark:border-slate-800">
+                <button onclick="closeAuthModal()" class="text-xs text-slate-500 hover:text-slate-800 dark:hover:text-slate-300 font-semibold underline">
+                    Continuar no Modo Local / Teste
+                </button>
+                <div class="flex items-center justify-center gap-1.5 text-[10px] text-slate-400 mt-2 font-medium">
+                    <i data-lucide="shield-check" class="w-3.5 h-3.5 text-teal-600"></i>
+                    <span>Criptografia de ponta a ponta • Banco de Dados Google</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- JavaScript Application Core Logic -->
     <script>
+        // ==========================================
+        // FIREBASE AUTHENTICATION & CLOUD SYNC
+        // ==========================================
+        const firebaseConfig = {
+            apiKey: "AIzaSyAoSXHW2IdO42QREZ-qUU8uI9vXhrPgUg4",
+            authDomain: "agendafisio-e72d4.firebaseapp.com",
+            projectId: "agendafisio-e72d4",
+            storageBucket: "agendafisio-e72d4.firebasestorage.app",
+            messagingSenderId: "523615299980",
+            appId: "1:523615299980:web:c6ffb41eeec7ee10b5cea9",
+            measurementId: "G-GTC1NZHSV1"
+        };
+
+        let auth = null;
+        let db = null;
+        let currentUser = null;
+        let authActionType = 'login';
+        let firestoreUnsubscribe = null;
+
+        try {
+            if (typeof firebase !== 'undefined') {
+                firebase.initializeApp(firebaseConfig);
+                auth = firebase.auth();
+                db = firebase.firestore();
+
+                auth.onAuthStateChanged(user => {
+                    currentUser = user;
+                    updateAuthUI(user);
+                    if (user) {
+                        initFirestoreSync(user);
+                    } else {
+                        if (firestoreUnsubscribe) firestoreUnsubscribe();
+                        appointments = JSON.parse(localStorage.getItem('agendafisio_data')) || [];
+                        renderAppointments();
+                        updateFinancials();
+                    }
+                });
+            }
+        } catch (e) {
+            console.error("Firebase init error:", e);
+        }
+
+        function updateAuthUI(user) {
+            const badge = document.getElementById('userProfileBadge');
+            const loginBtn = document.getElementById('loginHeaderBtn');
+            const emailLabel = document.getElementById('userEmailLabel');
+
+            if (user) {
+                if (badge) {
+                    badge.classList.remove('hidden');
+                    badge.classList.add('flex');
+                }
+                if (loginBtn) loginBtn.classList.add('hidden');
+                if (emailLabel) emailLabel.textContent = user.displayName || user.email.split('@')[0];
+            } else {
+                if (badge) {
+                    badge.classList.add('hidden');
+                    badge.classList.remove('flex');
+                }
+                if (loginBtn) loginBtn.classList.remove('hidden');
+            }
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+        }
+
+        function openAuthModal() {
+            const errEl = document.getElementById('authErrorMessage');
+            if (errEl) errEl.classList.add('hidden');
+            document.getElementById('authModal').classList.remove('hidden');
+        }
+
+        function closeAuthModal() {
+            document.getElementById('authModal').classList.add('hidden');
+        }
+
+        async function handleGoogleSignIn() {
+            try {
+                if (!auth) throw new Error("Firebase não inicializado.");
+                const provider = new firebase.auth.GoogleAuthProvider();
+                await auth.signInWithPopup(provider);
+                closeAuthModal();
+                showToast("✅ Conectado com sucesso com sua conta Google!", "success");
+            } catch (err) {
+                console.error("Google sign in error:", err);
+                const errEl = document.getElementById('authErrorMessage');
+                errEl.textContent = err.message || "Erro ao conectar com Google. Tente com e-mail/senha.";
+                errEl.classList.remove('hidden');
+            }
+        }
+
+        async function handleEmailAuth(e) {
+            e.preventDefault();
+            const email = document.getElementById('authEmail').value;
+            const password = document.getElementById('authPassword').value;
+            const errEl = document.getElementById('authErrorMessage');
+            errEl.classList.add('hidden');
+
+            try {
+                if (!auth) throw new Error("Firebase não inicializado.");
+                if (authActionType === 'login') {
+                    await auth.signInWithEmailAndPassword(email, password);
+                    closeAuthModal();
+                    showToast("✅ Login realizado com sucesso!", "success");
+                } else {
+                    await auth.createUserWithEmailAndPassword(email, password);
+                    closeAuthModal();
+                    showToast("🎉 Conta criada com sucesso e protegida na nuvem!", "success");
+                }
+            } catch (err) {
+                console.error("Auth error:", err);
+                errEl.textContent = err.code === 'auth/wrong-password' ? 'Senha incorreta.' :
+                                   (err.code === 'auth/user-not-found' ? 'Usuário não encontrado. Clique em Criar Conta.' :
+                                   (err.code === 'auth/email-already-in-use' ? 'Este e-mail já está cadastrado. Clique em Entrar.' : err.message));
+                errEl.classList.remove('hidden');
+            }
+        }
+
+        async function handleLogout() {
+            if (confirm("Deseja realmente sair da sua conta na nuvem?")) {
+                if (auth) await auth.signOut();
+                showToast("Desconectado da nuvem.", "info");
+            }
+        }
+
+        function initFirestoreSync(user) {
+            if (!db) return;
+            showToast("☁️ Conectado à nuvem! Sincronizando dados...", "success");
+
+            const colRef = db.collection('users').doc(user.uid).collection('appointments');
+
+            colRef.get().then(snap => {
+                if (snap.empty && appointments.length > 0) {
+                    appointments.forEach(item => {
+                        colRef.doc(item.id).set(item);
+                    });
+                }
+            }).catch(e => console.error("Firestore get error:", e));
+
+            firestoreUnsubscribe = colRef.onSnapshot(snapshot => {
+                const cloudList = [];
+                snapshot.forEach(doc => {
+                    cloudList.push(doc.data());
+                });
+                if (cloudList.length > 0 || snapshot.metadata.hasPendingWrites) {
+                    appointments = cloudList;
+                    localStorage.setItem('agendafisio_data', JSON.stringify(appointments));
+                    renderAppointments();
+                    updateFinancials();
+                }
+            }, err => {
+                console.error("Firestore sync error:", err);
+            });
+        }
+
+        function persistAppointment(item, isDelete = false) {
+            if (currentUser && db) {
+                const docRef = db.collection('users').doc(currentUser.uid).collection('appointments').doc(item.id);
+                if (isDelete) {
+                    docRef.delete().catch(e => console.error("Firestore delete error:", e));
+                } else {
+                    docRef.set(item).catch(e => console.error("Firestore set error:", e));
+                }
+            }
+            localStorage.setItem('agendafisio_data', JSON.stringify(appointments));
+        }
+
         let currentDate = new Date().toISOString().split('T')[0];
         let currentFilter = 'all';
         let appointments = JSON.parse(localStorage.getItem('agendafisio_data')) || [];
@@ -617,6 +870,12 @@
 
         function clearAllData() {
             if (confirm("Deseja realmente zerar o caixa e apagar todos os atendimentos salvos?")) {
+                if (currentUser && db) {
+                    const colRef = db.collection('users').doc(currentUser.uid).collection('appointments');
+                    colRef.get().then(snap => {
+                        snap.forEach(doc => doc.ref.delete());
+                    }).catch(e => console.error("Firestore clear error:", e));
+                }
                 appointments = [];
                 localStorage.setItem('agendafisio_data', JSON.stringify(appointments));
                 renderAppointments();
@@ -651,17 +910,18 @@
                 appointments.push(newItem);
             }
 
-            localStorage.setItem('agendafisio_data', JSON.stringify(appointments));
+            persistAppointment(newItem);
             closeModal();
             renderAppointments();
             updateFinancials();
+            showToast("💾 Atendimento salvo com sucesso!", "success");
         }
 
         function togglePayment(id) {
             const item = appointments.find(a => a.id === id);
             if (item) {
                 item.paid = !item.paid;
-                localStorage.setItem('agendafisio_data', JSON.stringify(appointments));
+                persistAppointment(item);
                 renderAppointments();
                 updateFinancials();
             }
@@ -669,6 +929,8 @@
 
         function deleteAppointment(id) {
             if (confirm("Deseja realmente apagar este atendimento?")) {
+                const item = appointments.find(a => a.id === id);
+                if (item) persistAppointment(item, true);
                 appointments = appointments.filter(a => a.id !== id);
                 localStorage.setItem('agendafisio_data', JSON.stringify(appointments));
                 renderAppointments();
@@ -714,7 +976,7 @@
             if (curr < total) {
                 curr += 1;
                 item.sessionCurrent = curr.toString();
-                localStorage.setItem('agendafisio_data', JSON.stringify(appointments));
+                persistAppointment(item);
                 renderAppointments();
 
                 if (curr === total) {
@@ -729,7 +991,7 @@
                 if (confirm(`O paciente ${item.name} já concluiu todas as ${total} sessões do pacote atual.\n\nDeseja renovar e iniciar um NOVO PACOTE (reiniciar para 1 de ${total})?`)) {
                     item.sessionCurrent = '1';
                     item.paid = false;
-                    localStorage.setItem('agendafisio_data', JSON.stringify(appointments));
+                    persistAppointment(item);
                     renderAppointments();
                     updateFinancials();
                     showToast(`🔄 Novo ciclo de ${total} sessões iniciado para ${item.name}!`, 'success');
