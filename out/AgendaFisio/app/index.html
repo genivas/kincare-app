@@ -261,9 +261,9 @@
             <!-- Quick Tools & Backup Panel -->
             <div class="bg-white dark:bg-slate-900 border border-teal-100 dark:border-slate-800 rounded-3xl p-5 space-y-4 shadow-sm">
                 <h3 class="font-extrabold text-sm text-slate-900 dark:text-white flex items-center gap-2">
-                    <i data-lucide="shield-check" class="w-4 h-4 text-teal-600"></i> Segurança & Backup
+                    <i data-lucide="shield-check" class="w-4 h-4 text-teal-600"></i> Segurança & Nuvem
                 </h3>
-                <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">Seus prontuários e caixa estão salvos localmente. Faça backup quando desejar.</p>
+                <p id="cloudSyncStatusDesc" class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">Modo Local: Conecte sua conta para salvar seus dados na nuvem e nunca perder nada.</p>
                 
                 <div class="grid grid-cols-2 gap-2">
                     <button onclick="exportData()" class="bg-slate-100 hover:bg-slate-200 dark:bg-slate-950 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-800 font-bold py-2.5 px-3 rounded-xl text-xs flex items-center justify-center gap-1.5 transition">
@@ -579,6 +579,7 @@
             const badge = document.getElementById('userProfileBadge');
             const loginBtn = document.getElementById('loginHeaderBtn');
             const emailLabel = document.getElementById('userEmailLabel');
+            const syncDesc = document.getElementById('cloudSyncStatusDesc');
 
             if (user) {
                 if (badge) {
@@ -587,12 +588,14 @@
                 }
                 if (loginBtn) loginBtn.classList.add('hidden');
                 if (emailLabel) emailLabel.textContent = user.displayName || user.email.split('@')[0];
+                if (syncDesc) syncDesc.innerHTML = `<span class="text-emerald-600 dark:text-emerald-400 font-bold">🟢 Nuvem Sincronizada:</span> Seus prontuários e caixa estão salvos em tempo real com sua conta Google.`;
             } else {
                 if (badge) {
                     badge.classList.add('hidden');
                     badge.classList.remove('flex');
                 }
                 if (loginBtn) loginBtn.classList.remove('hidden');
+                if (syncDesc) syncDesc.textContent = "Modo Local: Conecte sua conta para salvar seus dados na nuvem e nunca perder nada.";
             }
             if (typeof lucide !== 'undefined') lucide.createIcons();
         }
