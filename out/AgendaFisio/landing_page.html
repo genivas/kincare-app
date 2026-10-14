@@ -124,11 +124,11 @@
 
             <!-- CTA principal & Protótipo -->
             <div class="pt-4 flex flex-col sm:flex-row gap-4 justify-center items-center">
-                <a href="https://pay.cakto.com.br/v8ahpcd_1166266" target="_blank" onclick="fbq('track', 'InitiateCheckout')" class="w-full sm:w-auto bg-gradient-to-r from-teal-600 to-emerald-600 hover:from-teal-700 hover:to-emerald-700 text-white font-black px-8 py-4.5 rounded-2xl text-base shadow-2xl shadow-teal-600/40 hover:scale-105 active:scale-95 transition flex flex-col items-center justify-center gap-1 group ring-4 ring-teal-500/20 animate-pulse">
+                <a href="#oferta" class="w-full sm:w-auto bg-gradient-to-r from-teal-600 to-emerald-600 hover:from-teal-700 hover:to-emerald-700 text-white font-black px-8 py-4.5 rounded-2xl text-base shadow-2xl shadow-teal-600/40 hover:scale-105 active:scale-95 transition flex flex-col items-center justify-center gap-1 group ring-4 ring-teal-500/20 animate-pulse">
                     <span class="flex items-center gap-2 text-base sm:text-lg">
-                        <i data-lucide="check-circle" class="w-5 h-5 text-emerald-200"></i> ASSINAR POR R$ 27,00 /MÊS ➔
+                        <i data-lucide="check-circle" class="w-5 h-5 text-emerald-200"></i> ESCOLHER PLANO (A PARTIR DE R$ 5,58/MÊS) ➔
                     </span>
-                    <span class="text-[11px] font-bold text-teal-100 uppercase tracking-wider">🔒 Sem fidelidade • Cancele quando quiser em 1 toque</span>
+                    <span class="text-[11px] font-bold text-teal-100 uppercase tracking-wider">🔒 Plano Anual com 80% OFF ou Mensal sem Fidelidade</span>
                 </a>
                 <a href="./app/index.html?demo=true&simulate=true" target="_blank" onclick="fbq('track', 'Lead')" class="w-full sm:w-auto border-2 border-teal-200 bg-white hover:bg-teal-50 text-slate-800 font-extrabold px-6 py-4.5 rounded-2xl text-sm transition flex items-center justify-center gap-2 shadow-sm">
                     <i data-lucide="play-circle" class="w-4.5 h-4.5 text-teal-600"></i> Ver Animação do App (30s)
@@ -139,12 +139,12 @@
             <div class="pt-4 flex flex-wrap items-center justify-center gap-6 text-xs text-slate-600 font-bold">
                 <span class="flex items-center gap-1.5"><i data-lucide="shield-check" class="w-4 h-4 text-teal-600"></i> 7 Dias de Garantia Incondicional</span>
                 <span class="flex items-center gap-1.5"><i data-lucide="smartphone" class="w-4 h-4 text-teal-600"></i> Funciona no iPhone e Android</span>
-                <span class="flex items-center gap-1.5"><i data-lucide="wifi-off" class="w-4 h-4 text-teal-600"></i> Funciona 100% Offline</span>
+                <span class="flex items-center gap-1.5"><i data-lucide="cloud" class="w-4 h-4 text-teal-600"></i> Sincronização na Nuvem Google</span>
             </div>
 
             <!-- Mini App Visual Mockup (Rizz Upfront - Instantly stops bounce < 5s) -->
             <div class="pt-6 max-w-sm mx-auto">
-                <div class="bg-white border-2 border-teal-500/30 rounded-3xl p-4 shadow-2xl shadow-teal-900/10 space-y-3 text-left transform transition hover:scale-[1.02] cursor-pointer" onclick="window.open('https://pay.cakto.com.br/v8ahpcd_1166266', '_blank')">
+                <div class="bg-white border-2 border-teal-500/30 rounded-3xl p-4 shadow-2xl shadow-teal-900/10 space-y-3 text-left transform transition hover:scale-[1.02] cursor-pointer" onclick="document.getElementById('oferta').scrollIntoView({behavior: 'smooth'})">
                     <div class="flex items-center justify-between border-b border-slate-100 pb-2.5">
                         <div class="flex items-center gap-2">
                             <div class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></div>
@@ -739,8 +739,8 @@
         <div class="max-w-3xl mx-auto space-y-6">
             <h2 class="text-2xl sm:text-4xl font-black">Pronto para acabar com a desorganização e reduzir as faltas?</h2>
             <p class="text-xs sm:text-sm text-teal-100 max-w-xl mx-auto">Garanta o seu acesso ao AgendaFisio por apenas R$ 27,00/mês com 7 dias de garantia incondicional.</p>
-            <a href="https://pay.cakto.com.br/v8ahpcd_1166266" target="_blank" onclick="fbq('track', 'InitiateCheckout')" class="inline-block bg-white text-teal-900 font-black px-8 py-4 rounded-2xl text-sm shadow-xl hover:bg-teal-50 transition">
-                COMEÇAR AGORA POR R$ 27,00/MÊS
+            <a href="#oferta" class="inline-block bg-white text-teal-900 font-black px-8 py-4 rounded-2xl text-sm shadow-xl hover:bg-teal-50 transition">
+                VER PLANOS E COMEÇAR AGORA ➔
             </a>
         </div>
     </section>
