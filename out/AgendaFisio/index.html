@@ -513,7 +513,7 @@
                 </div>
 
                 <!-- PLANO 2: ANUAL (DESTAQUE / RECOMENDADO) -->
-                <div onclick="if (!event.target.closest('a')) { const p = window.location.search; window.open('https://pay.cakto.com.br/37nmopo' + (p ? (p.includes('?') ? '&' : '?') + p.substring(1) : ''), '_blank'); if (typeof fbq==='function') fbq('track', 'InitiateCheckout'); }" class="order-1 md:order-2 bg-gradient-to-b from-teal-50/70 via-white to-white border-2 border-teal-600 rounded-3xl p-6 sm:p-8 space-y-6 shadow-xl flex flex-col justify-between relative hover:border-teal-700 transition cursor-pointer">
+                <div onclick="if (!event.target.closest('a')) { const p = window.location.search; window.open('https://pay.cakto.com.br/37nmopo' + (p ? '?' + p.replace(/^\?/, '') : ''), '_blank'); if (typeof fbq==='function') fbq('track', 'InitiateCheckout'); }" class="order-1 md:order-2 bg-gradient-to-b from-teal-50/70 via-white to-white border-2 border-teal-600 rounded-3xl p-6 sm:p-8 space-y-6 shadow-xl flex flex-col justify-between relative hover:border-teal-700 transition cursor-pointer">
                     <!-- Badge de Destaque -->
                     <div class="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-gradient-to-r from-teal-600 to-emerald-600 text-white font-black text-[10px] sm:text-xs uppercase tracking-wider py-1 px-4 rounded-full shadow-md whitespace-nowrap">
                         ⭐ MAIS ESCOLHIDO • ECONOMIZE 80% ⭐
