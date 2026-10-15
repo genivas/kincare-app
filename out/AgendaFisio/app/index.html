@@ -86,9 +86,14 @@
                 ▶️ Simular Uso Automático (~30s)
             </button>
         </div>
-        <a href="https://pay.cakto.com.br/v8ahpcd_1166266" target="_blank" class="hidden sm:inline-flex bg-white text-amber-900 font-extrabold px-3 py-1 rounded-lg hover:bg-amber-50 transition text-[11px] uppercase shadow-sm">
-            Assinar por R$ 27,00
-        </a>
+        <div class="flex items-center gap-2">
+            <a href="https://pay.cakto.com.br/37nmopo" target="_blank" onclick="fbq('track', 'InitiateCheckout')" class="bg-gradient-to-r from-teal-500 to-emerald-500 hover:from-teal-600 hover:to-emerald-600 text-white font-black px-3 py-1 rounded-lg transition text-[11px] shadow-sm flex items-center gap-1">
+                ⭐ Anual por R$ 67
+            </a>
+            <a href="https://pay.cakto.com.br/v8ahpcd_1166266" target="_blank" onclick="fbq('track', 'InitiateCheckout')" class="hidden sm:inline-flex bg-white/90 hover:bg-white text-slate-800 font-extrabold px-2.5 py-1 rounded-lg transition text-[10px] shadow-sm">
+                Mensal (R$ 27)
+            </a>
+        </div>
     </div>
 
     <!-- Top Global Header -->
@@ -1216,9 +1221,9 @@ _Comprovante emitido via AgendaFisio_`;
                                 <span class="text-[9px] bg-amber-100 text-amber-800 px-1.5 py-0.5 rounded font-bold uppercase">PRO</span>
                             </button>
                         </div>
-                        <a href="https://pay.cakto.com.br/v8ahpcd_1166266" target="_blank" class="w-full mt-2 bg-teal-600 hover:bg-teal-700 text-white font-black py-2.5 px-3 rounded-xl text-xs flex items-center justify-center gap-2 shadow-md shadow-teal-600/20 transition">
-                            <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> Assinar & Liberar Bônus
-                        </a>
+                        <button onclick="openLockModal('Liberar Todos os Bônus & Acesso Completo')" class="w-full mt-2 bg-gradient-to-r from-teal-600 to-emerald-600 hover:from-teal-700 hover:to-emerald-700 text-white font-black py-2.5 px-3 rounded-xl text-xs flex items-center justify-center gap-2 shadow-md shadow-teal-600/20 transition active:scale-95 cursor-pointer">
+                            <i data-lucide="sparkles" class="w-3.5 h-3.5 text-amber-200"></i> Assinar & Liberar Bônus ➔
+                        </button>
                     </div>
                 `;
             } else {
@@ -1380,13 +1385,16 @@ _Comprovante emitido via AgendaFisio_`;
             </div>
             <h3 class="font-black text-lg text-slate-900 dark:text-white" id="lockModalTitle">Conteúdo Bloqueado no Protótipo</h3>
             <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
-                Os 3 bônus exclusivos (Scripts de Cobrança Whats, Guia Carnê-Leão e o <strong>Kit Completo com 6 Documentos Clínicos: Contrato Anti-Falta, TCLE, Avaliação COFFITO e Recibo IRPF</strong>) são liberados instantaneamente após a assinatura de <strong class="text-teal-600">R$ 27,00/mês</strong>.
+                Os 3 bônus exclusivos (Scripts de Cobrança Whats, Guia Carnê-Leão e o <strong>Kit Completo com 6 Documentos Clínicos: Contrato Anti-Falta, TCLE, Avaliação COFFITO e Recibo IRPF</strong>) são liberados instantaneamente com acesso completo.
             </p>
-            <div class="pt-2 flex flex-col gap-2">
-                <a href="https://pay.cakto.com.br/v8ahpcd_1166266" target="_blank" class="w-full bg-teal-600 hover:bg-teal-700 text-white font-black py-3 rounded-xl text-xs shadow-lg shadow-teal-600/25 flex items-center justify-center gap-2">
-                    <i data-lucide="sparkles" class="w-4 h-4"></i> QUERO MEU ACESSO DE R$ 27,00
+            <div class="pt-2 flex flex-col gap-2.5">
+                <a href="https://pay.cakto.com.br/37nmopo" target="_blank" onclick="fbq('track', 'InitiateCheckout')" class="w-full bg-gradient-to-r from-teal-600 to-emerald-600 hover:from-teal-700 hover:to-emerald-700 text-white font-black py-3.5 px-4 rounded-2xl text-xs shadow-lg shadow-teal-600/30 flex items-center justify-center gap-2 transition hover:scale-[1.02] active:scale-95">
+                    <i data-lucide="sparkles" class="w-4 h-4 text-emerald-200"></i> GARANTIR PLANO ANUAL POR R$ 67 (PIX) ➔
                 </a>
-                <button onclick="closeLockModal()" class="w-full py-2 text-xs font-bold text-slate-400 hover:text-slate-600">Continuar Testando Protótipo</button>
+                <a href="https://pay.cakto.com.br/v8ahpcd_1166266" target="_blank" onclick="fbq('track', 'InitiateCheckout')" class="w-full bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-bold py-2.5 px-4 rounded-xl text-[11px] flex items-center justify-center gap-1.5 transition">
+                    Ou Assinar Mensal por R$ 27,00/mês
+                </a>
+                <button onclick="closeLockModal()" class="w-full py-1 text-[11px] font-bold text-slate-400 hover:text-slate-600">Continuar Testando Protótipo</button>
             </div>
         </div>
     </div>

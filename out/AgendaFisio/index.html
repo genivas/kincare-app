@@ -547,11 +547,32 @@
                         </ul>
                     </div>
 
-                    <div class="pt-4 space-y-2">
+                    <!-- Eliminar Objeções de Checkout (Fricção Zero no PIX) -->
+                    <div class="bg-emerald-50/90 border border-emerald-200/90 rounded-2xl p-3.5 text-left space-y-1.5 shadow-sm">
+                        <div class="flex items-center gap-1.5 text-xs font-black text-emerald-900">
+                            <i data-lucide="shield-check" class="w-4 h-4 text-emerald-600"></i> Pagamento 100% Seguro (Cakto)
+                        </div>
+                        <ul class="text-[11px] text-slate-700 space-y-1 font-medium">
+                            <li class="flex items-center gap-1.5">
+                                <i data-lucide="zap" class="w-3.5 h-3.5 text-amber-500 shrink-0"></i>
+                                <span><strong>PIX sem assinatura surpresa:</strong> Paga 1x R$ 67 e usa o ano todo.</span>
+                            </li>
+                            <li class="flex items-center gap-1.5">
+                                <i data-lucide="smartphone" class="w-3.5 h-3.5 text-teal-600 shrink-0"></i>
+                                <span><strong>Acesso no seu WhatsApp:</strong> Login liberado em 30 segundos.</span>
+                            </li>
+                            <li class="flex items-center gap-1.5">
+                                <i data-lucide="file-text" class="w-3.5 h-3.5 text-slate-500 shrink-0"></i>
+                                <span><strong>Nota Fiscal Automática:</strong> Emitida com seu CPF/CNPJ de autônomo.</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="pt-2 space-y-2">
                         <a href="https://pay.cakto.com.br/37nmopo" target="_blank" onclick="fbq('track', 'InitiateCheckout')" class="w-full bg-gradient-to-r from-teal-600 to-emerald-600 hover:from-teal-700 hover:to-emerald-700 text-white font-black py-4 px-4 rounded-2xl text-sm text-center block shadow-lg shadow-teal-600/30 transition transform hover:scale-[1.02] active:scale-95">
-                            GARANTIR PLANO ANUAL POR R$ 67 ➔
+                            GARANTIR PLANO ANUAL POR R$ 67 (PIX / CARTÃO) ➔
                         </a>
-                        <p class="text-[10px] text-center text-slate-500 font-medium">Liberação imediata via PIX ou Cartão pela Cakto</p>
+                        <p class="text-[10px] text-center text-slate-500 font-medium">7 Dias de Garantia Incondicional • Reembolso via PIX</p>
                     </div>
                 </div>
 
@@ -663,7 +684,7 @@
                         <i data-lucide="chevron-down" id="faqIcon-4" class="w-4 h-4 text-slate-400 transition-transform"></i>
                     </button>
                     <div id="faqAnswer-4" class="faq-answer px-4 text-xs text-slate-600 leading-relaxed pb-4">
-                        A assinatura custa R$ 27,00 por mês, cobrada via PIX ou cartão de crédito através da plataforma segura Cakto. Não há contrato de fidelidade e você pode cancelar a qualquer momento enviando uma mensagem para nosso suporte.
+                        Você pode escolher entre o <strong>Plano Anual de R$ 67,00 à vista no PIX</strong> (pagamento único por 1 ano inteiro de uso, sem renovação surpresa, saindo a ~R$ 5,58/mês) ou o <strong>Plano Mensal de R$ 27,00/mês</strong> sem fidelidade. Ambos são processados pela plataforma segura Cakto com garantia incondicional de 7 dias.
                     </div>
                 </div>
 
@@ -763,15 +784,15 @@
         </div>
     </footer>
 
-    <!-- BARRA FIXA MOBILE (Sticky Bottom CTA - 100% Clicável sem Dead Clicks) -->
-    <div onclick="document.getElementById('oferta').scrollIntoView({behavior: 'smooth'})" class="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/95 border-t border-teal-200 p-3 flex items-center justify-between shadow-2xl backdrop-blur-md cursor-pointer hover:bg-teal-50/50 transition">
+    <!-- BARRA FIXA MOBILE INTELIGENTE (Zero Dead Clicks • Adaptação Dinâmica ao Scroll) -->
+    <div id="mobileStickyBar" class="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/95 border-t border-teal-200 p-3 flex items-center justify-between shadow-2xl backdrop-blur-md transition-all duration-300">
         <div class="block">
-            <span class="text-slate-900 font-black text-sm block">AgendaFisio</span>
-            <span class="text-teal-700 font-extrabold text-[11px] block">A partir de R$ 5,58/mês no Anual ➔</span>
+            <span class="text-slate-900 font-black text-xs block">AgendaFisio</span>
+            <span id="stickySubtext" class="text-teal-700 font-extrabold text-[11px] block">Apenas R$ 67/ano no PIX</span>
         </div>
-        <div class="bg-gradient-to-r from-teal-600 to-emerald-600 text-white font-black px-4 py-2.5 rounded-xl text-xs shadow-md active:scale-95 transition flex items-center gap-1.5">
-            VER PLANOS ➔
-        </div>
+        <a id="stickyBtn" href="#oferta" class="bg-gradient-to-r from-teal-600 to-emerald-600 text-white font-black px-4 py-2.5 rounded-xl text-xs shadow-md active:scale-95 transition flex items-center gap-1.5 cursor-pointer">
+            <span id="stickyBtnText">VER PLANOS ➔</span>
+        </a>
     </div>
 
     <!-- BOTÃO FLUTUANTE WHATSAPP DE SUPORTE -->
@@ -838,6 +859,33 @@
         // Modais
         function openModal(id) { document.getElementById(id).classList.remove('hidden'); }
         function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
+
+        // Observer Inteligente para a Barra Fixa Mobile (Zero Dead Clicks)
+        const ofertaSec = document.getElementById('oferta');
+        const stickyBtn = document.getElementById('stickyBtn');
+        const stickyBtnText = document.getElementById('stickyBtnText');
+        const stickySubtext = document.getElementById('stickySubtext');
+
+        if (ofertaSec && stickyBtn) {
+            const obs = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        stickyBtn.href = "https://pay.cakto.com.br/37nmopo";
+                        stickyBtn.target = "_blank";
+                        stickyBtn.setAttribute('onclick', "fbq('track', 'InitiateCheckout')");
+                        stickyBtnText.innerHTML = "⚡ QUERO O ANUAL (R$ 67) ➔";
+                        if (stickySubtext) stickySubtext.innerText = "Economize 80% • PIX Direto";
+                    } else {
+                        stickyBtn.href = "#oferta";
+                        stickyBtn.target = "_self";
+                        stickyBtn.removeAttribute('onclick');
+                        stickyBtnText.innerHTML = "VER PLANOS ➔";
+                        if (stickySubtext) stickySubtext.innerText = "A partir de R$ 5,58/mês";
+                    }
+                });
+            }, { threshold: 0.15 });
+            obs.observe(ofertaSec);
+        }
     </script>
 </body>
 </html>
