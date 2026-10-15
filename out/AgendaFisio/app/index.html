@@ -1463,5 +1463,24 @@ _Comprovante emitido via AgendaFisio_`;
             </button>
         </div>
     </div>
+    <!-- Repassador automático de UTMs para os links da Cakto -->
+    <script>
+      (function() {
+        function passUtms() {
+          const params = window.location.search;
+          if (!params) return;
+          const cleanParams = params.substring(1);
+          document.querySelectorAll('a[href*="pay.cakto.com.br"]').forEach(link => {
+            if (!link.href.includes(cleanParams)) {
+              const separator = link.href.includes('?') ? '&' : '?';
+              link.href = link.href + separator + cleanParams;
+            }
+          });
+        }
+        passUtms();
+        window.addEventListener('DOMContentLoaded', passUtms);
+        window.passUtms = passUtms;
+      })();
+    </script>
 </body>
 </html>

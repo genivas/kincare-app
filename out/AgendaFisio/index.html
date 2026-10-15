@@ -870,7 +870,7 @@
             const obs = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
-                        stickyBtn.href = "https://pay.cakto.com.br/37nmopo";
+                        stickyBtn.href = "https://pay.cakto.com.br/37nmopo"; if (window.passUtms) window.passUtms();
                         stickyBtn.target = "_blank";
                         stickyBtn.setAttribute('onclick', "fbq('track', 'InitiateCheckout')");
                         stickyBtnText.innerHTML = "⚡ QUERO O ANUAL (R$ 67) ➔";
@@ -886,6 +886,25 @@
             }, { threshold: 0.15 });
             obs.observe(ofertaSec);
         }
+    </script>
+    <!-- Repassador automático de UTMs para os links da Cakto -->
+    <script>
+      (function() {
+        function passUtms() {
+          const params = window.location.search;
+          if (!params) return;
+          const cleanParams = params.substring(1);
+          document.querySelectorAll('a[href*="pay.cakto.com.br"]').forEach(link => {
+            if (!link.href.includes(cleanParams)) {
+              const separator = link.href.includes('?') ? '&' : '?';
+              link.href = link.href + separator + cleanParams;
+            }
+          });
+        }
+        passUtms();
+        window.addEventListener('DOMContentLoaded', passUtms);
+        window.passUtms = passUtms;
+      })();
     </script>
 </body>
 </html>
