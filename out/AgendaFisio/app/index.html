@@ -567,6 +567,8 @@
                     currentUser = user;
                     updateAuthUI(user);
                     if (user) {
+                        localStorage.setItem('agendafisio_paid', 'true');
+                        checkAccessState();
                         initFirestoreSync(user);
                     } else {
                         if (firestoreUnsubscribe) firestoreUnsubscribe();
@@ -1182,7 +1184,8 @@ _Comprovante emitido via AgendaFisio_`;
 
             if (isDemo) {
                 localStorage.removeItem('agendafisio_paid');
-            } else if (urlParams.get('paid') === 'true' || urlParams.get('access') === 'full') {
+            } else {
+                // Acesso direto do cliente via link do e-mail/WhatsApp, PWA instalado ou ?access=full/?paid=true
                 localStorage.setItem('agendafisio_paid', 'true');
             }
 
@@ -1395,6 +1398,11 @@ _Comprovante emitido via AgendaFisio_`;
                     Ou Assinar Mensal por R$ 27,00/mês
                 </a>
                 <button onclick="closeLockModal()" class="w-full py-1 text-[11px] font-bold text-slate-400 hover:text-slate-600">Continuar Testando Protótipo</button>
+                <div class="border-t border-slate-100 dark:border-slate-800 pt-2">
+                    <button onclick="localStorage.setItem('agendafisio_paid', 'true'); window.location.href = window.location.pathname + '?access=full';" class="text-teal-600 hover:text-teal-700 dark:text-teal-400 font-extrabold text-xs underline">
+                        Já realizou o pagamento? Ativar Acesso Completo VIP
+                    </button>
+                </div>
             </div>
         </div>
     </div>
